@@ -1,7 +1,34 @@
-name: plugin
+name: JManhunt
 version: '1.0.0'
 main: de.jozelot.jmanhunt.JManhunt
 api-version: '1.21'
 authors: [ jozelot_ ]
 description: Archiv Plugin für jozelot.de - Bereitgestellt von jozelot_
 website: https://jozelot.de
+
+commands:
+  jmanhunt:
+    aliases: [manhunt, jm]
+    permission: jmanhunt.command
+    description: Command to manage the Manhunt Plugin
+
+permissions:
+  jmanhunt.command:
+    default: true
+
+  jmanhunt.admin:
+    default: op
+    children:
+      jmanhunt.command.reload: true
+      jmanhunt.command.setup: true
+      jmanhunt.setup.bypass: true
+
+  jmanhunt.command.reload:
+    default: op
+
+  jmahunt.command.setup:
+    default: op
+
+  jmanhunt.setup.bypass:
+    default: op
+    description: Lets players join while the server is in the setup phase

@@ -40,6 +40,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <minimizeJar>true</minimizeJar>
+                    <relocations>
+                        <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>de.jozelot.jmanhunt.libs.hikari</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
@@ -55,6 +64,10 @@
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>jozelot-repo</id>
+            <url>https://repo.jozelot.de/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -65,12 +78,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>de.jozelot</groupId>
+            <artifactId>jmanhunt-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>5.1.0</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
