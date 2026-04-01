@@ -1,0 +1,169 @@
+package de.jozelot.jmanhunt.storage.mass;
+
+import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.api.game.GameState;
+import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
+import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
+import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.logging.Level;
+
+public class MassManager {
+
+    private final JManhunt plugin;
+    private ManhuntStorage storage;
+
+    public MassManager(JManhunt plugin) {
+        this.plugin = plugin;
+    }
+
+    public boolean load() {
+        String storageType = plugin.getBootstrap().getConfigManager().getStorageMethod();
+        if (storageType.equalsIgnoreCase("SQLITE")) {
+            storage = new SQLiteStorage(plugin);
+        } else if (storageType.equalsIgnoreCase("MYSQL")) {
+            storage = new MySQLStorage(plugin);
+        } else {
+            plugin.getLogger().log(Level.SEVERE, "");
+            plugin.getLogger().log(Level.SEVERE, "Wrong storage method set!");
+            plugin.getLogger().log(Level.SEVERE, "There is no: " + storageType);
+            plugin.getLogger().log(Level.SEVERE, "");
+            return false;
+        }
+        plugin.getLogger().log(Level.INFO, "Storage method is: " + storageType);
+
+        storage.init();
+
+        return true;
+    }
+
+    public GameState loadState() {
+        String sql = "SELECT state FROM `" + storage.getPrefix() + "game` WHERE id = 1";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return GameState.valueOf(rs.getString("state"));
+            }
+        } catch (SQLException | IllegalArgumentException e) {
+            return GameState.SETUP;
+        }
+        return GameState.SETUP;
+    }
+
+    public void saveState(GameState state) {
+        String sql = "REPLACE INTO `" + storage.getPrefix() + "game` (id, state) VALUES (1, ?)";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, state.name());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Couldn't save game state: " + e.getMessage());
+        }
+    }
+
+    public ManhuntEndReason loadEndReason() {
+        String sql = "SELECT end_reason FROM `" + storage.getPrefix() + "game` WHERE id = 1";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                String reason = rs.getString("end_reason");
+                return reason != null ? ManhuntEndReason.valueOf(reason) : ManhuntEndReason.NONE;
+            }
+        } catch (SQLException | IllegalArgumentException e) {
+            return ManhuntEndReason.NONE;
+        }
+        return ManhuntEndReason.NONE;
+    }
+
+    public void saveEndReason(ManhuntEndReason reason) {
+        String sql = "UPDATE `" + storage.getPrefix() + "game` SET end_reason = ? WHERE id = 1";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, reason.name());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Couldn't save end reason: " + e.getMessage());
+        }
+    }
+
+    public void saveManhuntPlayer(ManhuntPlayerImpl player) {
+        String sql = "REPLACE INTO `" + storage.getPrefix() + "player` " +
+                "(uuid, player_name, kills, deaths, lives, alive, team) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, player.getUniqueId().toString());
+            ps.setString(2, player.getPlayer() != null ? player.getPlayer().getName() : "Unknown");
+            ps.setInt(3, player.getKills());
+            ps.setInt(4, player.getDeaths());
+            ps.setInt(5, player.getLives());
+            ps.setBoolean(6, !player.isEliminated());
+            ps.setString(7, player.getTeam().name());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Konnte Spieler " + player.getUniqueId() + " nicht speichern", e);
+        }
+    }
+
+    public void loadManhuntPlayer(ManhuntPlayerImpl player) {
+        String sql = "SELECT lives, alive, team, kills, deaths FROM `" + storage.getPrefix() + "player` WHERE uuid = ?";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, player.getUniqueId().toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    player.setLives(rs.getInt("lives"));
+                    player.setKills(rs.getInt("kills"));
+                    player.setDeaths(rs.getInt("deaths"));
+
+                    boolean wasAlive = rs.getBoolean("alive");
+                    if (wasAlive) player.revive(); else player.eliminate();
+
+                    try {
+                        player.setTeam(ManhuntTeam.valueOf(rs.getString("team")));
+                    } catch (IllegalArgumentException e) {
+                        player.setTeam(ManhuntTeam.NONE);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Konnte Spieler " + player.getUniqueId() + " nicht laden", e);
+        }
+    }
+
+    public void saveAllPlayers(Collection<ManhuntPlayerImpl> players) {
+        if (players.isEmpty()) return;
+
+        plugin.getLogger().info("Speichere " + players.size() + " Spieler in die Datenbank...");
+        for (ManhuntPlayerImpl player : players) {
+            saveManhuntPlayer(player);
+        }
+    }
+
+    public ManhuntStorage getStorage() {
+        return storage;
+    }
+}

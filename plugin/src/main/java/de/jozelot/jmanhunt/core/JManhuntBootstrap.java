@@ -9,12 +9,14 @@ import de.jozelot.jmanhunt.registry.CommandRegistry;
 import de.jozelot.jmanhunt.registry.ListenerRegistry;
 import de.jozelot.jmanhunt.storage.ConfigManager;
 import de.jozelot.jmanhunt.storage.LangManager;
+import de.jozelot.jmanhunt.storage.mass.MassManager;
 
 import java.util.logging.Level;
 
 public class JManhuntBootstrap {
 
     private final JManhunt plugin;
+    private boolean canShutdownSafely = false;
 
     public JManhuntBootstrap(JManhunt plugin) {
         this.plugin = plugin;
@@ -26,6 +28,7 @@ public class JManhuntBootstrap {
     private GameManagerImpl gameManager;
     private PhaseManagerImpl phaseManager;
     private ManhuntPlayerManagerImpl manhuntPlayerManager;
+    private MassManager massManager;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -42,6 +45,7 @@ public class JManhuntBootstrap {
         commandRegistry = new CommandRegistry(plugin);
         listenerRegistry = new ListenerRegistry(plugin);
         manhuntPlayerManager = new ManhuntPlayerManagerImpl(plugin);
+        massManager = new MassManager(plugin);
     }
 
     /**
@@ -54,6 +58,8 @@ public class JManhuntBootstrap {
         gameManager.loadFromStorage();
         commandRegistry.register();
         listenerRegistry.register();
+        if (!massManager.load()) return false;
+        canShutdownSafely = true;
         return true;
     }
 
@@ -62,8 +68,12 @@ public class JManhuntBootstrap {
      */
     public void shutdown() {
         plugin.getLogger().log(Level.INFO, "Plugin shutting down...");
-        if (apiManager != null) apiManager.shutdown();
-        gameManager.saveToStorage();
+        if (canShutdownSafely = true) {
+            apiManager.shutdown();
+            gameManager.saveToStorage();
+            massManager.getStorage().close();
+            manhuntPlayerManager.saveAllToStorage();
+        }
     }
 
     /**
@@ -73,6 +83,12 @@ public class JManhuntBootstrap {
         plugin.getLogger().log(Level.INFO, "Plugin is reloading...");
         configManager.load();
         langManager.load(configManager.getLocale());
+
+        manhuntPlayerManager.saveAllToStorage();
+        gameManager.saveToStorage();
+
+        gameManager.loadFromStorage();
+        manhuntPlayerManager.loadAllFromStorage();
     }
 
     public ConfigManager getConfigManager() {
@@ -97,5 +113,9 @@ public class JManhuntBootstrap {
 
     public ManhuntPlayerManagerImpl getManhuntPlayerManager() {
         return manhuntPlayerManager;
+    }
+
+    public MassManager getMassManager() {
+        return massManager;
     }
 }

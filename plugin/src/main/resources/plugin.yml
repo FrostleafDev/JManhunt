@@ -26,9 +26,13 @@ permissions:
   jmanhunt.command.reload:
     default: op
 
-  jmahunt.command.setup:
+  jmanhunt.command.setup:
     default: op
 
   jmanhunt.setup.bypass:
     default: op
     description: Lets players join while the server is in the setup phase
+
+  jmanhunt.chat.minimessage:
+    default: op
+    description: Allows the player to use the minimessage format. But if players can use that they can exploit the server

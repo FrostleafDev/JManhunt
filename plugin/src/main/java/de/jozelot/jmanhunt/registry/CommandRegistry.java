@@ -10,6 +10,9 @@ public class CommandRegistry {
         this.plugin = plugin;
     }
 
+    /**
+     * All Bukkit Commands are registered here
+     */
     public void register() {
 
     }

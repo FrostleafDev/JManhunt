@@ -65,6 +65,12 @@ public class LangManager {
 
     }
 
+    /**
+     * Format the language files for the placeholders like {player}
+     * @param path to the key in the lang file
+     * @param replace Map for what word should be replaced with what
+     * @return
+     */
     public String format(String path, Map<String, String> replace) {
         String rawMessage = languageConfig.getString(path);
 

@@ -35,7 +35,7 @@ public class PlayerConnectionListener implements Listener {
 
         apiEvent.setResult(ManhuntLoginEvent.Result.ALLOWED);
 
-        if (plugin.getBootstrap().getPhaseManager().isSetup() && !player.hasPermission("jmanhunt.setup.bypass")) {
+        if (plugin.getBootstrap().getPhaseManager().isSetup() && !player.hasPermission("jmanhunt.setup.bypass") && !plugin.getBootstrap().getConfigManager().canPlayersJoinDuringSetup()) {
             apiEvent.setResult(ManhuntLoginEvent.Result.DENIED);
             apiEvent.setReason(DisallowReason.SETUP_MODE);
             apiEvent.setMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("phase-setup-player-kick", null)));

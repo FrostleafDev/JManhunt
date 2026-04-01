@@ -4,5 +4,6 @@ public enum GameState {
     SETUP,
     PRE_GAME,
     RUNNING,
+    PAUSE,
     ENDED;
 }

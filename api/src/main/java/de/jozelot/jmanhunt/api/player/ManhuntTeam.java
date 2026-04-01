@@ -5,4 +5,8 @@ public enum ManhuntTeam {
     RUNNER,
     SPECTATOR,
     NONE;
+
+    public boolean isActive() {
+        return this == HUNTER || this == RUNNER;
+    }
 }

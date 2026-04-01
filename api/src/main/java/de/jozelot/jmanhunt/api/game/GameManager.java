@@ -1,6 +1,7 @@
 package de.jozelot.jmanhunt.api.game;
 
 import de.jozelot.jmanhunt.api.event.GameStateChangeEvent;
+import de.jozelot.jmanhunt.api.game.timer.ManhuntTimer;
 import org.jetbrains.annotations.NotNull;
 
 public interface GameManager {
@@ -19,4 +20,5 @@ public interface GameManager {
     void setGameState(@NotNull GameState state);
 
     PhaseManager getPhaseManager();
+    ManhuntTimer getTimer();
 }

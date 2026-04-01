@@ -11,6 +11,9 @@ public class ListenerRegistry {
         this.plugin = plugin;
     }
 
+    /**
+     * All Bukkit Listeners are registered here
+     */
     public void register() {
         var pm = plugin.getServer().getPluginManager();
 

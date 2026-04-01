@@ -2,11 +2,15 @@ package de.jozelot.jmanhunt.game;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameState;
+import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.game.PhaseManager;
+import de.jozelot.jmanhunt.api.minecraft.Weather;
+import org.bukkit.WeatherType;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class PhaseManagerImpl implements PhaseManager {
 
-    private JManhunt plugin;
+    private final JManhunt plugin;
 
     public PhaseManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
@@ -20,11 +24,9 @@ public class PhaseManagerImpl implements PhaseManager {
             case PRE_GAME -> {
 
             }
-
             case RUNNING -> {
 
             }
-
             case ENDED -> {
 
             }
@@ -35,16 +37,46 @@ public class PhaseManagerImpl implements PhaseManager {
     public boolean isSetup() {
         return plugin.getBootstrap().getGameManager().getGameState() == GameState.SETUP;
     }
+
     @Override
     public boolean isPreGame() {
         return plugin.getBootstrap().getGameManager().getGameState() == GameState.PRE_GAME;
     }
+
     @Override
     public boolean isRunning() {
         return plugin.getBootstrap().getGameManager().getGameState() == GameState.RUNNING;
     }
+
     @Override
     public boolean isEnded() {
         return plugin.getBootstrap().getGameManager().getGameState() == GameState.ENDED;
+    }
+
+
+    @Override
+    public void setSetup() {
+
+    }
+
+    @Override
+    public void open() {
+
+    }
+
+    @Override
+    public void close() {
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void end(ManhuntEndReason reason) {
+        plugin.getBootstrap().getGameManager().setGameState(GameState.ENDED);
+        plugin.getBootstrap().getGameManager().setEndReason(reason);
     }
 }

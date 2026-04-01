@@ -1,1 +1,177 @@
-version: 0
+##################################################################################
+##               Copyright (c) 2026 jozelot. All rights reserved.               ##
+##                                                                              ##
+##        ██╗███╗   ███╗ █████╗ ███╗   ██╗██╗  ██╗██╗   ██╗███╗   ██╗████████╗  ##
+##        ██║████╗ ████║██╔══██╗████╗  ██║██║  ██║██║   ██║████╗  ██║╚══██╔══╝  ##
+##        ██║██╔████╔██║███████║██╔██╗ ██║███████║██║   ██║██╔██╗ ██║   ██║     ##
+##   ██   ██║██║╚██╔╝██║██╔══██║██║╚██╗██║██╔══██║██║   ██║██║╚██╗██║   ██║     ##
+##   ╚█████╔╝██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝██║ ╚████║   ██║     ##
+##    ╚════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝     ##
+##                                                                              ##
+## Project: JManhunt                                                            ##
+## Author: jozelot_                                                             ##
+##################################################################################
+
+# Do not change this number!
+# Its only purpose is for checking if the config is up to date with the plugin
+version: 1
+
+# Here you can choose the language for the plugin
+#
+# Available: en, de, fr
+# You can add your own locale file by copying a locale in the 'locales' folder.
+# Then just add the name without the '.yml'
+locale: en
+
+# Here you can choose how the plugin saves data in the long term for server restarts etc.
+# You can only change this by restarting the server
+#
+# Available:
+# - 'SQLITE' -> Saves the data in sqlite files in the plugins foldr
+# - 'MYSQL'  -> Saves the data in a mariadb or mysql database
+storage: SQLITE # TODO
+
+# If you choose mysql above you have to set your database info here
+# You can only change this by restarting the server
+mysql: # TODO
+  host: localhost
+  port: 3306
+  database: 'JManhunt'
+  username: 'USER'
+  password: 'PASSWORD'
+  database-prefix: 'JM_'
+
+##################################################################################
+##                                                                              ##
+##                               MANHUNT OPTIONS                                ##
+##                                                                              ##
+##################################################################################
+
+# Should players without the 'jmanhunt.setup.bypass' or the 'jmanhunt.admin' be
+# able to join in the setup phase?
+#
+# This can also be configured in the Manhunt UI with '/jmanhunt'
+can-players-join-during-setup: false
+
+# Should spectators be visible in the tab?
+#
+# Available:
+# - 'HIDDEN' -> Spectators will not be shown in the tablist
+# - 'SHOWN'  -> This is the default vanilla style, if the spectators are in spectator mode they will be italic
+# - 'NORMAL' -> The player names won't be italic
+spectators-visible: HIDDEN
+
+# Should the team be displayed before the player names?
+# Example: 'Runner | jozelot_'
+team-prefix:
+  tab: true
+  nametags: true
+  chat: true
+
+# If the above is true this will be the format for the tablist and the player names in chat and nametags.
+team-prefix-format: '{team} | {player_name}'
+
+# Should the custom chat be enabled?
+# Supports minimessage format.
+# With the 'jmanhunt.chat.minimessage' permission players can use the <> minimessage format in chat messages.
+#
+# Attention: When you give this permission to players they can use the 'hover' and 'on_click' tags to try to
+# get permissions or op
+custom-chat: true
+custom-chat-format: '{team} | {player_name} <dark_gray>» <gray>{message}'
+
+# What is the goal for the runner/s to achieve?
+#
+# Available:
+# - 'TIME' -> One of the runners has to survive for the given time
+# - 'KILL' -> The runners have to kill a mob
+runner-goal: KILL
+
+# If you chose time, how long does it take to win?
+# In seconds. e.g. 3600s -> 1h
+runner-goal-time: 3600
+
+# If you chose kill, which mob should the runners kill?
+# And how often? If you chose 2 for example the ender dragon they would need to revive it.
+runner-goal-kill:
+  target-entity: ENDER_DRAGON
+  times: 1
+
+# Define the win/loss condition for the runners
+#
+# ALL_RUNNERS_ELIMINATED: The game continues until the very last runner is out of lives
+# FIRST_RUNNER_ELIMINATED: The game ends immediately when any single runner loses all their lives
+game-end-condition: ALL_RUNNERS_ELIMINATED
+
+# Determine how lives are managed across the runner team
+#
+# INDIVIDUAL: Each runner has their own separate pool of lives
+# SHARED: All runners share one global pool of lives
+runner-life-type: INDIVIDUAL
+
+# Set the amount of lives for a runner (or the team if SHARED).
+# 1 = The game or participation ends upon the first death.
+runner-lives: 1
+
+# Should the weather and time be set to the given value when the manhunt starts?
+reset-weather-time-on-start: false
+
+# What should the weather than be?
+# - 'CLEAR'
+# - 'RAIN'
+# - 'THUNDER'
+default-weather: CLEAR
+
+# What should the time than be?
+# - 'DAY'
+# - 'MIDNIGHT'
+# - 'NIGHT'
+# - 'SOON'
+# - or your own value with the ingame '/time set' format: 1000d/s/t
+default-time: DAY
+
+# Should the Timer (Either the timer for the goal or the timer which shows how long the manhunt is running)
+# be shown in the actionbar?
+show-timer-in-actionbar: true
+
+##################################################################################
+##                                                                              ##
+##                                 PERMISSIONS                                  ##
+##                                                                              ##
+##################################################################################
+
+# jmanhunt.command                    -> For using the '/jmanhunt' command. With that you can just use like the help, version etc.
+# jmanhunt.admin                      -> With this you have full access over the plugin
+# jmanhunt.command.reload             -> You can reload the plugin via '/jmanhunt reload'
+# jmanhunt.command.setup              -> You can set up the plugin via the ui and '/jmanhunt runner/hunter' etc
+# jmanhunt.setup.bypass               -> You can join the server in the setup phase if it is enabled
+# jmanhunt.chat.minimessage           -> You can use minimessage tags in chat
+
+##################################################################################
+##                                                                              ##
+##                               PLACEHOLDER API                                ##
+##                                                                              ##
+##################################################################################
+
+# %jmanhunt_team%                     -> The current team of the player
+# %jmanhunt_lives%                    -> Current lives (Shows the individual's lives or the shared team pool)
+# %jmanhunt_goal%                     -> TIME or KILLS
+# %jmanhunt_goal_progress%            -> When KILLS is selected here it shows the amount of times the entity was killed
+# %jmanhunt_goal_entity%              -> The target mob to kill (Only active when goal is set to KILLS)
+# %jmanhunt_goal_remaining_time_s%    -> Remaining time to win in seconds
+# %jmanhunt_goal_remaining_time_m%    -> Remaining time to win in minutes
+# %jmanhunt_goal_remaining_time_h%    -> Remaining time to win in hours
+# %jmanhunt_goal_remaining_formatted% -> Remaining time to win (Formats as mm:ss or hh:mm:ss depending on duration)
+# %jmanhunt_timer_s%                  -> Total elapsed game time in seconds
+# %jmanhunt_timer_m%                  -> Total elapsed game time in minutes
+# %jmanhunt_timer_h%                  -> Total elapsed game time in hours
+# %jmanhunt_timer_formatted%          -> Total elapsed game time (Formats as mm:ss or hh:mm:ss)
+# %jmanhunt_runner_distance%          -> Distance to the nearest runner (Shows last known position if in a different dimension)
+# %jmanhunt_status%                   -> The current game status: SETUP, PRE_GAME, RUNNING, PAUSE, ENDED
+# %jmanhunt_active_runners%           -> The raw number of runners currently alive (e.g. '2')
+# %jmanhunt_total_runners%            -> The total number of runners that started the game (e.g. '3')
+
+
+
+
+
