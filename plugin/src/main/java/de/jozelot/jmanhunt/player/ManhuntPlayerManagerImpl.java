@@ -1,5 +1,7 @@
 package de.jozelot.jmanhunt.player;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayerManager;
@@ -9,6 +11,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Level;
@@ -149,8 +154,12 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
             UUID uuid = plugin.getBootstrap().getMassManager().getUUIDByName(name);
 
             if (uuid == null) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
-                uuid = offlinePlayer.getUniqueId();
+                uuid = getUuidFromMojang(name);
+
+                if (uuid == null) {
+                    Bukkit.getScheduler().runTask(plugin, () -> callback.accept(null));
+                    return;
+                }
             }
 
             final UUID finalUuid = uuid;
@@ -189,5 +198,30 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
     @Override
     public Collection<ManhuntPlayer> getPlayersWithoutTeam() {
         return getPlayers().stream().filter(p -> p.getTeam() == ManhuntTeam.NONE).toList();
+    }
+
+    @Nullable
+    private UUID getUuidFromMojang(String playerName) {
+        try {
+            URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + playerName);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(2000);
+            connection.setReadTimeout(2000);
+
+            if (connection.getResponseCode() == 200) {
+                try (InputStreamReader reader = new InputStreamReader(connection.getInputStream())) {
+                    JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
+                    String uuidString = json.get("id").getAsString();
+                    return UUID.fromString(uuidString.replaceFirst(
+                            "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{12})",
+                            "$1-$2-$3-$4-$5"
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
     }
 }

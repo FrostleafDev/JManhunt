@@ -192,6 +192,14 @@ public class ManhuntCommand implements IManhuntCommand {
                                                             ManhuntTeam newTeam = ManhuntTeam.valueOf(teamArg);
                                                             plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
 
+                                                                if (player == null) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                            lang.format("command-jmanhunt-player-not-found", Map.of("player_name", playerName))
+                                                                    ));
+                                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    return;
+                                                                }
+
                                                                 if (player.getTeam() != ManhuntTeam.NONE) {
                                                                     context.getSource().getSender().sendMessage(mm.deserialize(
                                                                             lang.format("command-jmanhunt-team-add-error-already-in-team",

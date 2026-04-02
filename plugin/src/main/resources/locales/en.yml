@@ -18,6 +18,7 @@ join-message: '<dark_gray>[<green>+<dark_gray>] <gray>{player_name}'
 leave-message: '<dark_gray>[<red>-<dark_gray>] <gray>{player_name}'
 
 command-only-player: "{prefix} <red>Action denied: <gray>Only players can do that"
+command-jmanhunt-player-not-found: '{prefix} <red>{player_name} <gray>does not exist!'
 
 command-jmanhunt-help-not-admin:
   - ""
@@ -55,7 +56,7 @@ command-jmanhunt-help-admin:
   - "<dark_gray>----------------------------------------------------"
   - ""
 
-command-jmanhunt-reload-success: "{prefix} <gray>JManhunt was successfully reloaded"
+command-jmanhunt-reload-success: "{prefix} <gray>The plugin was <green>successfully <gray>reloaded"
 
 command-jmanhunt-start-denied-in-setup: "{prefix} <red>Action denied: <gray>You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt open'><click:run_command:'/jmanhunt open'>open</click></hover> <gray>the manhunt first."
 command-jmanhunt-start-denied-already-running: "{prefix} <red>Action denied: <gray>The manhunt is already running."
