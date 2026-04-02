@@ -155,6 +155,8 @@ sounds:
 # Should there be a custom join and leave message?
 custom-join-leave-messages: true
 
+# ADD CUSTOM TABLIST, PLAYER COUNT, MOTD
+
 ##################################################################################
 ##                                                                              ##
 ##                                 PERMISSIONS                                  ##
