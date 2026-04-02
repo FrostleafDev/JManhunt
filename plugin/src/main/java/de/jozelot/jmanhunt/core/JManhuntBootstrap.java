@@ -71,7 +71,7 @@ public class JManhuntBootstrap {
      */
     public void shutdown() {
         plugin.getLogger().log(Level.INFO, "Plugin shutting down...");
-        if (canShutdownSafely = true) {
+        if (canShutdownSafely) {
             apiManager.shutdown();
             gameManager.saveToStorage();
             manhuntPlayerManager.saveAllToStorage();
