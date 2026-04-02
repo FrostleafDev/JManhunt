@@ -152,12 +152,12 @@ public class ManhuntCommand implements IManhuntCommand {
                                     return Command.SINGLE_SUCCESS;
                                 }
 
-                                action.execution().run();
-                                pendingActions.remove(uuid);
-
                                 String messageKey = (action.type() == ActionType.RESET) ? "command-jmanhunt-reset-success" : "command-jmanhunt-end-success";
                                 sender.sendMessage(mm.deserialize(lang.format(messageKey, null)));
                                 PlaySoundUtils.playSound(sender, Sound.SUCCESS, plugin);
+
+                                action.execution().run();
+                                pendingActions.remove(uuid);
 
                                 return Command.SINGLE_SUCCESS;
                             }))
