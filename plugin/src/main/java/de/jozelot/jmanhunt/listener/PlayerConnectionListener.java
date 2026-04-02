@@ -69,8 +69,7 @@ public class PlayerConnectionListener implements Listener {
             event.joinMessage(Component.empty());
 
             Component messageComp = mm.deserialize(plugin.getBootstrap().getLangManager().format("join-message", Map.of("player_name", event.getPlayer().getName())));
-            String legacyText = LegacyComponentSerializer.legacySection().serialize(messageComp);
-            plugin.getLogger().log(Level.INFO, legacyText);
+            Bukkit.getConsoleSender().sendMessage(messageComp);
 
             for (Player target : Bukkit.getOnlinePlayers()) {
                 if (target != player) target.sendMessage(messageComp);
@@ -91,8 +90,7 @@ public class PlayerConnectionListener implements Listener {
             event.quitMessage(Component.empty());
 
             Component messageComp = mm.deserialize(plugin.getBootstrap().getLangManager().format("leave-message", Map.of("player_name", event.getPlayer().getName())));
-            String legacyText = LegacyComponentSerializer.legacySection().serialize(messageComp);
-            plugin.getLogger().log(Level.INFO, legacyText);
+            Bukkit.getConsoleSender().sendMessage(messageComp);
 
             for (Player target : Bukkit.getOnlinePlayers()) {
                 if (target != player) target.sendMessage(messageComp);
