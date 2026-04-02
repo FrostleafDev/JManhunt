@@ -24,6 +24,7 @@ public class JManhuntBootstrap {
 
     private ConfigManager configManager;
     private LangManager langManager;
+    private UpdateManager updateManager;
     private ApiManager apiManager;
     private GameManagerImpl gameManager;
     private PhaseManagerImpl phaseManager;
@@ -39,6 +40,7 @@ public class JManhuntBootstrap {
     public void initialize() {
         configManager = new ConfigManager(plugin);
         langManager = new LangManager(plugin);
+        updateManager = new UpdateManager(plugin);
         apiManager = new ApiManager(plugin);
         gameManager = new GameManagerImpl(plugin);
         phaseManager = new PhaseManagerImpl(plugin);
@@ -54,6 +56,7 @@ public class JManhuntBootstrap {
     public boolean enable() {
         if (!configManager.load()) return false;
         if (!langManager.load(configManager.getLocale())) return false;
+        if (configManager.checkForUpdates()) updateManager.checkForUpdates();
         if (!apiManager.setup()) return false;
         gameManager.loadFromStorage();
         commandRegistry.register();
@@ -117,5 +120,9 @@ public class JManhuntBootstrap {
 
     public MassManager getMassManager() {
         return massManager;
+    }
+
+    public UpdateManager getUpdateManager() {
+        return updateManager;
     }
 }

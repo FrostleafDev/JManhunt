@@ -16,6 +16,12 @@
 # Its only purpose is for checking if the config is up to date with the plugin
 version: 1
 
+# Should the plugin check for new updates and send an information message to
+# admins and the console?
+#
+# The message can be changed in the locale files
+check-for-updates: true
+
 # Here you can choose the language for the plugin
 #
 # Available: en, de, fr
@@ -133,6 +139,18 @@ default-time: DAY
 # Should the Timer (Either the timer for the goal or the timer which shows how long the manhunt is running)
 # be shown in the actionbar?
 show-timer-in-actionbar: true
+
+# These are the sounds the plugin uses for certain things.
+# You can configure the keys here.
+#
+# The plugin uses the UI Category to send the sounds to
+sounds:
+  error: "entity.villager.no"
+  success: "entity.player.levelup"
+  pling: "block.note_block.pling"
+  notify: "block.note_block.chime"
+  experience: "entity.experience_orb.pickup"
+  warning: 'block.note_block.bit'
 
 ##################################################################################
 ##                                                                              ##

@@ -1,1 +1,9 @@
+prefix: '<dark_gray>[<aqua>JManhunt<dark_gray]<reset>'
+
 phase-setup-player-kick: "<red>The server is currently in setup. You can't join now!"
+
+admin-update-info:
+  - ""
+  - "{prefix} <gray>There is a new version available of <aqua>JManhunt!"
+  - "{prefix} <gray>Download it <click:open_url:'https://github.com/FrostleafDev/JManhunt/releases/latest'><green>[HERE]</click>"
+  - ""

@@ -130,4 +130,10 @@ public interface ManhuntPlayer {
      * @param deaths the new total death count
      */
     void setDeaths(int deaths);
+
+    /**
+     * Plays an ui sound for the player
+     * @param sound The sound. These are the sounds from the config
+     */
+    void playSound(@NotNull Sound sound);
 }

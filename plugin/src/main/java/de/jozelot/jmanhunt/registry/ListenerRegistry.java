@@ -1,6 +1,7 @@
 package de.jozelot.jmanhunt.registry;
 
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.listener.AdminJoinListener;
 import de.jozelot.jmanhunt.listener.PlayerConnectionListener;
 
 public class ListenerRegistry {
@@ -18,5 +19,6 @@ public class ListenerRegistry {
         var pm = plugin.getServer().getPluginManager();
 
         pm.registerEvents(new PlayerConnectionListener(plugin), plugin);
+        pm.registerEvents(new AdminJoinListener(plugin), plugin);
     }
 }

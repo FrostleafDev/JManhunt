@@ -27,7 +27,7 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
      * @return The new {@link ManhuntPlayer} Objekt
      */
     public ManhuntPlayerImpl createPlayer(UUID uuid) {
-        ManhuntPlayerImpl player = new ManhuntPlayerImpl(uuid);
+        ManhuntPlayerImpl player = new ManhuntPlayerImpl(uuid, plugin);
         players.put(uuid, player);
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
