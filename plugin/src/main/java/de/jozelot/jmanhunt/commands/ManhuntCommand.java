@@ -1,6 +1,7 @@
 package de.jozelot.jmanhunt.commands;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameState;
@@ -12,6 +13,7 @@ import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import de.jozelot.jmanhunt.utility.PluginMessages;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -159,7 +161,42 @@ public class ManhuntCommand implements IManhuntCommand {
                                 PlaySoundUtils.playSound(sender, Sound.SUCCESS, plugin);
 
                                 return Command.SINGLE_SUCCESS;
-                            })
+                            }))
+                    // --- SUBCOMMAND: TEAM ---
+                    .then(Commands.literal("team")
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.setup.teams"))
+                            .then(Commands.argument("teamName", StringArgumentType.word())
+                                    .suggests((context, builder) -> {
+                                        builder.suggest("runner");
+                                        builder.suggest("hunter");
+                                        builder.suggest("spectator");
+                                        return builder.buildFuture();
+                                    })
+
+                                    .then(Commands.literal("add")
+                                            .then(Commands.argument("player", ArgumentTypes.player())
+                                                    .executes(context -> {
+                                                        String team = StringArgumentType.getString(context, "teamName");
+                                                        return Command.SINGLE_SUCCESS;
+                                                    })
+                                            )
+                                    )
+
+                                    .then(Commands.literal("remove")
+                                            .then(Commands.argument("player", ArgumentTypes.player())
+                                                    .executes(context -> {
+                                                        return Command.SINGLE_SUCCESS;
+                                                    })))
+
+                                    .then(Commands.literal("list")
+                                            .executes(context -> {
+                                                return Command.SINGLE_SUCCESS;
+                                            }))
+
+                                    .then(Commands.literal("clear")
+                                            .executes(context -> {
+                                                return Command.SINGLE_SUCCESS;
+                                            })))
                     );
 
             LiteralCommandNode<CommandSourceStack> mainNode = mainBuilder.build();

@@ -136,4 +136,10 @@ public interface ManhuntPlayer {
      * @param sound The sound. These are the sounds from the config
      */
     void playSound(@NotNull Sound sound);
+
+    /**
+     * Gives information about if the player is offline or just in the system
+     * @return
+     */
+    boolean isOnline();
 }
