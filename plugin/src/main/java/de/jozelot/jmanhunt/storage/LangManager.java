@@ -65,7 +65,7 @@ public class LangManager {
     }
 
     private void loadData() {
-        prefix = languageConfig.getString("prefix", "<dark_gray>[<aqua>JManhunt<dark_gray]<reset>");
+        prefix = languageConfig.getString("prefix", "<dark_gray>[<aqua>JManhunt<dark_gray>]<reset>");
         updateInfo = formatList("admin-update-info", null);
     }
 

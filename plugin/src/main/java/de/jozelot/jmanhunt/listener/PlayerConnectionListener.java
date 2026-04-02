@@ -51,13 +51,12 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        plugin.getBootstrap().getManhuntPlayerManager().createPlayer(player);
 
         if (player.hasPermission("jmanhunt.admin")) {
             AdminJoinEvent adminJoinEvent = new AdminJoinEvent(player);
             Bukkit.getPluginManager().callEvent(adminJoinEvent);
         }
-
-        plugin.getBootstrap().getManhuntPlayerManager().createPlayer(player);
     }
 
     @EventHandler
