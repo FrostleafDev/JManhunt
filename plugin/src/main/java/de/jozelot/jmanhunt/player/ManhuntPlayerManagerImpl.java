@@ -26,6 +26,7 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
      * @param uuid
      * @return The new {@link ManhuntPlayer} Objekt
      */
+    @Deprecated(since = "1.0.0", forRemoval = true)
     public ManhuntPlayerImpl createPlayer(UUID uuid) {
         ManhuntPlayerImpl player = new ManhuntPlayerImpl(uuid, plugin);
         players.put(uuid, player);
@@ -43,6 +44,7 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
      * @param player
      * @return
      */
+    @Deprecated(since = "1.0.0", forRemoval = true)
     public ManhuntPlayerImpl createPlayer(Player player) {
         return createPlayer(player.getUniqueId());
     }
@@ -53,21 +55,39 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
      * @param uuid
      */
     public void removePlayer(UUID uuid) {
-        ManhuntPlayerImpl player = players.remove(uuid);
+        ManhuntPlayerImpl player = players.get(uuid);
 
         if (player != null) {
+            player.setOnline(false);
             String playerName = Bukkit.getOfflinePlayer(uuid).getName();
 
             Runnable saveTask = () -> plugin.getBootstrap().getMassManager().saveManhuntPlayer(player);
-
             if (!plugin.isEnabled()) {
                 saveTask.run();
             } else {
                 Bukkit.getScheduler().runTaskAsynchronously(plugin, saveTask);
             }
 
-            plugin.getLogger().info("Saved and removed player object for: " + playerName);
+            if (player.getTeam() == ManhuntTeam.NONE) {
+                players.remove(uuid);
+                plugin.getLogger().info("Saved and removed idle player: " + playerName);
+            } else {
+                plugin.getLogger().info("Saved and kept team member in RAM (offline): " + playerName);
+            }
         }
+    }
+
+    public ManhuntPlayerImpl getOrLoadPlayer(UUID uuid, String name) {
+        if (players.containsKey(uuid)) {
+            ManhuntPlayerImpl existing = players.get(uuid);
+            existing.setName(name);
+            return existing;
+        }
+
+        ManhuntPlayerImpl player = new ManhuntPlayerImpl(uuid, name, plugin);
+        plugin.getBootstrap().getMassManager().loadManhuntPlayer(player);
+        players.put(uuid, player);
+        return player;
     }
 
     /**
@@ -86,7 +106,12 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
      */
     public void loadAllFromStorage() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            createPlayer(player);
+            getOrLoadPlayer(player.getUniqueId(), player.getName()).setOnline(true);
+        }
+
+        List<ManhuntPlayerImpl> teamMembers = plugin.getBootstrap().getMassManager().loadPlayersWithTeams();
+        for (ManhuntPlayerImpl member : teamMembers) {
+            players.putIfAbsent(member.getUniqueId(), member);
         }
     }
 

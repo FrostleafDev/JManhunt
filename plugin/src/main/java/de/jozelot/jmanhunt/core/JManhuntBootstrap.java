@@ -56,12 +56,13 @@ public class JManhuntBootstrap {
     public boolean enable() {
         if (!configManager.load()) return false;
         if (!langManager.load(configManager.getLocale())) return false;
+        if (!massManager.load()) return false;
+        manhuntPlayerManager.loadAllFromStorage();
         if (configManager.checkForUpdates()) updateManager.checkForUpdates();
         if (!apiManager.setup()) return false;
         gameManager.loadFromStorage();
         commandRegistry.register();
         listenerRegistry.register();
-        if (!massManager.load()) return false;
         canShutdownSafely = true;
         return true;
     }

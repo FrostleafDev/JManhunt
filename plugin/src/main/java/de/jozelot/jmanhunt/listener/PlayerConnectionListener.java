@@ -6,6 +6,7 @@ import de.jozelot.jmanhunt.api.event.DisallowReason;
 import de.jozelot.jmanhunt.api.event.ManhuntLoginEvent;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
+import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -58,7 +59,8 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        ManhuntPlayerImpl manhuntPlayer = plugin.getBootstrap().getManhuntPlayerManager().createPlayer(player);
+        ManhuntPlayerImpl manhuntPlayer = plugin.getBootstrap().getManhuntPlayerManager().getOrLoadPlayer(player.getUniqueId(), player.getName());
+        manhuntPlayer.setOnline(true);
 
         if (player.hasPermission("jmanhunt.admin")) {
             AdminJoinEvent adminJoinEvent = new AdminJoinEvent(player);

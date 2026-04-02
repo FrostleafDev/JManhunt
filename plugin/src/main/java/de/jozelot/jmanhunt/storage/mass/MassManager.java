@@ -6,12 +6,16 @@ import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class MassManager {
@@ -113,7 +117,8 @@ public class MassManager {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, player.getUniqueId().toString());
-            ps.setString(2, player.getPlayer() != null ? player.getPlayer().getName() : "Unknown");
+            String name = player.getPlayer() != null ? player.getPlayer().getName() :  Bukkit.getOfflinePlayer(player.getUniqueId()).getName();
+            ps.setString(2, name != null ? name : "Unknown");
             ps.setInt(3, player.getKills());
             ps.setInt(4, player.getDeaths());
             ps.setInt(5, player.getLives());
@@ -127,7 +132,7 @@ public class MassManager {
     }
 
     public void loadManhuntPlayer(ManhuntPlayerImpl player) {
-        String sql = "SELECT lives, alive, team, kills, deaths FROM `" + storage.getPrefix() + "player` WHERE uuid = ?";
+        String sql = "SELECT player_name, lives, alive, team, kills, deaths FROM `" + storage.getPrefix() + "player` WHERE uuid = ?";
 
         try (Connection con = storage.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -138,6 +143,7 @@ public class MassManager {
                     player.setLives(rs.getInt("lives"));
                     player.setKills(rs.getInt("kills"));
                     player.setDeaths(rs.getInt("deaths"));
+                    player.setName(rs.getString("player_name"));
 
                     boolean wasAlive = rs.getBoolean("alive");
                     if (wasAlive) player.revive(); else player.eliminate();
@@ -189,6 +195,39 @@ public class MassManager {
         } catch (SQLException e) {
             plugin.getLogger().log(Level.SEVERE, "Failed to clear database tables!", e);
         }
+    }
+
+    public List<ManhuntPlayerImpl> loadPlayersWithTeams() {
+        List<ManhuntPlayerImpl> teamMembers = new ArrayList<>();
+        String sql = "SELECT uuid, player_name, lives, alive, team, kills, deaths FROM `" + storage.getPrefix() + "player` WHERE team != 'NONE'";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                UUID uuid = UUID.fromString(rs.getString("uuid"));
+                String name = rs.getString("player_name");
+                ManhuntPlayerImpl player = new ManhuntPlayerImpl(uuid, name, plugin);
+
+                player.setLives(rs.getInt("lives"));
+                player.setKills(rs.getInt("kills"));
+                player.setDeaths(rs.getInt("deaths"));
+
+                if (rs.getBoolean("alive")) player.revive(); else player.eliminate();
+
+                try {
+                    player.setTeam(ManhuntTeam.valueOf(rs.getString("team")));
+                } catch (IllegalArgumentException e) {
+                    player.setTeam(ManhuntTeam.NONE);
+                }
+
+                teamMembers.add(player);
+            }
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to load players with teams: ", e);
+        }
+        return teamMembers;
     }
 
     public ManhuntStorage getStorage() {

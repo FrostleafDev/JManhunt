@@ -7,6 +7,7 @@ package de.jozelot.jmanhunt.api.player;
 import org.bukkit.Warning;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -50,6 +51,14 @@ public interface ManhuntPlayer {
      */
     @NotNull
     Player getPlayer();
+
+    /**
+     * Get the last username of that player.
+     * Either the current ingame name or the one from the database
+     * @return
+     */
+    @NotNull
+    String getLastKnownName();
 
     /**
      * Checks if the player is currently eliminated from the game.

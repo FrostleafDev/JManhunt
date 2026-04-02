@@ -18,22 +18,14 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
 
     private ManhuntTeam team;
     private final UUID uuid;
+    private String lastKnownName;
     private boolean alive;
     private int lives;
     private int kills;
     private int deaths;
+    private boolean online = false;
 
-    public ManhuntPlayerImpl(UUID uuid, ManhuntTeam team, int kills, int deaths, int lives, boolean alive, JManhunt plugin) {
-        this.uuid = uuid;
-        this.team = team;
-        this.kills = kills;
-        this.deaths = deaths;
-        this.lives = lives;
-        this.alive = alive;
-        this.plugin = plugin;
-    }
-
-    public ManhuntPlayerImpl(UUID uuid, JManhunt plugin) {
+    public ManhuntPlayerImpl(UUID uuid, String lastKnownName, JManhunt plugin) {
         this.uuid = uuid;
         this.team = ManhuntTeam.NONE;
         this.alive = true;
@@ -41,6 +33,11 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
         this.kills = 0;
         this.deaths = 0;
         this.plugin = plugin;
+        this.lastKnownName = lastKnownName;
+    }
+
+    public ManhuntPlayerImpl(UUID uuid, JManhunt plugin) {
+        this(uuid, Bukkit.getOfflinePlayer(uuid).getName(), plugin);
     }
 
     @Override
@@ -72,6 +69,14 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
         return Bukkit.getPlayer(uuid);
     }
 
+    @Override
+    public @NotNull String getLastKnownName() {
+        return lastKnownName != null ? lastKnownName : "Unknown";
+    }
+
+    public void setName(String name) {
+        this.lastKnownName = name;
+    }
 
     @Override
     public boolean isEliminated() {
@@ -175,5 +180,14 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
 
             getPlayer().playSound(getPlayer().getLocation(), org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, SoundCategory.UI, 1.0f, 1.0f);
         }
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    @Override
+    public boolean isOnline() {
+       return online;
     }
 }
