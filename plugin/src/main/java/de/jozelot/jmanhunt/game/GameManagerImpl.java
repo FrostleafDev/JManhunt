@@ -7,12 +7,16 @@ import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.game.PhaseManager;
 import de.jozelot.jmanhunt.api.game.timer.ManhuntTimer;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.logging.Level;
 
 public class GameManagerImpl implements GameManager {
 
     private final JManhunt plugin;
+    private final MiniMessage mm = MiniMessage.miniMessage();
 
     public GameManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
@@ -20,6 +24,7 @@ public class GameManagerImpl implements GameManager {
 
     private GameState state = GameState.SETUP;
     private ManhuntEndReason endReason = ManhuntEndReason.NONE;
+    private boolean isWiping = false;
 
 
     @NotNull
@@ -54,6 +59,11 @@ public class GameManagerImpl implements GameManager {
     }
 
     public void saveToStorage() {
+        if (isWiping) {
+            plugin.getLogger().info("Skipping save because a wipe is in progress.");
+            return;
+        }
+
         final GameState currentState = this.state;
         final ManhuntEndReason currentReason = this.endReason;
 
@@ -85,5 +95,21 @@ public class GameManagerImpl implements GameManager {
     @Override
     public ManhuntTimer getTimer() {
         return null;
+    }
+
+    public void wipeSystem() {
+        this.isWiping = true;
+        plugin.getLogger().log(Level.WARNING, "The plugin is being wiped...");
+
+        plugin.getBootstrap().getMassManager().clearAllData();
+
+        var kickLines = plugin.getBootstrap().getLangManager().formatList("command-manhunt-reset-kick", null);
+        var kickMessage = mm.deserialize(String.join("<newline>", kickLines));
+        Bukkit.getOnlinePlayers().forEach(p -> p.kick(kickMessage));
+
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
+            plugin.getLogger().log(Level.WARNING, "The plugin wipe is finished!");
+        }, 20L);
     }
 }

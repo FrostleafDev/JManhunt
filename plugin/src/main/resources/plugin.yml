@@ -25,6 +25,7 @@ permissions:
       jmanhunt.command.pause: true
       jmanhunt.command.open: true
       jmanhunt.command.close: true
+      jmanhunt.command.reset: true
       jmanhunt.setup.bypass: true
 
       jmanhunt.ui: true
@@ -45,6 +46,9 @@ permissions:
     default: op
 
   jmanhunt.command.close:
+    default: op
+
+  jmanhunt.command.reset:
     default: op
 
   jmanhunt.ui:

@@ -163,6 +163,34 @@ public class MassManager {
         }
     }
 
+    public void clearAllData() {
+        String[] tables = {"game", "player"};
+
+        try (Connection con = storage.getConnection()) {
+            con.setAutoCommit(false);
+
+            for (String table : tables) {
+                String sql = "DELETE FROM `" + storage.getPrefix() + table + "`";
+                try (PreparedStatement ps = con.prepareStatement(sql)) {
+                    ps.executeUpdate();
+                }
+            }
+
+            String initSql = "REPLACE INTO `" + storage.getPrefix() + "game` (id, state, end_reason) VALUES (1, ?, ?)";
+            try (PreparedStatement ps = con.prepareStatement(initSql)) {
+                ps.setString(1, GameState.SETUP.name());
+                ps.setString(2, ManhuntEndReason.NONE.name());
+                ps.executeUpdate();
+            }
+
+            con.commit();
+            plugin.getLogger().info("All manhunt data has been cleared from the database.");
+
+        } catch (SQLException e) {
+            plugin.getLogger().log(Level.SEVERE, "Failed to clear database tables!", e);
+        }
+    }
+
     public ManhuntStorage getStorage() {
         return storage;
     }
