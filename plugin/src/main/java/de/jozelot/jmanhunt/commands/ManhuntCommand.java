@@ -231,13 +231,14 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                         String teamArg;
                                                         try {
-                                                            teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
-                                                        } catch (Exception e) {
+                                                            teamArg = context.getArgument("teamName", String.class).toUpperCase();
+                                                        } catch (IllegalArgumentException e) {
                                                             return builder.buildFuture();
                                                         }
 
+                                                        final String finalTeamArg = teamArg;
                                                         plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
-                                                                .filter(mp -> mp.getTeam().name().equalsIgnoreCase(teamArg))
+                                                                .filter(mp -> mp.getTeam().name().equalsIgnoreCase(finalTeamArg))
                                                                 .map(ManhuntPlayer::getLastKnownName)
                                                                 .filter(name -> name.toLowerCase().startsWith(input))
                                                                 .forEach(builder::suggest);
@@ -251,6 +252,13 @@ public class ManhuntCommand implements IManhuntCommand {
                                                         try {
                                                             ManhuntTeam targetTeam = ManhuntTeam.valueOf(teamName);
                                                             plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
+                                                                if (player == null) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                            lang.format("command-jmanhunt-player-not-found", Map.of("player_name", playerName))
+                                                                    ));
+                                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    return;
+                                                                }
                                                                 if (player.getTeam() != targetTeam) {
                                                                     context.getSource().getSender().sendMessage(mm.deserialize(
                                                                             lang.format("command-jmanhunt-team-remove-error-not-in-team",
