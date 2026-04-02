@@ -37,3 +37,13 @@ jobs:
           source: "api/target/site/apidocs/*"
           target: "/var/www/jozelot.de/jd.jozelot.de/pages/main/jmanhunt-api/${{ steps.project_version.outputs.VERSION }}"
           strip_components: 4
+          
+      - name: Update Latest Symlink
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/jozelot.de/jd.jozelot.de/pages/main/jmanhunt-api
+            ln -sfn ${{ steps.project_version.outputs.VERSION }} latest
