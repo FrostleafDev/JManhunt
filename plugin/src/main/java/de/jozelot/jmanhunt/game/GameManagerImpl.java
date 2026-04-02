@@ -110,7 +110,7 @@ public class GameManagerImpl implements GameManager {
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
             plugin.getLogger().log(Level.WARNING, "The plugin wipe is finished!");
-        }, 20L);
+        }, 30L);
     }
 
     public boolean isWiping() {
