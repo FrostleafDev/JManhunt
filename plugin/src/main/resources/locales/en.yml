@@ -4,6 +4,6 @@ phase-setup-player-kick: "<red>The server is currently in setup. You can't join 
 
 admin-update-info:
   - ""
-  - "{prefix} <gray>There is a new version available: <aqua>v{version}!"
+  - "{prefix} <gray>There is a new version available: <aqua>v{version}<gray>!"
   - "{prefix} <gray>Download it <hover:show_text:'<gray>Klicke zum öffnen'><click:open_url:'https://github.com/FrostleafDev/JManhunt/releases/latest'><green>here</click></hover>"
   - ""
