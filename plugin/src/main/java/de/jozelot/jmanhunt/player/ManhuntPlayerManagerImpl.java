@@ -56,10 +56,15 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
         ManhuntPlayerImpl player = players.remove(uuid);
 
         if (player != null) {
-            String playerName = player.getPlayer().getName();
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                plugin.getBootstrap().getMassManager().saveManhuntPlayer(player);
-            });
+            String playerName = Bukkit.getOfflinePlayer(uuid).getName();
+
+            Runnable saveTask = () -> plugin.getBootstrap().getMassManager().saveManhuntPlayer(player);
+
+            if (!plugin.isEnabled()) {
+                saveTask.run();
+            } else {
+                Bukkit.getScheduler().runTaskAsynchronously(plugin, saveTask);
+            }
 
             plugin.getLogger().info("Saved and removed player object for: " + playerName);
         }

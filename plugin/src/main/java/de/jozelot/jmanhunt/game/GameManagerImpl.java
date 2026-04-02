@@ -57,10 +57,16 @@ public class GameManagerImpl implements GameManager {
         final GameState currentState = this.state;
         final ManhuntEndReason currentReason = this.endReason;
 
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        Runnable saveTask = () -> {
             plugin.getBootstrap().getMassManager().saveState(currentState);
             plugin.getBootstrap().getMassManager().saveEndReason(currentReason);
-        });
+        };
+
+        if (!plugin.isEnabled()) {
+            saveTask.run();
+        } else {
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, saveTask);
+        }
     }
 
     public ManhuntEndReason getEndReason() {
