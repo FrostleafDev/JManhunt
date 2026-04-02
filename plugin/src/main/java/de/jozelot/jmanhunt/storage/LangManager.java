@@ -22,6 +22,7 @@ public class LangManager {
     private FileConfiguration languageConfig;
     private final String[] defaultLanguages = {"de", "en"};
 
+    private String prefix;
     private List<String> updateInfo = new ArrayList<>();
 
     /**
@@ -64,6 +65,7 @@ public class LangManager {
     }
 
     private void loadData() {
+        prefix = languageConfig.getString("prefix", "<dark_gray>[<aqua>JManhunt<dark_gray]<reset>");
         updateInfo = formatList("admin-update-info", null);
     }
 
@@ -99,16 +101,21 @@ public class LangManager {
     }
 
     private String replacePlaceholders(String input, Map<String, String> replace) {
-        if (input == null || replace == null || replace.isEmpty()) {
-            return input == null ? "" : input;
+        if (input == null) return "";
+
+        input = input.replace("{prefix}", prefix);
+
+        if (replace != null && !replace.isEmpty()) {
+            for (Map.Entry<String, String> entry : replace.entrySet()) {
+                input = input.replace("{" + entry.getKey() + "}", entry.getValue());
+            }
         }
 
-        for (Map.Entry<String, String> entry : replace.entrySet()) {
-            input = input
-                    .replace("{" + entry.getKey() + "}", entry.getValue())
-                    .replace("{prefix}", languageConfig.getString("prefix", "<dark_gray>[<aqua>JManhunt<dark_gray]<reset>"));
-        }
         return input;
+    }
+
+    public String getPrefix() {
+        return prefix;
     }
 
     public List<String> getUpdateInfo() {
