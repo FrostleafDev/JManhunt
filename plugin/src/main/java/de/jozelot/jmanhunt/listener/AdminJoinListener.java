@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Map;
+
 public class AdminJoinListener implements Listener {
 
     private final JManhunt plugin;
@@ -26,8 +28,9 @@ public class AdminJoinListener implements Listener {
 
         Player player = event.getPlayer();
         ManhuntPlayerImpl manhuntPlayer = (ManhuntPlayerImpl) plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
+        String latestVersion = plugin.getBootstrap().getUpdateManager().getLatestVersion();
 
-        player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().getUpdateInfo())));
+        player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-update-info", Map.of("version", latestVersion)))));
         manhuntPlayer.playSound(Sound.NOTIFY);
     }
 }

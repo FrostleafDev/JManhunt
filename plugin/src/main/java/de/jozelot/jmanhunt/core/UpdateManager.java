@@ -63,6 +63,10 @@ public class UpdateManager {
         return false;
     }
 
+    public String getLatestVersion() {
+        return latestVersion;
+    }
+
     public boolean isUpdateAvailable() {
         return updateAvailable;
     }

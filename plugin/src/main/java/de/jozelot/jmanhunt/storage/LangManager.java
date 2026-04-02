@@ -23,7 +23,6 @@ public class LangManager {
     private final String[] defaultLanguages = {"de", "en"};
 
     private String prefix;
-    private List<String> updateInfo = new ArrayList<>();
 
     /**
      * Here the plugin saves the locales that the plugin brings with it
@@ -66,7 +65,6 @@ public class LangManager {
 
     private void loadData() {
         prefix = languageConfig.getString("prefix", "<dark_gray>[<aqua>JManhunt<dark_gray>]<reset>");
-        updateInfo = formatList("admin-update-info", null);
     }
 
     /**
@@ -118,7 +116,4 @@ public class LangManager {
         return prefix;
     }
 
-    public List<String> getUpdateInfo() {
-        return updateInfo;
-    }
 }
