@@ -63,6 +63,13 @@ public class ConfigManager {
             mysqlPassword = plugin.getConfig().getString("mysql.password");
             databasePrefix = plugin.getConfig().getString("database-prefix", "JM_");
         }
+
+        sounds.pling = plugin.getConfig().getString("sounds.pling");
+        sounds.success = plugin.getConfig().getString("sounds.success");
+        sounds.error = plugin.getConfig().getString("sounds.error");
+        sounds.warning = plugin.getConfig().getString("sounds.warning");
+        sounds.notify = plugin.getConfig().getString("sounds.notify");
+        sounds.experience = plugin.getConfig().getString("sounds.experience");
     }
 
     public class Sounds {

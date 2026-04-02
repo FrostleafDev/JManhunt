@@ -89,7 +89,9 @@ public class JManhuntBootstrap {
 
         manhuntPlayerManager.saveAllToStorage();
         gameManager.saveToStorage();
+        massManager.getStorage().close();
 
+        massManager.getStorage().init();
         gameManager.loadFromStorage();
         manhuntPlayerManager.loadAllFromStorage();
     }
