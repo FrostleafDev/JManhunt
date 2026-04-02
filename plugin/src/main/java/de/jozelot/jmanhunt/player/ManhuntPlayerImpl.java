@@ -50,13 +50,16 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
 
     @Override
     public void setTeam(ManhuntTeam team) {
-        ManhuntTeamAssignEvent event = new ManhuntTeamAssignEvent(this, this.team, team);
-        Bukkit.getPluginManager().callEvent(event);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            ManhuntTeamAssignEvent event = new ManhuntTeamAssignEvent(this, this.team, team);
+            Bukkit.getPluginManager().callEvent(event);
 
-        if (event.isCancelled()) {
-            return;
-        }
-        this.team = event.getNewTeam();
+            if (event.isCancelled()) {
+                return;
+            }
+
+            this.team = event.getNewTeam();
+        });
     }
 
     @Override

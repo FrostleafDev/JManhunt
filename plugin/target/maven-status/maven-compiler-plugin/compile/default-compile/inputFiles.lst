@@ -1,9 +1,11 @@
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\api\ApiManager.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\api\ManhuntImpl.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\core\JManhuntBootstrap.java
+F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\core\UpdateManager.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\game\GameManagerImpl.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\game\PhaseManagerImpl.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\JManhunt.java
+F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\listener\AdminJoinListener.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\listener\PlayerConnectionListener.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\listener\PlayerDeathListener.java
 F:\Dokumente\[01] Jonas\[02] Developement\[01] Coding\[04] Minecraft\JManhunt\plugin\src\main\java\de\jozelot\jmanhunt\player\ManhuntPlayerImpl.java
