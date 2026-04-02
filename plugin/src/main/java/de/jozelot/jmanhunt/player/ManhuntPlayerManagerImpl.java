@@ -7,6 +7,7 @@ import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -53,9 +54,9 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
      */
     public void removePlayer(UUID uuid) {
         ManhuntPlayerImpl player = players.remove(uuid);
-        String playerName = player.getPlayer().getName();
 
         if (player != null) {
+            String playerName = player.getPlayer().getName();
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 plugin.getBootstrap().getMassManager().saveManhuntPlayer(player);
             });
@@ -93,11 +94,13 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
     }
 
     @Override
+    @Nullable
     public ManhuntPlayer getPlayer(UUID uuid) {
         return players.get(uuid);
     }
 
     @Override
+    @Nullable
     public ManhuntPlayer getPlayer(Player player) {
         return players.get(player.getUniqueId());
     }

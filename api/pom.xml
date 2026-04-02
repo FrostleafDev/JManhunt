@@ -41,6 +41,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.3</version>
+                <configuration>
+                    <release>22</release>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <charset>UTF-8</charset>
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                    <failOnError>false</failOnError>
+                    <links>
+                        <link>https://jd.papermc.io/paper/1.21.11/</link>
+                    </links>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

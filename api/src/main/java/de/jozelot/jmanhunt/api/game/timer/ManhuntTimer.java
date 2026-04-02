@@ -1,40 +1,65 @@
+/*
+ * Copyright (c) 2026 jozelot. All rights reserved.
+ * Project: JManhunt | Module: API
+ */
 package de.jozelot.jmanhunt.api.game.timer;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Interface for managing and retrieving time-related data during a manhunt session.
+ *
+ * @author jozelot_
+ * @since 1.0.0
+ */
 public interface ManhuntTimer {
 
     /**
-     * @return true if the timer is currently ticking.
+     * Checks if the timer is currently active and counting.
+     *
+     * @return true if the timer is ticking; false otherwise
      */
     boolean isRunning();
 
     /**
-     * @return The elapsed time in seconds.
+     * Gets the total time that has passed since the timer started.
+     *
+     * @return the elapsed time in seconds
      */
     long getElapsedSeconds();
 
     /**
-     * Manually sets the elapsed time.
-     * @param seconds The time in seconds.
+     * Manually overrides the current elapsed time.
+     *
+     * @param seconds the new elapsed time in seconds
      */
     void setElapsedSeconds(long seconds);
 
     /**
-     * Useful for the TIME win condition.
-     * @return The remaining time in seconds or -1 if no limit is set.
+     * Calculates the time left until a potential time-based win condition is met.
+     *
+     * @return the remaining time in seconds, or -1 if no time limit has been configured
      */
     long getRemainingSeconds();
 
     /**
-     * Formats the time into a human-readable string.
-     * @param pattern The pattern (e.g., "HH:mm:ss" or "mm:ss").
-     * @return The formatted time string.
+     * Formats the current elapsed time into a human-readable string using a custom pattern.
+     *
+     * @param pattern the formatting pattern (e.g., "HH:mm:ss")
+     * @return the formatted time string
      */
-    String format(String pattern);
+    @NotNull
+    String format(@NotNull String pattern);
 
     /**
-     * Default formatting that automatically switches between mm:ss and HH:mm:ss.
-     * @return The auto-formatted time.
+     * Provides a default human-readable representation of the elapsed time.
+     * <p>
+     * Automatically switches between "mm:ss" and "HH:mm:ss" based on the total duration.
+     * </p>
+     *
+     * @return the auto-formatted time string
      */
+    @NotNull
     default String formatAuto() {
         long s = getElapsedSeconds();
         if (s < 3600) {

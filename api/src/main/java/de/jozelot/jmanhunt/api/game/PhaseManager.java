@@ -1,34 +1,64 @@
+/*
+ * Copyright (c) 2026 jozelot. All rights reserved.
+ * Project: JManhunt | Module: API
+ */
 package de.jozelot.jmanhunt.api.game;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Manages the different phases of a manhunt game session.
+ *
+ * @author jozelot_
+ * @since 1.0.0
+ */
 public interface PhaseManager {
+
+    /**
+     * @return true if the manhunt is currently in setup mode
+     */
     boolean isSetup();
+
+    /**
+     * @return true if the manhunt is in the pre-game (waiting/lobby) phase
+     */
     boolean isPreGame();
+
+    /**
+     * @return true if the manhunt is currently running
+     */
     boolean isRunning();
+
+    /**
+     * @return true if the manhunt has ended
+     */
     boolean isEnded();
 
     /**
-     * Sets the game to the setup phase.
+     * Transitions the game into the setup phase.
+     * Use this for initial configuration or maintenance.
      */
     void setSetup();
 
     /**
-     * Sets the game to the pre_game phase.
+     * Opens the game for players and transitions to the pre-game phase.
      */
     void open();
 
     /**
-     * Sets the game to the setup phase.
+     * Closes the pre-game phase and returns the session to setup mode.
      */
     void close();
 
     /**
-     * Sets the game to the running phase.
-     * And starts it
+     * Starts the manhunt and transitions to the running phase.
      */
     void start();
 
     /**
-     * Ends the manhunt with the given reason
+     * Ends the current manhunt session with a specific reason.
+     *
+     * @param reason the reason why the game ended
      */
-    void end(ManhuntEndReason reason);
+    void end(@NotNull ManhuntEndReason reason);
 }
