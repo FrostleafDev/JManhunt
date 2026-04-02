@@ -142,6 +142,31 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
         return players.get(player.getUniqueId());
     }
 
+    @Override
+    public void getPlayerByName(String name, Consumer<ManhuntPlayer> callback) {
+        for (ManhuntPlayerImpl player : players.values()) {
+            if (player.getLastKnownName().equalsIgnoreCase(name)) {
+                callback.accept(player);
+                return;
+            }
+        }
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            UUID uuid = plugin.getBootstrap().getMassManager().getUUIDByName(name);
+
+            if (uuid == null) {
+                Bukkit.getScheduler().runTask(plugin, () -> callback.accept(null));
+                return;
+            }
+
+            final UUID finalUuid = uuid;
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                ManhuntPlayerImpl player = getOrLoadPlayer(finalUuid, name);
+                callback.accept(player);
+            });
+        });
+    }
+
     public void getOrCreatePlayerByName(String name, Consumer<ManhuntPlayerImpl> callback) {
         for (ManhuntPlayerImpl player : players.values()) {
             if (player.getLastKnownName().equalsIgnoreCase(name)) {

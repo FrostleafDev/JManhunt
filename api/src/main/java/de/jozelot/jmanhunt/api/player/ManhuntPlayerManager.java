@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Manager for handling and retrieving {@link ManhuntPlayer} instances.
@@ -36,6 +37,14 @@ public interface ManhuntPlayerManager {
      */
     @Nullable
     ManhuntPlayer getPlayer(Player player);
+
+    /**
+     * Gets a {@link ManhuntPlayer} by their unique ID.
+     *
+     * @param name the name of the player
+     * @param callback callback with the player or null
+     */
+    void getPlayerByName(String name, Consumer<ManhuntPlayer> callback);
 
     /**
      * Gets an unmodifiable collection of all currently tracked players.
