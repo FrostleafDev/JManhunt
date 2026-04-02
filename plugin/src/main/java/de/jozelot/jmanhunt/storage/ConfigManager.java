@@ -61,7 +61,7 @@ public class ConfigManager {
             mysqlHost = plugin.getConfig().getString("mysql.host");
             mysqlPort = plugin.getConfig().getInt("mysql.port");
             mysqlDatabase = plugin.getConfig().getString("mysql.database");
-            mysqlUser = plugin.getConfig().getString("mysql.user");
+            mysqlUser = plugin.getConfig().getString("mysql.username");
             mysqlPassword = plugin.getConfig().getString("mysql.password");
             databasePrefix = plugin.getConfig().getString("database-prefix", "JM_");
         }

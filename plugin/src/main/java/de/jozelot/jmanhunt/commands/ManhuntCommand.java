@@ -278,6 +278,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                                 try {
                                                     team = ManhuntTeam.valueOf(teamArg);
                                                 } catch (IllegalArgumentException e) {
+                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
                                                     return Command.SINGLE_SUCCESS;
                                                 }
 
@@ -292,6 +293,7 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                 if (playerList.isEmpty()) {
                                                     sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-list-empty", Map.of("team", team.name().toLowerCase()))));
+                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
                                                     return Command.SINGLE_SUCCESS;
                                                 }
 
@@ -303,7 +305,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                                 sender.sendMessage(mm.deserialize(line));
 
                                                 sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-list-footer", null)));
-
+                                                PlaySoundUtils.playPling(context.getSource().getSender(), plugin);
                                                 return Command.SINGLE_SUCCESS;
                                             }))
 
@@ -343,6 +345,7 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                 if (!anyTeamPopulated) {
                                     sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-list-empty", null)));
+                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
                                     return Command.SINGLE_SUCCESS;
                                 }
 
@@ -368,6 +371,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                 }
 
                                 sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-list-footer", null)));
+                                PlaySoundUtils.playPling(context.getSource().getSender(), plugin);
                                 return Command.SINGLE_SUCCESS;
                             }));
 
