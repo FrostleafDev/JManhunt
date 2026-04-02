@@ -14,7 +14,7 @@ public class UpdateManager {
 
     private final JManhunt plugin;
     private final String currentVersion;
-    private String latestVersion;
+    private String latestVersion = "0.0.0";;
     private boolean updateAvailable = false;
 
     public UpdateManager(@NotNull JManhunt plugin) {
