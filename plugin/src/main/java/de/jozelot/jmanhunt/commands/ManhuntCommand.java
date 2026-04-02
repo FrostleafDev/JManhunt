@@ -177,12 +177,9 @@ public class ManhuntCommand implements IManhuntCommand {
                                             .then(Commands.argument("player", StringArgumentType.word())
                                                     .suggests((context, builder) -> {
                                                         String input = builder.getRemaining().toLowerCase();
-                                                        Bukkit.getOnlinePlayers().stream()
-                                                                .filter(player -> {
-                                                                    ManhuntPlayer mp = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player.getUniqueId());
-                                                                    return mp == null || mp.getTeam() == ManhuntTeam.NONE;
-                                                                })
-                                                                .map(Player::getName)
+                                                        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
+                                                                .filter(mp -> mp.getTeam() == ManhuntTeam.NONE)
+                                                                .map(ManhuntPlayer::getLastKnownName)
                                                                 .filter(name -> name.toLowerCase().startsWith(input))
                                                                 .forEach(builder::suggest);
                                                         return builder.buildFuture();
@@ -192,11 +189,22 @@ public class ManhuntCommand implements IManhuntCommand {
                                                         String playerName = StringArgumentType.getString(context, "player");
 
                                                         try {
-                                                            ManhuntTeam team = ManhuntTeam.valueOf(teamArg);
+                                                            ManhuntTeam newTeam = ManhuntTeam.valueOf(teamArg);
                                                             plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
-                                                                player.setTeam(team);
+
+                                                                if (player.getTeam() != ManhuntTeam.NONE) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                            lang.format("command-jmanhunt-team-add-error-already-in-team",
+                                                                                    Map.of("player_name", player.getLastKnownName(), "team", player.getTeam().name().toLowerCase()))
+                                                                    ));
+                                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    return;
+                                                                }
+
+                                                                player.setTeam(newTeam);
                                                                 context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success",
-                                                                        Map.of("player_name", player.getLastKnownName(), "team", team.name().toLowerCase()))));
+                                                                        Map.of("player_name", player.getLastKnownName(), "team", newTeam.name().toLowerCase()))));
+
                                                                 PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
                                                             });
                                                         } catch (IllegalArgumentException e) {
