@@ -230,6 +230,24 @@ public class MassManager {
         return teamMembers;
     }
 
+    public UUID getUUIDByName(String name) {
+        String sql = "SELECT uuid FROM `" + storage.getPrefix() + "player` WHERE player_name = ? LIMIT 1";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, name);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return UUID.fromString(rs.getString("uuid"));
+                }
+            }
+        } catch (SQLException | IllegalArgumentException e) {
+            return null;
+        }
+        return null;
+    }
+
     public ManhuntStorage getStorage() {
         return storage;
     }

@@ -5,10 +5,12 @@ import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayerManager;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 
 public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
@@ -133,6 +135,30 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
     @Nullable
     public ManhuntPlayer getPlayer(Player player) {
         return players.get(player.getUniqueId());
+    }
+
+    public void getOrCreatePlayerByName(String name, Consumer<ManhuntPlayerImpl> callback) {
+        for (ManhuntPlayerImpl player : players.values()) {
+            if (player.getLastKnownName().equalsIgnoreCase(name)) {
+                callback.accept(player);
+                return;
+            }
+        }
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            UUID uuid = plugin.getBootstrap().getMassManager().getUUIDByName(name);
+
+            if (uuid == null) {
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
+                uuid = offlinePlayer.getUniqueId();
+            }
+
+            final UUID finalUuid = uuid;
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                ManhuntPlayerImpl player = getOrLoadPlayer(finalUuid, name);
+                callback.accept(player);
+            });
+        });
     }
 
     @Override

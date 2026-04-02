@@ -159,6 +159,10 @@ custom-join-leave-messages: true
 # This will only be played for the player
 join-sound: true
 
+# Should other team members be glowing for a player?
+# Only for hunters and runners
+glowing-team: false
+
 # ADD CUSTOM TABLIST, PLAYER COUNT, MOTD
 
 ##################################################################################

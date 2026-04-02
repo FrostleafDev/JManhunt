@@ -86,3 +86,17 @@ command-jmanhunt-confirm-no-action: '{prefix} <gray>There is no pending action t
 command-jmanhunt-confirm-expired: '{prefix} <gray>The action you are trying to confirm has <red>expired<gray>!'
 command-jmanhunt-reset-success: '{prefix} <gray>The manhunt reset was started <green>successfully<gray>.'
 command-jmanhunt-end-success: '{prefix} <gray>The manhunt was ended <green>successfully<gray>.'
+
+command-jmanhunt-team-add-success: '{prefix} <green>{player_name} <gray>was added to the <green>{team} successfully<gray>.'
+command-jmanhunt-team-remove-success: '{prefix} <green>{player_name} <gray>was removed from the <green>{team} successfully<gray>.'
+command-jmanhunt-team-list-header: "<dark_gray>--- <aqua><b>Manhunt Team:</b> {team}</aqua> <dark_gray>---"
+command-jmanhunt-team-list-player: "<hover:show_text:'<gray>Click to remove <white>{player_name}'><click:run_command:'/jmanhunt team {team} remove {player_name}'>{color}{player_name}</click></hover>"
+command-jmanhunt-team-list-line: "<gray>Members: {players}"
+command-jmanhunt-team-list-empty: "{prefix} <gray>The team <green>{team} <gray>is currently empty."
+
+command-jmanhunt-list-header: '<dark_gray>--- <aqua><b>Manhunt Teams (Global)</b></aqua> <dark_gray>---'
+command-jmanhunt-list-line: '<green>{team}: <gray>{players}'
+command-jmanhunt-list-player: "<hover:show_text:'<gray>Click to remove <white>{player_name}'><click:run_command:'/jmanhunt team {team} remove {player_name}'>{color}{player_name}</click></hover>"
+command-jmanhunt-list-footer: '<dark_gray>---------------------------'
+
+command-jmanhunt-team-clear-success: "{prefix} <gray>Successfully removed <green>{count} <gray>players from team <green>{team}<gray>."

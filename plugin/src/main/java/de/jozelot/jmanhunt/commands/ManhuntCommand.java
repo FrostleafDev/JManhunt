@@ -6,8 +6,10 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.commands.manager.IManhuntCommand;
+import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
 import de.jozelot.jmanhunt.storage.LangManager;
 import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import de.jozelot.jmanhunt.utility.PluginMessages;
@@ -19,10 +21,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ManhuntCommand implements IManhuntCommand {
 
@@ -175,29 +174,158 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                     .then(Commands.literal("add")
                                             .then(Commands.argument("player", ArgumentTypes.player())
+                                                    .suggests((context, builder) -> {
+                                                        String input = builder.getRemaining().toLowerCase();
+
+                                                        Bukkit.getOnlinePlayers().stream()
+                                                                .filter(player -> {
+                                                                    ManhuntPlayer mp = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player.getUniqueId());
+                                                                    return mp == null || mp.getTeam() == ManhuntTeam.NONE;
+                                                                })
+                                                                .map(Player::getName)
+                                                                .filter(name -> name.toLowerCase().startsWith(input))
+                                                                .forEach(builder::suggest);
+
+                                                        return builder.buildFuture();
+                                                    })
                                                     .executes(context -> {
-                                                        String team = StringArgumentType.getString(context, "teamName");
+                                                        String teamName = StringArgumentType.getString(context, "teamName").toUpperCase();
+                                                        ManhuntTeam team = ManhuntTeam.valueOf(teamName);
+                                                        String playerName = StringArgumentType.getString(context, "player");
+
+                                                        plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
+                                                            player.setTeam(team);
+
+                                                            context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success", Map.of("player_name", playerName, "team", team.name().toLowerCase()))));
+                                                        });
+
                                                         return Command.SINGLE_SUCCESS;
                                                     })
                                             )
                                     )
 
                                     .then(Commands.literal("remove")
-                                            .then(Commands.argument("player", ArgumentTypes.player())
+                                            .then(Commands.argument("player", StringArgumentType.word())
+                                                    .suggests((context, builder) -> {
+                                                        String input = builder.getRemaining().toLowerCase();
+                                                        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
+                                                                .filter(mp -> {
+                                                                    return mp.getTeam() != ManhuntTeam.NONE;
+                                                                })
+                                                                .map(ManhuntPlayer::getLastKnownName)
+                                                                .filter(name -> name.toLowerCase().startsWith(input))
+                                                                .forEach(builder::suggest);
+
+                                                        return builder.buildFuture();
+                                                    })
                                                     .executes(context -> {
+                                                        String playerName = StringArgumentType.getString(context, "player");
+                                                        String teamName = StringArgumentType.getString(context, "teamName").toLowerCase();
+
+                                                        plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
+                                                            player.setTeam(ManhuntTeam.NONE);
+
+                                                            context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                    lang.format("command-jmanhunt-team-remove-success",
+                                                                            Map.of("player_name", player.getLastKnownName(), "team", teamName))
+                                                            ));
+                                                        });
+
                                                         return Command.SINGLE_SUCCESS;
-                                                    })))
+                                                    })
+                                            )
+                                    )
 
                                     .then(Commands.literal("list")
                                             .executes(context -> {
+                                                var manager = plugin.getBootstrap().getManhuntPlayerManager();
+                                                var sender = context.getSource().getSender();
+
+                                                String teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
+                                                ManhuntTeam team;
+                                                try {
+                                                    team = ManhuntTeam.valueOf(teamArg);
+                                                } catch (IllegalArgumentException e) {
+                                                    return Command.SINGLE_SUCCESS;
+                                                }
+
+                                                List<String> playerList = manager.getPlayers().stream()
+                                                        .filter(p -> p.getTeam() == team)
+                                                        .map(p -> lang.format("command-jmanhunt-team-list-player", Map.of(
+                                                                "player_name", p.getLastKnownName(),
+                                                                "team", team.name().toLowerCase(),
+                                                                "color", p.isOnline() ? "<green>" : "<red>"
+                                                        )))
+                                                        .toList();
+
+                                                if (playerList.isEmpty()) {
+                                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-list-empty", Map.of("team", team.name().toLowerCase()))));
+                                                    return Command.SINGLE_SUCCESS;
+                                                }
+
+                                                sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-list-header", Map.of("team", team.name()))));
+
+                                                String line = lang.format("command-jmanhunt-team-list-line", Map.of(
+                                                        "players", String.join("<gray>, ", playerList)
+                                                ));
+                                                sender.sendMessage(mm.deserialize(line));
+
+                                                sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-list-footer", null)));
+
                                                 return Command.SINGLE_SUCCESS;
                                             }))
 
                                     .then(Commands.literal("clear")
                                             .executes(context -> {
+                                                String teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
+                                                ManhuntTeam team = ManhuntTeam.valueOf(teamArg);
+                                                var manager = plugin.getBootstrap().getManhuntPlayerManager();
+
+                                                int count = 0;
+                                                for (ManhuntPlayer p : manager.getPlayers()) {
+                                                    if (p.getTeam() == team) {
+                                                        p.setTeam(ManhuntTeam.NONE);
+                                                        count++;
+                                                    }
+                                                }
+
+                                                context.getSource().getSender().sendMessage(mm.deserialize(
+                                                        lang.format("command-jmanhunt-team-clear-success", Map.of(
+                                                                "count", String.valueOf(count),
+                                                                "team", team.name().toLowerCase()
+                                                        ))
+                                                ));
+                                                PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
                                                 return Command.SINGLE_SUCCESS;
-                                            })))
-                    );
+                                            }))
+                    )
+
+                    // --- SUBCOMMAND: LIST ---
+                    .then(Commands.literal("list")
+                            .executes(context -> {
+                                var manager = plugin.getBootstrap().getManhuntPlayerManager();
+                                var sender = context.getSource().getSender();
+
+                                sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-list-header", null)));
+
+                                for (ManhuntTeam team : List.of(ManhuntTeam.RUNNER, ManhuntTeam.HUNTER, ManhuntTeam.SPECTATOR)) {
+                                    List<String> playerList = manager.getPlayers().stream()
+                                            .filter(p -> p.getTeam() == team)
+                                            .map(p -> (p.isOnline() ? "<green>" : "<red>") + p.getLastKnownName())
+                                            .toList();
+
+                                    if (!playerList.isEmpty()) {
+                                        String line = lang.format("command-jmanhunt-list-line", Map.of(
+                                                "team", team.name(),
+                                                "players", String.join("<gray>, ", playerList)
+                                        ));
+                                        sender.sendMessage(mm.deserialize(line));
+                                    }
+                                }
+
+                                sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-list-footer", null)));
+                                return Command.SINGLE_SUCCESS;
+                            })));
 
             LiteralCommandNode<CommandSourceStack> mainNode = mainBuilder.build();
 
