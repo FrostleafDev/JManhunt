@@ -7,6 +7,7 @@ import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
 import de.jozelot.jmanhunt.storage.LangManager;
+import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import de.jozelot.jmanhunt.utility.PluginMessages;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
@@ -35,10 +36,11 @@ public class ManhuntCommand {
         plugin.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
 
-            commands.register(
-                    Commands.literal("jmanhunt")
+            var command = Commands.literal("jmanhunt")
                             .requires(stack -> stack.getSender().hasPermission("jmanhunt.command"))
                             .executes(stack -> {
+
+                                PlaySoundUtils.playSound(stack.getSource().getSender(), Sound.PLING, plugin);
 
                                 if (!stack.getSource().getSender().hasPermission("jmanhunt.ui")) {
                                     PluginMessages.sendHelpMessage(stack.getSource().getSender(), plugin);
@@ -53,12 +55,9 @@ public class ManhuntCommand {
                             .then(Commands.literal("help")
                                     .requires(stack -> stack.getSender().hasPermission("jmanhunt.command"))
                                     .executes(stack -> {
+                                        PlaySoundUtils.playSound(stack.getSource().getSender(), Sound.PLING, plugin);
 
-                                        if (!stack.getSource().getSender().hasPermission("jmanhunt.ui")) {
-                                            PluginMessages.sendHelpMessage(stack.getSource().getSender(), plugin);
-                                            return Command.SINGLE_SUCCESS;
-                                        }
-                                        // TODO: ADD UI
+                                        PluginMessages.sendHelpMessage(stack.getSource().getSender(), plugin);
 
                                         return Command.SINGLE_SUCCESS;
                                     }))
@@ -71,12 +70,7 @@ public class ManhuntCommand {
                                         plugin.getBootstrap().reload();
                                         context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-reload-success", null)));
 
-                                        if (!(context.getSource().getSender() instanceof Player player)) {
-                                            return Command.SINGLE_SUCCESS;
-                                        }
-                                        ManhuntPlayer manhuntPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
-
-                                        manhuntPlayer.playSound(Sound.SUCCESS);
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), Sound.SUCCESS, plugin);
 
 
                                         return Command.SINGLE_SUCCESS;
@@ -114,24 +108,13 @@ public class ManhuntCommand {
 
                                         context.getSource().getSender().sendMessage(mm.deserialize(message));
 
-                                        if (!(context.getSource().getSender() instanceof Player player)) {
-                                            return Command.SINGLE_SUCCESS;
-                                        }
-                                        ManhuntPlayer manhuntPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
-
-                                        if (success) {
-                                            manhuntPlayer.playSound(Sound.SUCCESS);
-                                        } else manhuntPlayer.playSound(Sound.ERROR);
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
 
 
                                         return Command.SINGLE_SUCCESS;
                                     })
-                            )
-
-                            .build(),
-                    "Hauptbefehl für JManhunt",
-                    List.of("jm", "manhunt")
-            );
+                            );
+            commands.register(command.build(), "The main command for JManhunt", List.of("jm", "manhunt"));
         });
     }
 }
