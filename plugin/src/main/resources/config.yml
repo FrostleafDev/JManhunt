@@ -152,6 +152,9 @@ sounds:
   experience: "entity.experience_orb.pickup"
   warning: 'block.note_block.bit'
 
+# Should there be a custom join and leave message?
+custom-join-leave-messages: true
+
 ##################################################################################
 ##                                                                              ##
 ##                                 PERMISSIONS                                  ##

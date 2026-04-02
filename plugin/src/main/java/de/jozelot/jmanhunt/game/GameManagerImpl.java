@@ -18,7 +18,7 @@ public class GameManagerImpl implements GameManager {
         this.plugin = plugin;
     }
 
-    private GameState state;
+    private GameState state = GameState.SETUP;
     private ManhuntEndReason endReason = ManhuntEndReason.NONE;
 
 

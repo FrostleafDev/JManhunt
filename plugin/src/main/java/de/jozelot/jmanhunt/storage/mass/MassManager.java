@@ -122,7 +122,7 @@ public class MassManager {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            plugin.getLogger().log(Level.SEVERE, "Konnte Spieler " + player.getUniqueId() + " nicht speichern", e);
+            plugin.getLogger().log(Level.SEVERE, "Couldn't save " + player.getUniqueId() + ": ", e);
         }
     }
 
@@ -157,7 +157,7 @@ public class MassManager {
     public void saveAllPlayers(Collection<ManhuntPlayerImpl> players) {
         if (players.isEmpty()) return;
 
-        plugin.getLogger().info("Speichere " + players.size() + " Spieler in die Datenbank...");
+        plugin.getLogger().info("Saving " + players.size() + " player to the database...");
         for (ManhuntPlayerImpl player : players) {
             saveManhuntPlayer(player);
         }
