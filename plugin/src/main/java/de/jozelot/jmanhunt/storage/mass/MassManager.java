@@ -117,8 +117,21 @@ public class MassManager {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, player.getUniqueId().toString());
-            String name = player.getPlayer() != null ? player.getPlayer().getName() :  Bukkit.getOfflinePlayer(player.getUniqueId()).getName();
-            ps.setString(2, name != null ? name : "Unknown");
+
+            String nameToSave = "Unknown";
+
+            if (player.getPlayer() != null) {
+                nameToSave = player.getPlayer().getName();
+            } else if (player.getLastKnownName() != null && !player.getLastKnownName().equalsIgnoreCase("Unknown")) {
+                nameToSave = player.getLastKnownName();
+            } else {
+                String offlineName = Bukkit.getOfflinePlayer(player.getUniqueId()).getName();
+                if (offlineName != null) {
+                    nameToSave = offlineName;
+                }
+            }
+
+            ps.setString(2, nameToSave);
             ps.setInt(3, player.getKills());
             ps.setInt(4, player.getDeaths());
             ps.setInt(5, player.getLives());
