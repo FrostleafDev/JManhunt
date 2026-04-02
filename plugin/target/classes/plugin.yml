@@ -3,7 +3,7 @@ version: '1.0.0'
 main: de.jozelot.jmanhunt.JManhunt
 api-version: '1.21'
 authors: [ jozelot_ ]
-description: Archiv Plugin für jozelot.de - Bereitgestellt von jozelot_
+description: High Performance Manhunt Engine für Minecraft. For Players and Developers.
 website: https://jozelot.de
 
 commands:

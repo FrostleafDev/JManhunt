@@ -63,6 +63,7 @@ public class PlayerConnectionListener implements Listener {
         }
 
         if (plugin.getBootstrap().getConfigManager().sendCustomConnectionMessages()) {
+            event.joinMessage(Component.empty());
             for (Player target : Bukkit.getOnlinePlayers()) {
                 if (target != player) target.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("join-message", Map.of("player_name", event.getPlayer().getName()))));
             }
@@ -77,5 +78,12 @@ public class PlayerConnectionListener implements Listener {
         Player player = event.getPlayer();
 
         plugin.getBootstrap().getManhuntPlayerManager().removePlayer(player);
+
+        if (plugin.getBootstrap().getConfigManager().sendCustomConnectionMessages()) {
+            event.quitMessage(Component.empty());
+            for (Player target : Bukkit.getOnlinePlayers()) {
+                if (target != player) target.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("leave-message", Map.of("player_name", event.getPlayer().getName()))));
+            }
+        }
     }
 }
