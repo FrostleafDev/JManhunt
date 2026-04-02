@@ -112,4 +112,8 @@ public class GameManagerImpl implements GameManager {
             plugin.getLogger().log(Level.WARNING, "The plugin wipe is finished!");
         }, 20L);
     }
+
+    public boolean isWiping() {
+        return isWiping;
+    }
 }

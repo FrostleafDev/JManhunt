@@ -72,12 +72,13 @@ public class JManhuntBootstrap {
      */
     public void shutdown() {
         plugin.getLogger().log(Level.INFO, "Plugin shutting down...");
-        if (canShutdownSafely) {
-            apiManager.shutdown();
+        if (!canShutdownSafely) return;
+        apiManager.shutdown();
+        if (!gameManager.isWiping()) {
             gameManager.saveToStorage();
             manhuntPlayerManager.saveAllToStorage();
-            massManager.getStorage().close();
         }
+        massManager.getStorage().close();
     }
 
     /**
