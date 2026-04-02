@@ -161,9 +161,10 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                 return Command.SINGLE_SUCCESS;
                             }))
+
                     // --- SUBCOMMAND: TEAM ---
                     .then(Commands.literal("team")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.setup.teams"))
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.teams"))
                             .then(Commands.argument("teamName", StringArgumentType.word())
                                     .suggests((context, builder) -> {
                                         builder.suggest("runner");
@@ -173,10 +174,9 @@ public class ManhuntCommand implements IManhuntCommand {
                                     })
 
                                     .then(Commands.literal("add")
-                                            .then(Commands.argument("player", ArgumentTypes.player())
+                                            .then(Commands.argument("player", StringArgumentType.word())
                                                     .suggests((context, builder) -> {
                                                         String input = builder.getRemaining().toLowerCase();
-
                                                         Bukkit.getOnlinePlayers().stream()
                                                                 .filter(player -> {
                                                                     ManhuntPlayer mp = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player.getUniqueId());
@@ -185,30 +185,40 @@ public class ManhuntCommand implements IManhuntCommand {
                                                                 .map(Player::getName)
                                                                 .filter(name -> name.toLowerCase().startsWith(input))
                                                                 .forEach(builder::suggest);
-
                                                         return builder.buildFuture();
                                                     })
                                                     .executes(context -> {
-                                                        String teamName = StringArgumentType.getString(context, "teamName").toUpperCase();
-                                                        ManhuntTeam team = ManhuntTeam.valueOf(teamName);
+                                                        String teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
                                                         String playerName = StringArgumentType.getString(context, "player");
 
-                                                        plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
-                                                            player.setTeam(team);
-
-                                                            context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success", Map.of("player_name", playerName, "team", team.name().toLowerCase()))));
-                                                        });
-
+                                                        try {
+                                                            ManhuntTeam team = ManhuntTeam.valueOf(teamArg);
+                                                            plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
+                                                                player.setTeam(team);
+                                                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success",
+                                                                        Map.of("player_name", player.getLastKnownName(), "team", team.name().toLowerCase()))));
+                                                                PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
+                                                            });
+                                                        } catch (IllegalArgumentException e) {
+                                                            PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                        }
                                                         return Command.SINGLE_SUCCESS;
                                                     })
                                             )
                                     )
 
+                                    // --- REMOVE ---
                                     .then(Commands.literal("remove")
                                             .then(Commands.argument("player", StringArgumentType.word())
                                                     .suggests((context, builder) -> {
                                                         String input = builder.getRemaining().toLowerCase();
-                                                        String teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
+
+                                                        String teamArg;
+                                                        try {
+                                                            teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
+                                                        } catch (Exception e) {
+                                                            return builder.buildFuture();
+                                                        }
 
                                                         plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
                                                                 .filter(mp -> mp.getTeam().name().equalsIgnoreCase(teamArg))
@@ -221,25 +231,29 @@ public class ManhuntCommand implements IManhuntCommand {
                                                     .executes(context -> {
                                                         String playerName = StringArgumentType.getString(context, "player");
                                                         String teamName = StringArgumentType.getString(context, "teamName").toUpperCase();
-                                                        ManhuntTeam targetTeam = ManhuntTeam.valueOf(teamName);
 
-                                                        plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
-                                                            if (player.getTeam() != targetTeam) {
+                                                        try {
+                                                            ManhuntTeam targetTeam = ManhuntTeam.valueOf(teamName);
+                                                            plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
+                                                                if (player.getTeam() != targetTeam) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                            lang.format("command-jmanhunt-team-remove-error-not-in-team",
+                                                                                    Map.of("player_name", player.getLastKnownName(), "team", teamName.toLowerCase()))
+                                                                    ));
+                                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    return;
+                                                                }
+
+                                                                player.setTeam(ManhuntTeam.NONE);
                                                                 context.getSource().getSender().sendMessage(mm.deserialize(
-                                                                        lang.format("command-jmanhunt-team-remove-error-not-in-team",
+                                                                        lang.format("command-jmanhunt-team-remove-success",
                                                                                 Map.of("player_name", player.getLastKnownName(), "team", teamName.toLowerCase()))
                                                                 ));
-                                                                PlaySoundUtils.playError(context.getSource().getSender(), plugin);
-                                                                return;
-                                                            }
-
-                                                            player.setTeam(ManhuntTeam.NONE);
-                                                            context.getSource().getSender().sendMessage(mm.deserialize(
-                                                                    lang.format("command-jmanhunt-team-remove-success",
-                                                                            Map.of("player_name", player.getLastKnownName(), "team", teamName.toLowerCase()))
-                                                            ));
-                                                            PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
-                                                        });
+                                                                PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
+                                                            });
+                                                        } catch (IllegalArgumentException e) {
+                                                            PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                        }
 
                                                         return Command.SINGLE_SUCCESS;
                                                     })
