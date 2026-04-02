@@ -8,6 +8,7 @@ import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Map;
+import java.util.function.Supplier;
+import java.util.logging.Level;
 
 public class PlayerConnectionListener implements Listener {
 
@@ -64,8 +67,13 @@ public class PlayerConnectionListener implements Listener {
 
         if (plugin.getBootstrap().getConfigManager().sendCustomConnectionMessages()) {
             event.joinMessage(Component.empty());
+
+            Component messageComp = mm.deserialize(plugin.getBootstrap().getLangManager().format("join-message", Map.of("player_name", event.getPlayer().getName())));
+            String legacyText = LegacyComponentSerializer.legacySection().serialize(messageComp);
+            plugin.getLogger().log(Level.INFO, legacyText);
+
             for (Player target : Bukkit.getOnlinePlayers()) {
-                if (target != player) target.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("join-message", Map.of("player_name", event.getPlayer().getName()))));
+                if (target != player) target.sendMessage(messageComp);
             }
         }
         if (plugin.getBootstrap().getConfigManager().playJoinSound()) {
@@ -81,8 +89,13 @@ public class PlayerConnectionListener implements Listener {
 
         if (plugin.getBootstrap().getConfigManager().sendCustomConnectionMessages()) {
             event.quitMessage(Component.empty());
+
+            Component messageComp = mm.deserialize(plugin.getBootstrap().getLangManager().format("leave-message", Map.of("player_name", event.getPlayer().getName())));
+            String legacyText = LegacyComponentSerializer.legacySection().serialize(messageComp);
+            plugin.getLogger().log(Level.INFO, legacyText);
+
             for (Player target : Bukkit.getOnlinePlayers()) {
-                if (target != player) target.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("leave-message", Map.of("player_name", event.getPlayer().getName()))));
+                if (target != player) target.sendMessage(messageComp);
             }
         }
     }
