@@ -26,6 +26,8 @@ public class ConfigManager {
     private String mysqlUser;
     private String mysqlPassword;
     private String databasePrefix;
+    private boolean sendCustomJoinLeaveMessages;
+    private boolean playerJoinSound;
 
     public boolean load() {
         plugin.saveDefaultConfig();
@@ -70,6 +72,9 @@ public class ConfigManager {
         sounds.warning = plugin.getConfig().getString("sounds.warning");
         sounds.notify = plugin.getConfig().getString("sounds.notify");
         sounds.experience = plugin.getConfig().getString("sounds.experience");
+
+        sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
+        playerJoinSound = plugin.getConfig().getBoolean("join-sound", true);
     }
 
     public class Sounds {
@@ -149,5 +154,13 @@ public class ConfigManager {
 
     public String getDatabasePrefix() {
         return databasePrefix;
+    }
+
+    public boolean sendCustomConnectionMessages() {
+        return sendCustomJoinLeaveMessages;
+    }
+
+    public boolean playJoinSound() {
+        return playerJoinSound;
     }
 }

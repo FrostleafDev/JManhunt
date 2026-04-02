@@ -4,6 +4,8 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.AdminJoinEvent;
 import de.jozelot.jmanhunt.api.event.DisallowReason;
 import de.jozelot.jmanhunt.api.event.ManhuntLoginEvent;
+import de.jozelot.jmanhunt.api.player.Sound;
+import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
@@ -13,6 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.Map;
 
 public class PlayerConnectionListener implements Listener {
 
@@ -51,11 +55,20 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        plugin.getBootstrap().getManhuntPlayerManager().createPlayer(player);
+        ManhuntPlayerImpl manhuntPlayer = plugin.getBootstrap().getManhuntPlayerManager().createPlayer(player);
 
         if (player.hasPermission("jmanhunt.admin")) {
             AdminJoinEvent adminJoinEvent = new AdminJoinEvent(player);
             Bukkit.getPluginManager().callEvent(adminJoinEvent);
+        }
+
+        if (plugin.getBootstrap().getConfigManager().sendCustomConnectionMessages()) {
+            for (Player target : Bukkit.getOnlinePlayers()) {
+                if (target != player) target.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("join-message", Map.of("player_name", event.getPlayer().getName()))));
+            }
+        }
+        if (plugin.getBootstrap().getConfigManager().playJoinSound()) {
+            manhuntPlayer.playSound(Sound.SUCCESS);
         }
     }
 

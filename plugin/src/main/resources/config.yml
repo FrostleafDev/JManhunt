@@ -155,6 +155,10 @@ sounds:
 # Should there be a custom join and leave message?
 custom-join-leave-messages: true
 
+# Should there be a sound when a player joins?
+# This will only be played for the player
+join-sound: true
+
 # ADD CUSTOM TABLIST, PLAYER COUNT, MOTD
 
 ##################################################################################
