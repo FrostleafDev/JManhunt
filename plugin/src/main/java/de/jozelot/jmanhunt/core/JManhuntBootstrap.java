@@ -74,8 +74,8 @@ public class JManhuntBootstrap {
         if (canShutdownSafely = true) {
             apiManager.shutdown();
             gameManager.saveToStorage();
-            massManager.getStorage().close();
             manhuntPlayerManager.saveAllToStorage();
+            massManager.getStorage().close();
         }
     }
 
