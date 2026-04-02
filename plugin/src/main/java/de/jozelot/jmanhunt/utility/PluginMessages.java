@@ -1,9 +1,13 @@
 package de.jozelot.jmanhunt.utility;
 
 import de.jozelot.jmanhunt.JManhunt;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 
 public class PluginMessages {
+
+    private static final MiniMessage mm = MiniMessage.miniMessage();
 
     public static void sendStartup(JManhunt plugin) {
         var sender = Bukkit.getConsoleSender();
@@ -23,5 +27,13 @@ public class PluginMessages {
         sender.sendMessage(prefix + "§8 ----------------------------------------------");
         sender.sendMessage(prefix + "§a Plugin start was successful");
         sender.sendMessage("");
+    }
+
+    public static void sendHelpMessage(CommandSender sender, JManhunt plugin) {
+        if (!sender.hasPermission("jmanhunt.admin")) {
+            sender.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("command-jmanhunt-help-not-admin", null))));
+            return;
+        }
+        sender.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("command-jmanhunt-help-admin", null))));
     }
 }
