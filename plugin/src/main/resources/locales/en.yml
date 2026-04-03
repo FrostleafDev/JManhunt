@@ -90,8 +90,10 @@ command-jmanhunt-end-success: '{prefix} <gray>The manhunt was ended <green>succe
 
 command-jmanhunt-team-add-success: '{prefix} <green>{player_name} <gray>was added to the <green>{team} <gray>team <green>successfully<gray>.'
 command-jmanhunt-team-add-error-already-in-team: "{prefix} <red>Action denied: <red>{player_name} <gray>is already in team <red>{team}<gray>. Remove them first!"
+command-jmanhunt-team-add-error-wrong-phase: "{prefix} <red>Action denied: <gray>You can only modify the spectator team during the game!"
 command-jmanhunt-team-remove-success: '{prefix} <green>{player_name} <gray>was removed from the <green>{team} <gray>team <green>successfully<gray>.'
 command-jmanhunt-team-remove-error-not-in-team: "{prefix} <red>Action denied: <red>{player_name} <gray>is not in the <red>{team} <gray>team."
+command-jmanhunt-team-remove-error-wrong-phase: "{prefix} <red>Action denied: <gray>You can only modify the spectator team during the game and remove players from the other team when the game is paused."
 command-jmanhunt-team-list-header: "<dark_gray>--- <aqua><b>Manhunt Team:</b> {team}</aqua> <dark_gray>---<newline>"
 command-jmanhunt-team-list-player: "<hover:show_text:'<gray>Click to remove <white>{player_name}'><click:run_command:'/jmanhunt team {team} remove {player_name}'>{color}{player_name}</click></hover>"
 command-jmanhunt-team-list-line: "<gray>Members: {players}"
