@@ -237,14 +237,35 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                                 String teamArg;
                                                                 try {
-                                                                    teamArg = context.getArgument("teamName", String.class).toUpperCase();
+                                                                    teamArg = context.getArgument("teamName", String.class);
                                                                 } catch (IllegalArgumentException e) {
-                                                                    return builder.buildFuture();
+                                                                    String[] args = context.getInput().split(" ");
+                                                                    int removeIndex = -1;
+                                                                    for (int i = 0; i < args.length; i++) {
+                                                                        if (args[i].equalsIgnoreCase("remove")) {
+                                                                            removeIndex = i;
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    if (removeIndex > 0) {
+                                                                        teamArg = args[removeIndex - 1];
+                                                                    } else {
+                                                                        return builder.buildFuture();
+                                                                    }
                                                                 }
 
-                                                                final String finalTeamArg = teamArg;
+                                                                if (teamArg == null || teamArg.isEmpty()) return builder.buildFuture();
+
+                                                                final String finalTeam = teamArg.toUpperCase();
+
                                                                 plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
-                                                                        .filter(mp -> mp.getTeam().name().equalsIgnoreCase(finalTeamArg))
+                                                                        .filter(mp -> {
+                                                                            try {
+                                                                                return mp.getTeam().name().equalsIgnoreCase(finalTeam);
+                                                                            } catch (Exception e) {
+                                                                                return false;
+                                                                            }
+                                                                        })
                                                                         .map(ManhuntPlayer::getLastKnownName)
                                                                         .filter(name -> name.toLowerCase().startsWith(input))
                                                                         .forEach(builder::suggest);
