@@ -87,4 +87,11 @@ public class PhaseManagerImpl implements PhaseManager {
         if (currentState == GameState.SETUP || currentState == GameState.PRE_GAME) return true;
         return false;
     }
+
+    public boolean canRemoveFromTeam(ManhuntTeam team) {
+        if (team == ManhuntTeam.SPECTATOR) return true;
+        GameState currentState = plugin.getBootstrap().getGameManager().getGameState();
+        if (currentState == GameState.SETUP || currentState == GameState.PRE_GAME || currentState == GameState.PAUSE) return true;
+        return false;
+    }
 }

@@ -6,6 +6,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameState;
+import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
@@ -112,6 +113,42 @@ public class ManhuntCommand implements IManhuntCommand {
                                 return Command.SINGLE_SUCCESS;
                             }))
 
+                    // --- SUBCOMMAND: START ---
+                    .then(Commands.literal("end")
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.end"))
+                            .executes(context -> {
+                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                String messageKey = "";
+                                boolean success = false;
+
+                                switch (state) {
+                                    case SETUP -> messageKey = "command-jmanhunt-end-denied-in-setup";
+                                    case PRE_GAME -> messageKey = "command-jmanhunt-end-denied-in-pre-game";
+                                    case RUNNING, PAUSE -> {
+                                        plugin.getBootstrap().getPhaseManager().start();
+                                        success = true;
+                                        messageKey = ""; // command-jmanhunt-end-success
+                                    }
+                                    case ENDED -> messageKey = "command-jmanhunt-end-denied-already-over";
+                                }
+
+                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.WARNING : Sound.ERROR, plugin);
+                                if (success) {
+                                    context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-end-information", null))));
+
+                                    UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
+
+                                    if (context.getSource().getSender() instanceof Player player) uuid = player.getUniqueId();
+
+                                    pendingActions.put(uuid, new PendingAction(ActionType.END, System.currentTimeMillis(), () -> {
+                                        plugin.getBootstrap().getGameManager().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
+                                    }));
+
+                                }
+                                return Command.SINGLE_SUCCESS;
+                            }))
+
                     // --- SUBCOMMAND: RESET ---
                     .then(Commands.literal("reset")
                             .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.reset"))
@@ -197,6 +234,11 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                         try {
                                                             ManhuntTeam newTeam = ManhuntTeam.valueOf(teamArg);
+                                                            if (!plugin.getBootstrap().getPhaseManager().canAddToTeam(newTeam)) {
+                                                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-error-wrong-phase", null)));
+                                                                PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                            }
+
                                                             plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
 
                                                                 if (player == null) {
@@ -278,6 +320,11 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                                 try {
                                                                     ManhuntTeam targetTeam = ManhuntTeam.valueOf(teamName);
+                                                                    if (!plugin.getBootstrap().getPhaseManager().canRemoveFromTeam(targetTeam)) {
+                                                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-remove-error-wrong-phase", null)));
+                                                                        PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    }
+
                                                                     plugin.getBootstrap().getManhuntPlayerManager().getPlayerByName(playerName, player1 -> {
                                                                         ManhuntPlayerImpl player = (ManhuntPlayerImpl) player1;
                                                                         if (player == null) {
