@@ -202,6 +202,46 @@ public class ManhuntCommand implements IManhuntCommand {
                     // --- SUBCOMMAND: TEAM ---
                     .then(Commands.literal("team")
                             .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.teams"))
+                            .executes(context -> {
+                                var sender = context.getSource().getSender();
+                                if (!(sender instanceof Player player)) {
+                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-info-no-team", null)));
+                                    return Command.SINGLE_SUCCESS;
+                                }
+
+                                var manager = plugin.getBootstrap().getManhuntPlayerManager();
+                                var mPlayer = manager.getPlayer(player);
+                                ManhuntTeam team = mPlayer.getTeam();
+
+                                if (team == ManhuntTeam.NONE) {
+                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-info-no-team", null)));
+                                    PlaySoundUtils.playError(sender, plugin);
+                                    return Command.SINGLE_SUCCESS;
+                                }
+
+                                PlaySoundUtils.playPling(sender, plugin);
+
+                                List<ManhuntPlayer> members = manager.getPlayers().stream()
+                                        .filter(p -> p.getTeam() == team)
+                                        .toList();
+
+                                List<String> header = lang.formatList("command-jmanhunt-team-info-header", Map.of(
+                                        "team", team.name().toLowerCase(),
+                                        "member_count", String.valueOf(members.size())
+                                ));
+                                sender.sendMessage(mm.deserialize(String.join("<newline>", header)));
+
+                                for (ManhuntPlayer member : members) {
+                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-info-member", Map.of(
+                                            "player_name", member.getLastKnownName()
+                                    ))));
+                                }
+
+                                List<String> footer = lang.formatList("command-jmanhunt-team-info-footer", null);
+                                sender.sendMessage(mm.deserialize(String.join("<newline>", footer)));
+
+                                return Command.SINGLE_SUCCESS;
+                            })
                             .then(Commands.argument("teamName", StringArgumentType.word())
                                     .suggests((context, builder) -> {
                                         String input = builder.getRemaining().toLowerCase();
@@ -233,9 +273,11 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                         try {
                                                             ManhuntTeam newTeam = ManhuntTeam.valueOf(teamArg);
+
                                                             if (!plugin.getBootstrap().getPhaseManager().canAddToTeam(newTeam)) {
                                                                 context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-error-wrong-phase", null)));
                                                                 PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                return Command.SINGLE_SUCCESS;
                                                             }
 
                                                             plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
@@ -322,6 +364,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                                                     if (!plugin.getBootstrap().getPhaseManager().canRemoveFromTeam(targetTeam)) {
                                                                         context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-remove-error-wrong-phase", null)));
                                                                         PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                        return Command.SINGLE_SUCCESS;
                                                                     }
 
                                                                     plugin.getBootstrap().getManhuntPlayerManager().getPlayerByName(playerName, player1 -> {

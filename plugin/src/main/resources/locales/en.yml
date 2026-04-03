@@ -103,6 +103,20 @@ command-jmanhunt-confirm-no-action: '{prefix} <gray>There is no pending action t
 command-jmanhunt-confirm-expired: '{prefix} <gray>The action you are trying to confirm has <red>expired<gray>!'
 command-jmanhunt-reset-success: '{prefix} <gray>The manhunt reset was started <green>successfully<gray>.'
 
+command-jmanhunt-team-info-header:
+  - "<dark_gray>--- <aqua><b>JManhunt</b> <white>Team <dark_gray>---"
+  - ""
+  - "<gray>Your Team: <aqua>{team}"
+  - "<gray>Team <aqua>{member_count}<gray>:"
+command-jmanhunt-team-info-member:
+  - "<dark_gray> - <aqua>{player_name}"
+
+command-jmanhunt-team-info-footer:
+  - ""
+  - "<dark_gray>---------------------------"
+
+command-jmanhunt-team-info-no-team: '{prefix} <gray>You are currently not in a <red>team<gray>.'
+
 command-jmanhunt-team-add-success: '{prefix} <green>{player_name} <gray>was added to the <green>{team} <gray>team <green>successfully<gray>.'
 command-jmanhunt-team-add-error-already-in-team: "{prefix} <red>Action denied: <red>{player_name} <gray>is already in team <red>{team}<gray>. Remove them first!"
 command-jmanhunt-team-add-error-wrong-phase: "{prefix} <red>Action denied: <gray>You can only modify the spectator team during the game!"
