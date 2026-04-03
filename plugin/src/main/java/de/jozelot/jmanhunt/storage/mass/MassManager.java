@@ -162,9 +162,9 @@ public class MassManager {
                     if (wasAlive) player.revive(); else player.eliminate();
 
                     try {
-                        player.setTeam(ManhuntTeam.valueOf(rs.getString("team")));
+                        player.setTeamIntern(ManhuntTeam.valueOf(rs.getString("team")));
                     } catch (IllegalArgumentException e) {
-                        player.setTeam(ManhuntTeam.NONE);
+                        player.setTeamIntern(ManhuntTeam.NONE);
                     }
                 }
             }
@@ -230,9 +230,9 @@ public class MassManager {
                 if (rs.getBoolean("alive")) player.revive(); else player.eliminate();
 
                 try {
-                    player.setTeam(ManhuntTeam.valueOf(rs.getString("team")));
+                    player.setTeamIntern(ManhuntTeam.valueOf(rs.getString("team")));
                 } catch (IllegalArgumentException e) {
-                    player.setTeam(ManhuntTeam.NONE);
+                    player.setTeamIntern(ManhuntTeam.NONE);
                 }
 
                 teamMembers.add(player);

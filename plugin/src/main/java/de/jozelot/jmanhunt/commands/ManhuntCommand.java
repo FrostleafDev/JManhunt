@@ -216,7 +216,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                                                     return;
                                                                 }
 
-                                                                player.setTeam(newTeam);
+                                                                player.setTeamIntern(newTeam);
                                                                 context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success",
                                                                         Map.of("player_name", player.getLastKnownName(), "team", newTeam.name().toLowerCase()))));
 
@@ -278,7 +278,8 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                                                 try {
                                                                     ManhuntTeam targetTeam = ManhuntTeam.valueOf(teamName);
-                                                                    plugin.getBootstrap().getManhuntPlayerManager().getPlayerByName(playerName, player -> {
+                                                                    plugin.getBootstrap().getManhuntPlayerManager().getPlayerByName(playerName, player1 -> {
+                                                                        ManhuntPlayerImpl player = (ManhuntPlayerImpl) player1;
                                                                         if (player == null) {
                                                                             context.getSource().getSender().sendMessage(mm.deserialize(
                                                                                     lang.format("command-jmanhunt-player-not-found", Map.of("player_name", playerName))
@@ -296,7 +297,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                                                             return;
                                                                         }
 
-                                                                        player.setTeam(ManhuntTeam.NONE);
+                                                                        player.setTeamIntern(ManhuntTeam.NONE);
                                                                         context.getSource().getSender().sendMessage(mm.deserialize(
                                                                                 lang.format("command-jmanhunt-team-remove-success",
                                                                                         Map.of("player_name", player.getLastKnownName(), "team", teamName.toLowerCase()))
@@ -360,9 +361,10 @@ public class ManhuntCommand implements IManhuntCommand {
                                                 var manager = plugin.getBootstrap().getManhuntPlayerManager();
 
                                                 int count = 0;
-                                                for (ManhuntPlayer p : manager.getPlayers()) {
+                                                for (ManhuntPlayer player : manager.getPlayers()) {
+                                                    ManhuntPlayerImpl p = (ManhuntPlayerImpl) player;
                                                     if (p.getTeam() == team) {
-                                                        p.setTeam(ManhuntTeam.NONE);
+                                                        p.setTeamIntern(ManhuntTeam.NONE);
                                                         count++;
                                                     }
                                                 }

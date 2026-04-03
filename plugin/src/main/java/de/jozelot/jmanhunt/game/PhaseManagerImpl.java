@@ -5,6 +5,7 @@ import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.game.PhaseManager;
 import de.jozelot.jmanhunt.api.minecraft.Weather;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import org.bukkit.WeatherType;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
@@ -78,5 +79,12 @@ public class PhaseManagerImpl implements PhaseManager {
     public void end(ManhuntEndReason reason) {
         plugin.getBootstrap().getGameManager().setGameState(GameState.ENDED);
         plugin.getBootstrap().getGameManager().setEndReason(reason);
+    }
+
+    public boolean canAddToTeam(ManhuntTeam team) {
+        if (team == ManhuntTeam.SPECTATOR) return true;
+        GameState currentState = plugin.getBootstrap().getGameManager().getGameState();
+        if (currentState == GameState.SETUP || currentState == GameState.PRE_GAME) return true;
+        return false;
     }
 }
