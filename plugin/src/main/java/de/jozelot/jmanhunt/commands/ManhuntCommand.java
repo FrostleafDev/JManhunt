@@ -132,7 +132,6 @@ public class ManhuntCommand implements IManhuntCommand {
                                     case ENDED -> messageKey = "command-jmanhunt-end-denied-already-over";
                                 }
 
-                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
                                 PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.WARNING : Sound.ERROR, plugin);
                                 if (success) {
                                     context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-end-information", null))));
@@ -145,7 +144,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                         plugin.getBootstrap().getGameManager().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
                                     }));
 
-                                }
+                                } else context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
                                 return Command.SINGLE_SUCCESS;
                             }))
 

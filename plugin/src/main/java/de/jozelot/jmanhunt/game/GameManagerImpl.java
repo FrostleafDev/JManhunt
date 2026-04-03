@@ -11,6 +11,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.logging.Level;
 
 public class GameManagerImpl implements GameManager {
@@ -101,6 +102,18 @@ public class GameManagerImpl implements GameManager {
         this.isWiping = true;
         plugin.getLogger().log(Level.WARNING, "The plugin is being wiped...");
 
+        File serverRoot = plugin.getDataFolder().getParentFile().getParentFile();
+        File resetFlag = new File(serverRoot, "reset_worlds.txt");
+
+        try {
+            if (resetFlag.createNewFile()) {
+                plugin.getLogger().info("Reset flag was created");
+            }
+        } catch (java.io.IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Couldnt create reset flag: ", e);
+        }
+
+        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().clear();
         plugin.getBootstrap().getMassManager().clearAllData();
 
         var kickLines = plugin.getBootstrap().getLangManager().formatList("command-manhunt-reset-kick", null);
@@ -109,8 +122,7 @@ public class GameManagerImpl implements GameManager {
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
-            plugin.getLogger().log(Level.WARNING, "The plugin wipe is finished!");
-        }, 30L);
+        }, 20L);
     }
 
     public boolean isWiping() {
