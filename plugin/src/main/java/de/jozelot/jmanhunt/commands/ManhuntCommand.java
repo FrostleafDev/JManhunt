@@ -2,6 +2,7 @@ package de.jozelot.jmanhunt.commands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameState;
@@ -167,9 +168,14 @@ public class ManhuntCommand implements IManhuntCommand {
                             .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.teams"))
                             .then(Commands.argument("teamName", StringArgumentType.word())
                                     .suggests((context, builder) -> {
-                                        builder.suggest("runner");
-                                        builder.suggest("hunter");
-                                        builder.suggest("spectator");
+                                        String input = builder.getRemaining().toLowerCase();
+
+                                        List<String> teams = List.of("runner", "hunter", "spectator");
+
+                                        teams.stream()
+                                                .filter(team -> team.startsWith(input))
+                                                .forEach(builder::suggest);
+
                                         return builder.buildFuture();
                                     })
 
@@ -224,10 +230,11 @@ public class ManhuntCommand implements IManhuntCommand {
                                             )
                                     )
 
-                                            .then(Commands.literal("remove")
+                                    .then(Commands.literal("remove")
                                                     .then(Commands.argument("player", StringArgumentType.word())
                                                             .suggests((context, builder) -> {
                                                                 String input = builder.getRemaining().toLowerCase();
+
                                                                 String teamArg;
                                                                 try {
                                                                     teamArg = context.getArgument("teamName", String.class).toUpperCase();
