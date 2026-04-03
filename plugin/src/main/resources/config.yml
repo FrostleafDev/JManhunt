@@ -12,6 +12,12 @@
 ## Author: jozelot_                                                             ##
 ##################################################################################
 
+##################################################################################
+##                                                                              ##
+##                                SYSTEM OPTIONS                                ##
+##                                                                              ##
+##################################################################################
+
 # Do not change this number!
 # Its only purpose is for checking if the config is up to date with the plugin
 version: 1
@@ -33,8 +39,8 @@ locale: en
 # You can only change this by restarting the server
 #
 # Available:
-# - 'SQLITE' -> Saves the data in sqlite files in the plugins foldr
-# - 'MYSQL'  -> Saves the data in a mariadb or mysql database
+# - 'SQLITE' -> Saves the data in a local file (No database server required).
+# - 'MYSQL'  -> Saves the data in a MariaDB or MySQL database
 storage: SQLITE
 
 # If you choose mysql above you have to set your database info here
@@ -47,9 +53,21 @@ mysql:
   password: 'PASSWORD'
   database-prefix: 'JM_'
 
+# These are the sounds the plugin uses for certain things.
+# You can configure the keys here.
+#
+# The plugin uses the UI Category to send the sounds to
+sounds:
+  error: "entity.villager.no"
+  success: "entity.player.levelup"
+  pling: "block.note_block.pling"
+  notify: "block.note_block.chime"
+  experience: "entity.experience_orb.pickup"
+  warning: 'block.note_block.bit'
+
 ##################################################################################
 ##                                                                              ##
-##                               MANHUNT OPTIONS                                ##
+##                           Server & Visual Options                            ##
 ##                                                                              ##
 ##################################################################################
 
@@ -67,7 +85,7 @@ can-players-join-during-setup: false
 # - 'NORMAL' -> The player names won't be italic
 spectators-visible: HIDDEN
 
-# Should the team be displayed before the player names?
+# Enable team prefixes in various places. Requires the format below.
 # Example: 'Runner | jozelot_'
 team-prefix:
   tab: true
@@ -85,6 +103,112 @@ team-prefix-format: '{team} | {player_name}'
 # get permissions or op
 custom-chat: true
 custom-chat-format: '{team} | {player_name} <dark_gray>» <gray>{message}'
+
+# Should there be a custom join and leave message?
+custom-join-leave-messages: true
+
+# Should there be a sound when a player joins?
+# This will only be played for the player
+join-sound: true
+
+# Should the game be paused when one of the runners leave?
+auto-pause-on-runner-leave: true
+
+# Should the game be resumed when the missing runners are all back online?
+#
+# For this auto pause has to be true as well
+auto-resume-on-runner-join: true
+
+# Should the whole game be frozen when the game is paused?
+# This includes entity AI, block updates, and weather.
+pause-freeze-game: true
+
+# Should all players be frozen when the game is paused?
+# This prevents movement and blocks all damage/interactions.
+# Note: If 'pause-freeze-game' is true, this is automatically active.
+pause-only-freeze-players: true
+
+# Should the timer be paused when the game is paused?
+pause-freeze-timer: true
+
+# How many seconds should the game stay paused before it's automatically canceled?
+# Set to 0 for an infinite pause.
+pause-timeout: 600
+
+# Here you can enable the custom server motd field.
+# This is only there so you won't need an extra plugin.
+#
+# This has no placeholder support
+motd:
+  enabled: true
+  lines:
+    - "A JManhunt server"
+    - ""
+
+# Here you can set how the max player count in the multiplayer screen looks like.
+# This is only visual
+# Mode options:
+# - 'STATIC' -> Shows a static number
+# - 'DYNAMIC' -> Increases the number by the given number
+max-player-count:
+  enabled: true
+  mode: DYNAMIC # Both together mean that there is always one slot more than the current player count free
+  number: 1
+
+# Here you can enable the custom tablist
+# Placeholders: {player_count}, {lives_left}, {current_team}, {runner_count}, {hunter_count}, {runner_goal}, {runner_goal_progress}, {runner_goal_entity}, {team_deaths}, {player_deaths}
+tablist:
+  enabled: true
+  runner:
+    header:
+      - ""
+      - "<aqua><b>JManhunt<reset>"
+      - ""
+    footer:
+      - ""
+      - "<gray>Lives: <green>{lives_left} <gray>| <green>{current_team}"
+      - "<gray>Goal: <green>{runner_goal}"
+      - ""
+  hunter:
+    header:
+      - ""
+      - "<aqua><b>JManhunt<reset>"
+      - ""
+    footer:
+      - ""
+      - "<gray>Deaths: <green>{player_deaths} <gray>| <green>{current_team}"
+      - "<gray>Goal: <green>{runner_goal}"
+      - ""
+  spectator:
+    header:
+      - ""
+      - "<aqua><b>JManhunt<reset>"
+      - ""
+    footer:
+      - ""
+      - "<gray>Goal: <green>{runner_goal}"
+      - ""
+
+# Timer settings
+# Should the timer (Either time left or elapsed) be visible in the actionbar?
+timer-in-actionbar: true
+
+# Available placeholders: {s} (seconds), {m} (minutes), {h} (hours).
+# The plugin automatically switches between these formats based on the elapsed time.
+#
+# This format is used when the timer is < 1m
+timer-format-s: "<gradient:green:dark_green><b>{s}s"
+
+# This format is used when the timer is < 1h
+timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
+# This format is used when the timer is > 1h
+timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
+
+##################################################################################
+##                                                                              ##
+##                               Manhunt Options                                ##
+##                                                                              ##
+##################################################################################
 
 # What is the goal for the runner/s to achieve?
 #
@@ -107,63 +231,42 @@ runner-goal-kill:
 #
 # ALL_RUNNERS_ELIMINATED: The game continues until the very last runner is out of lives
 # FIRST_RUNNER_ELIMINATED: The game ends immediately when any single runner loses all their lives
+#
+# Eliminated runners will be moved to the SPECTATOR team.
 game-end-condition: ALL_RUNNERS_ELIMINATED
 
 # Determine how lives are managed across the runner team
 #
 # INDIVIDUAL: Each runner has their own separate pool of lives
 # SHARED: All runners share one global pool of lives
+#
+# Eliminated runners will be moved to the SPECTATOR team.
 runner-life-type: INDIVIDUAL
 
 # Set the amount of lives for a runner (or the team if SHARED).
 # 1 = The game or participation ends upon the first death.
 runner-lives: 1
 
+# Should other team members be glowing for a player?
+# Only for hunters and runners
+glowing-team: false
+
 # Should the weather and time be set to the given value when the manhunt starts?
 reset-weather-time-on-start: false
 
-# What should the weather than be?
+# What should the weather then be?
 # - 'CLEAR'
 # - 'RAIN'
 # - 'THUNDER'
 default-weather: CLEAR
 
-# What should the time than be?
+# What should the time then be?
 # - 'DAY'
 # - 'MIDNIGHT'
 # - 'NIGHT'
 # - 'SOON'
-# - or your own value with the ingame '/time set' format: 1000d/s/t
+# - The time in ticks (0 = Dawn, 6000 = Midday, 18000 = Midnight).
 default-time: DAY
-
-# Should the Timer (Either the timer for the goal or the timer which shows how long the manhunt is running)
-# be shown in the actionbar?
-show-timer-in-actionbar: true
-
-# These are the sounds the plugin uses for certain things.
-# You can configure the keys here.
-#
-# The plugin uses the UI Category to send the sounds to
-sounds:
-  error: "entity.villager.no"
-  success: "entity.player.levelup"
-  pling: "block.note_block.pling"
-  notify: "block.note_block.chime"
-  experience: "entity.experience_orb.pickup"
-  warning: 'block.note_block.bit'
-
-# Should there be a custom join and leave message?
-custom-join-leave-messages: true
-
-# Should there be a sound when a player joins?
-# This will only be played for the player
-join-sound: true
-
-# Should other team members be glowing for a player?
-# Only for hunters and runners
-glowing-team: false
-
-# ADD CUSTOM TABLIST, PLAYER COUNT, MOTD
 
 ##################################################################################
 ##                                                                              ##
@@ -175,6 +278,14 @@ glowing-team: false
 # jmanhunt.admin                      -> With this you have full access over the plugin
 # jmanhunt.command.reload             -> You can reload the plugin via '/jmanhunt reload'
 # jmanhunt.command.setup              -> You can set up the plugin via the ui and '/jmanhunt runner/hunter' etc
+# jmanhunt.command.start              -> You can start the manhunt
+# jmanhunt.command.end                -> You can end the manhunt
+# jmanhunt.command.pause              -> You can pause the manhunt
+# jmanhunt.command.open               -> You can open the manhunt
+# jmanhunt.command.close              -> You can close the manhunt
+# jmanhunt.command.reset              -> You can reset the manhunt
+# jmanhunt.command.teams              -> You can manage the player teams
+# jmanhunt.ui                         -> You can open the manhunt ui and change everything from above!
 # jmanhunt.setup.bypass               -> You can join the server in the setup phase if it is enabled
 # jmanhunt.chat.minimessage           -> You can use minimessage tags in chat
 

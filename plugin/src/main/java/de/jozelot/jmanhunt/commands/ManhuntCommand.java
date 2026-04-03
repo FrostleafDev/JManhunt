@@ -174,55 +174,55 @@ public class ManhuntCommand implements IManhuntCommand {
                                     })
 
                                             // --- ADD ---
-                                            .then(Commands.literal("add")
-                                                    .then(Commands.argument("player", StringArgumentType.word())
-                                                            .suggests((context, builder) -> {
-                                                                String input = builder.getRemaining().toLowerCase();
-                                                                plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
-                                                                        .filter(mp -> mp.getTeam() == ManhuntTeam.NONE)
-                                                                        .map(ManhuntPlayer::getLastKnownName)
-                                                                        .filter(name -> name.toLowerCase().startsWith(input))
-                                                                        .forEach(builder::suggest);
-                                                                return builder.buildFuture();
-                                                            })
-                                                            .executes(context -> {
-                                                                String teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
-                                                                String playerName = StringArgumentType.getString(context, "player");
+                                    .then(Commands.literal("add")
+                                            .then(Commands.argument("player", StringArgumentType.word())
+                                                    .suggests((context, builder) -> {
+                                                        String input = builder.getRemaining().toLowerCase();
+                                                        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream()
+                                                                .filter(mp -> mp.getTeam() == ManhuntTeam.NONE)
+                                                                .map(ManhuntPlayer::getLastKnownName)
+                                                                .filter(name -> name.toLowerCase().startsWith(input))
+                                                                .forEach(builder::suggest);
+                                                        return builder.buildFuture();
+                                                    })
+                                                    .executes(context -> {
+                                                        String teamArg = StringArgumentType.getString(context, "teamName").toUpperCase();
+                                                        String playerName = StringArgumentType.getString(context, "player");
 
-                                                                try {
-                                                                    ManhuntTeam newTeam = ManhuntTeam.valueOf(teamArg);
-                                                                    plugin.getBootstrap().getManhuntPlayerManager().getPlayerByName(playerName, player -> {
+                                                        try {
+                                                            ManhuntTeam newTeam = ManhuntTeam.valueOf(teamArg);
+                                                            plugin.getBootstrap().getManhuntPlayerManager().getOrCreatePlayerByName(playerName, player -> {
 
-                                                                        if (player == null) {
-                                                                            context.getSource().getSender().sendMessage(mm.deserialize(
-                                                                                    lang.format("command-jmanhunt-player-not-found", Map.of("player_name", playerName))
-                                                                            ));
-                                                                            PlaySoundUtils.playError(context.getSource().getSender(), plugin);
-                                                                            return;
-                                                                        }
-
-                                                                        if (player.getTeam() != ManhuntTeam.NONE) {
-                                                                            context.getSource().getSender().sendMessage(mm.deserialize(
-                                                                                    lang.format("command-jmanhunt-team-add-error-already-in-team",
-                                                                                            Map.of("player_name", player.getLastKnownName(), "team", player.getTeam().name().toLowerCase()))
-                                                                            ));
-                                                                            PlaySoundUtils.playError(context.getSource().getSender(), plugin);
-                                                                            return;
-                                                                        }
-
-                                                                        player.setTeam(newTeam);
-                                                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success",
-                                                                                Map.of("player_name", player.getLastKnownName(), "team", newTeam.name().toLowerCase()))));
-
-                                                                        PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
-                                                                    });
-                                                                } catch (IllegalArgumentException e) {
+                                                                if (player == null) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                            lang.format("command-jmanhunt-player-not-found", Map.of("player_name", playerName))
+                                                                    ));
                                                                     PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    return;
                                                                 }
-                                                                return Command.SINGLE_SUCCESS;
-                                                            })
-                                                    )
+
+                                                                if (player.getTeam() != ManhuntTeam.NONE) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                                            lang.format("command-jmanhunt-team-add-error-already-in-team",
+                                                                                    Map.of("player_name", player.getLastKnownName(), "team", player.getTeam().name().toLowerCase()))
+                                                                    ));
+                                                                    PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                                    return;
+                                                                }
+
+                                                                player.setTeam(newTeam);
+                                                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-team-add-success",
+                                                                        Map.of("player_name", player.getLastKnownName(), "team", newTeam.name().toLowerCase()))));
+
+                                                                PlaySoundUtils.playSuccess(context.getSource().getSender(), plugin);
+                                                            });
+                                                        } catch (IllegalArgumentException e) {
+                                                            PlaySoundUtils.playError(context.getSource().getSender(), plugin);
+                                                        }
+                                                        return Command.SINGLE_SUCCESS;
+                                                    })
                                             )
+                                    )
 
                                             .then(Commands.literal("remove")
                                                     .then(Commands.argument("player", StringArgumentType.word())

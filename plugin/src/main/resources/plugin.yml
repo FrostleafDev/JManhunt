@@ -6,12 +6,6 @@ authors: [ jozelot_ ]
 description: High Performance Manhunt Engine für Minecraft. For Players and Developers.
 website: https://jozelot.de
 
-commands:
-  jmanhunt:
-    aliases: [manhunt, jm]
-    permission: jmanhunt.command
-    description: Command to manage the Manhunt Plugin
-
 permissions:
   jmanhunt.command:
     default: true
