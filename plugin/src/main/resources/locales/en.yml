@@ -42,16 +42,16 @@ command-jmanhunt-help-admin:
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt team'><click:run_command:'/jmanhunt team'>/jmanhunt team</click></hover> <dark_gray>- <gray>Shows your current team"
   - ""
   - "<yellow>Game Control:"
-  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt start'><click:run_command:'/jmanhunt start'>/jmanhunt start</click></hover> <dark_gray>- <gray>Start the manhunt"
-  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt end'><click:run_command:'/jmanhunt end'>/jmanhunt end</click></hover> <dark_gray>- <gray>End the manhunt"
-  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt pause'><click:run_command:'/jmanhunt pause'>/jmanhunt pause</click></hover> <dark_gray>- <gray>Pause the manhunt"
-  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt resume'><click:run_command:'/jmanhunt resume'>/jmanhunt resume</click></hover> <dark_gray>- <gray>Resume the manhunt"
+  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game start'><click:run_command:'/jmanhunt game start'>/jmanhunt game start</click></hover> <dark_gray>- <gray>Start the manhunt"
+  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game end'><click:run_command:'/jmanhunt game end'>/jmanhunt game end</click></hover> <dark_gray>- <gray>End the manhunt"
+  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game pause'><click:run_command:'/jmanhunt game pause'>/jmanhunt game pause</click></hover> <dark_gray>- <gray>Pause the manhunt"
+  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game resume'><click:run_command:'/jmanhunt game resume'>/jmanhunt game resume</click></hover> <dark_gray>- <gray>Resume the manhunt"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt team'><click:run_command:'/jmanhunt team'>/jmanhunt team</click></hover> <dark_gray>- <gray>Here you can manage the teams"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt list'><click:run_command:'/jmanhunt list'>/jmanhunt list</click></hover> <dark_gray>- <gray>This shows the current team configuration"
   - ""
   - "<yellow>Setup & System:"
-  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt open'><click:run_command:'/jmanhunt open'>/jmanhunt open</click></hover> <dark_gray>- <gray>Open for players"
-  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt close'><click:run_command:'/jmanhunt close'>/jmanhunt close</click></hover> <dark_gray>- <gray>Close the manhunt"
+  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game open'><click:run_command:'/jmanhunt game open'>/jmanhunt game open</click></hover> <dark_gray>- <gray>Open for players"
+  - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game close'><click:run_command:'/jmanhunt game close'>/jmanhunt game close</click></hover> <dark_gray>- <gray>Close the manhunt"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reload'><click:run_command:'/jmanhunt reload'>/jmanhunt reload</click></hover> <dark_gray>- <gray>Reload config"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>/jmanhunt reset</click></hover> <dark_gray>- <gray>Resets and deletes all plugin data"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt confirm'><click:run_command:'/jmanhunt confirm'>/jmanhunt confirm</click></hover> <dark_gray>- <gray>This confirms dangerous commands"
@@ -125,7 +125,8 @@ command-jmanhunt-confirm-expired: '{prefix} <gray>The action you are trying to c
 command-jmanhunt-reset-success: '{prefix} <gray>The manhunt reset was started <green>successfully<gray>.'
 
 command-jmanhunt-team-info-header:
-  - "<dark_gray>--- <aqua><b>JManhunt</b> <white>Team <dark_gray>---"
+  - ""
+  - "<dark_gray>--- <aqua>JManhunt <white>Team <dark_gray>---"
   - ""
   - "<gray>Your Team: <aqua>{team}"
   - "<gray>Team <aqua>{member_count}<gray>:"
@@ -135,6 +136,7 @@ command-jmanhunt-team-info-member:
 command-jmanhunt-team-info-footer:
   - ""
   - "<dark_gray>---------------------------"
+  - ""
 
 command-jmanhunt-team-info-no-team: '{prefix} <gray>You are currently not in a <red>team<gray>.'
 

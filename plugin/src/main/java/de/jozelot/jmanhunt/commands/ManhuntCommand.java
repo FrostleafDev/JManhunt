@@ -305,7 +305,7 @@ public class ManhuntCommand implements IManhuntCommand {
 
                     // --- SUBCOMMAND: TEAM ---
                     .then(Commands.literal("team")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.teams"))
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command"))
                             .executes(context -> {
                                 var sender = context.getSource().getSender();
                                 if (!(sender instanceof Player player)) {
@@ -347,6 +347,7 @@ public class ManhuntCommand implements IManhuntCommand {
                                 return Command.SINGLE_SUCCESS;
                             })
                             .then(Commands.argument("teamName", StringArgumentType.word())
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.teams"))
                                     .suggests((context, builder) -> {
                                         String input = builder.getRemaining().toLowerCase();
 
