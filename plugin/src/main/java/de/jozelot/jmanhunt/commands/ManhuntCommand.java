@@ -241,17 +241,19 @@ public class ManhuntCommand implements IManhuntCommand {
                                             UUID uuid = (sender instanceof Player player) ? player.getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
 
                                             PendingAction action = pendingActions.get(uuid);
-                                            ActionType type = action.type;
+                                            if (action != null) {
+                                                ActionType type = action.type;
 
-                                            if (System.currentTimeMillis() - action.timestamp() > TIMEOUT) {
-                                                pendingActions.remove(uuid);
-                                                return Command.SINGLE_SUCCESS;
-                                            }
+                                                if (System.currentTimeMillis() - action.timestamp() > TIMEOUT) {
+                                                    pendingActions.remove(uuid);
+                                                    return Command.SINGLE_SUCCESS;
+                                                }
 
-                                            if (type == ActionType.END) {
-                                                sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-end-already", null)));
-                                                PlaySoundUtils.playSound(sender, Sound.ERROR, plugin);
-                                                return Command.SINGLE_SUCCESS;
+                                                if (type == ActionType.END) {
+                                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-end-already", null)));
+                                                    PlaySoundUtils.playSound(sender, Sound.ERROR, plugin);
+                                                    return Command.SINGLE_SUCCESS;
+                                                }
                                             }
 
                                             context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-end-information", null))));
@@ -273,17 +275,19 @@ public class ManhuntCommand implements IManhuntCommand {
                                 UUID uuid = (sender instanceof Player player) ? player.getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
 
                                 PendingAction action = pendingActions.get(uuid);
-                                ActionType type = action.type;
+                                if (action != null) {
+                                    ActionType type = action.type;
 
-                                if (System.currentTimeMillis() - action.timestamp() > TIMEOUT) {
-                                    pendingActions.remove(uuid);
-                                    return Command.SINGLE_SUCCESS;
-                                }
+                                    if (System.currentTimeMillis() - action.timestamp() > TIMEOUT) {
+                                        pendingActions.remove(uuid);
+                                        return Command.SINGLE_SUCCESS;
+                                    }
 
-                                if (type == ActionType.RESET) {
-                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-reset-already", null)));
-                                    PlaySoundUtils.playSound(sender, Sound.ERROR, plugin);
-                                    return Command.SINGLE_SUCCESS;
+                                    if (type == ActionType.RESET) {
+                                        sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-reset-already", null)));
+                                        PlaySoundUtils.playSound(sender, Sound.ERROR, plugin);
+                                        return Command.SINGLE_SUCCESS;
+                                    }
                                 }
 
                                 context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-reset-information", null))));
