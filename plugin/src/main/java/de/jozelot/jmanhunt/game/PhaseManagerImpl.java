@@ -12,9 +12,11 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 public class PhaseManagerImpl implements PhaseManager {
 
     private final JManhunt plugin;
+    private final GameManagerImpl gameManager;
 
     public PhaseManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
+        this.gameManager = plugin.getBootstrap().getGameManager();
     }
 
     protected void handleStateChange(GameState state) {
@@ -26,6 +28,9 @@ public class PhaseManagerImpl implements PhaseManager {
 
             }
             case RUNNING -> {
+
+            }
+            case PAUSE -> {
 
             }
             case ENDED -> {
@@ -57,28 +62,39 @@ public class PhaseManagerImpl implements PhaseManager {
 
     @Override
     public void setSetup() {
-
+        gameManager.setGameState(GameState.SETUP);
     }
 
     @Override
     public void open() {
-
+        gameManager.setGameState(GameState.PRE_GAME);
     }
 
     @Override
     public void close() {
-
+        gameManager.setGameState(GameState.SETUP);
     }
 
     @Override
     public void start() {
-
+        gameManager.setGameState(GameState.RUNNING);
     }
 
     @Override
+    public void pause() {
+        gameManager.setGameState(GameState.PAUSE);
+    }
+
+    @Override
+    public void resume() {
+        gameManager.setGameState(GameState.RUNNING);
+    }
+
+
+    @Override
     public void end(ManhuntEndReason reason) {
-        plugin.getBootstrap().getGameManager().setGameState(GameState.ENDED);
-        plugin.getBootstrap().getGameManager().setEndReason(reason);
+        gameManager.setGameState(GameState.ENDED);
+        gameManager.setEndReason(reason);
     }
 
     public boolean canAddToTeam(ManhuntTeam team) {

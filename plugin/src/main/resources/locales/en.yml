@@ -61,11 +61,32 @@ command-jmanhunt-help-admin:
 
 command-jmanhunt-reload-success: "{prefix} <gray>The plugin was <green>successfully <gray>reloaded"
 
+command-jmanhunt-open-denied-in-pre-game: "{prefix} <red>Action denied: <gray>Manhunt is already open. But you can <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt close'><click:run_command:'/jmanhunt close'>close</click></hover> <gray>the manhunt."
+command-jmanhunt-open-denied-already-running: "{prefix} <red>Action denied: <gray>The manhunt is already running."
+command-jmanhunt-open-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
+command-jmanhunt-open-success: "{prefix} <gray>The manhunt was opened <green>successfully<gray>."
+
+command-jmanhunt-close-denied-in-setup: "{prefix} <red>Action denied: <gray>You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt open'><click:run_command:'/jmanhunt open'>open</click></hover> <gray>the manhunt first."
+command-jmanhunt-close-denied-already-running: "{prefix} <red>Action denied: <gray>The manhunt is already running."
+command-jmanhunt-close-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
+command-jmanhunt-close-success: "{prefix} <gray>The manhunt was closed <green>successfully<gray>."
+
 command-jmanhunt-start-denied-in-setup: "{prefix} <red>Action denied: <gray>You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt open'><click:run_command:'/jmanhunt open'>open</click></hover> <gray>the manhunt first."
 command-jmanhunt-start-denied-already-running: "{prefix} <red>Action denied: <gray>The manhunt is already running."
 command-jmanhunt-start-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
 command-jmanhunt-start-denied-paused: "{prefix} <red>Action denied: <gray>The manhunt is currently paused! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt resume'><click:run_command:'/jmanhunt resume'>resume</click></hover> <gray>the manhunt to continue."
 command-jmanhunt-start-success: "{prefix} <gray>The manhunt was started <green>successfully<gray>."
+
+command-jmanhunt-pause-denied-in-setup: "{prefix} <red>Action denied: <gray>The manhunt is not running."
+command-jmanhunt-pause-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
+command-jmanhunt-pause-denied-paused: "{prefix} <red>Action denied: <gray>The manhunt is already paused! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt resume'><click:run_command:'/jmanhunt resume'>resume</click></hover> <gray>the manhunt to continue."
+command-jmanhunt-pause-success: "{prefix} <gray>The manhunt was paused <green>successfully<gray>."
+
+command-jmanhunt-resume-denied-in-setup: "{prefix} <red>Action denied: <gray>The manhunt is not running."
+command-jmanhunt-resume-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
+command-jmanhunt-resume-denied-already-running: "{prefix} <red>Action denied: <gray>The manhunt is already running."
+command-jmanhunt-resume-success: "{prefix} <gray>The manhunt was resumed <green>successfully<gray>."
+
 
 command-jmanhunt-end-denied-in-setup: "{prefix} <red>Action denied: <gray>The manhunt is not running."
 command-jmanhunt-end-denied-in-pre-game: "{prefix} <red>Action denied: <gray>The manhunt is not running."

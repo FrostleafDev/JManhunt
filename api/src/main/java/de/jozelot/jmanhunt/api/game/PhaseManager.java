@@ -56,6 +56,16 @@ public interface PhaseManager {
     void start();
 
     /**
+     * Pauses the manhunt and freeze the game
+     */
+    void pause();
+
+    /**
+     * Bring the manhunt back to the running phase
+     */
+    void resume();
+
+    /**
      * Ends the current manhunt session with a specific reason.
      *
      * @param reason the reason why the game ended
