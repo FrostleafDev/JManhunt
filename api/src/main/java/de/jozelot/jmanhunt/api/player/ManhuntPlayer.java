@@ -38,6 +38,14 @@ public interface ManhuntPlayer {
      * @param team the new team to assign
      */
     @Warning(reason = "Bypasses internal game flow logic and win condition checks.")
+    void forceSetTeam(ManhuntTeam team);
+
+    /**
+     * This changes the team of a player if it would be possible trough commands.
+     * So when the game is running you cant change teams of the players to not break the game.
+     * If you want to force the change use the {@link ManhuntPlayer#forceSetTeam(ManhuntTeam)} method
+     * @param team the new team to assign
+     */
     void setTeam(ManhuntTeam team);
 
     /**

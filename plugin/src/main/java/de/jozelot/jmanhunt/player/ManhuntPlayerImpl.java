@@ -47,6 +47,11 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
     }
 
     @Override
+    public void forceSetTeam(ManhuntTeam team) {
+        setTeamIntern(team);
+    }
+
+    @Override
     public void setTeam(ManhuntTeam team) {
         if (this.team != ManhuntTeam.NONE && team != ManhuntTeam.NONE) { plugin.getLogger().log(Level.WARNING, "Some plugin accessing the api tried to change the team of " + lastKnownName + " without resetting is!"); return;}
         setTeamIntern(team);
