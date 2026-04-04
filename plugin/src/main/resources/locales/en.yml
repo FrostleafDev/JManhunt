@@ -101,6 +101,8 @@ command-jmanhunt-reset-information:
   - "{prefix} <gray>You have <yellow>10 seconds <gray>to confirm."
   - ""
 
+command-jmanhunt-reset-already: "{prefix} <gray>You already have an pending action for resetting the manhunt!"
+
 command-jmanhunt-end-information:
   - ""
   - "{prefix} <red><b>Attention:</b> <gray>This will end the manhunt for all players!"
@@ -108,6 +110,8 @@ command-jmanhunt-end-information:
   - "{prefix} <dark_red>If you are sure: <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt confirm'><click:run_command:'/jmanhunt confirm'>/jmanhunt confirm</click></hover>"
   - "{prefix} <gray>You have <yellow>10 seconds <gray>to confirm."
   - ""
+
+command-jmanhunt-end-already: "{prefix} <gray>You already have an pending action for ending the manhunt!"
 
 command-manhunt-reset-kick:
   - "<dark_gray>--- <aqua><b>JManhunt</b></aqua> <dark_gray>---"

@@ -237,11 +237,24 @@ public class ManhuntCommand implements IManhuntCommand {
 
                                         PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.WARNING : Sound.ERROR, plugin);
                                         if (success) {
+                                            var sender = context.getSource().getSender();
+                                            UUID uuid = (sender instanceof Player player) ? player.getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
+
+                                            PendingAction action = pendingActions.get(uuid);
+                                            ActionType type = action.type;
+
+                                            if (System.currentTimeMillis() - action.timestamp() > TIMEOUT) {
+                                                pendingActions.remove(uuid);
+                                                return Command.SINGLE_SUCCESS;
+                                            }
+
+                                            if (type == ActionType.END) {
+                                                sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-end-already", null)));
+                                                PlaySoundUtils.playSound(sender, Sound.ERROR, plugin);
+                                                return Command.SINGLE_SUCCESS;
+                                            }
+
                                             context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-end-information", null))));
-
-                                            UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
-
-                                            if (context.getSource().getSender() instanceof Player player) uuid = player.getUniqueId();
 
                                             pendingActions.put(uuid, new PendingAction(ActionType.END, System.currentTimeMillis(), () -> {
                                                 plugin.getBootstrap().getGameManager().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
@@ -256,12 +269,26 @@ public class ManhuntCommand implements IManhuntCommand {
                     .then(Commands.literal("reset")
                             .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.reset"))
                             .executes(context -> {
+                                var sender = context.getSource().getSender();
+                                UUID uuid = (sender instanceof Player player) ? player.getUniqueId() : UUID.fromString("00000000-0000-0000-0000-000000000000");
+
+                                PendingAction action = pendingActions.get(uuid);
+                                ActionType type = action.type;
+
+                                if (System.currentTimeMillis() - action.timestamp() > TIMEOUT) {
+                                    pendingActions.remove(uuid);
+                                    return Command.SINGLE_SUCCESS;
+                                }
+
+                                if (type == ActionType.RESET) {
+                                    sender.sendMessage(mm.deserialize(lang.format("command-jmanhunt-reset-already", null)));
+                                    PlaySoundUtils.playSound(sender, Sound.ERROR, plugin);
+                                    return Command.SINGLE_SUCCESS;
+                                }
+
                                 context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-reset-information", null))));
 
                                 PlaySoundUtils.playSound(context.getSource().getSender(), Sound.WARNING, plugin);
-                                UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
-
-                                if (context.getSource().getSender() instanceof Player player) uuid = player.getUniqueId();
 
                                 pendingActions.put(uuid, new PendingAction(ActionType.RESET, System.currentTimeMillis(), () -> {
                                     plugin.getBootstrap().getGameManager().wipeSystem();
