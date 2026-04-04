@@ -87,167 +87,170 @@ public class ManhuntCommand implements IManhuntCommand {
                                 return Command.SINGLE_SUCCESS;
                             }))
 
-                    // --- SUBCOMMAND: OPEN ---
-                    .then(Commands.literal("open")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.open"))
-                            .executes(context -> {
-                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
-                                String messageKey = "";
-                                boolean success = false;
+                    .then(Commands.literal("game")
 
-                                switch (state) {
-                                    case SETUP -> {
-                                        messageKey = "command-jmanhunt-open-success";
-                                        plugin.getBootstrap().getPhaseManager().open();
-                                        success = true;
-                                    }
-                                    case PRE_GAME -> messageKey = "command-jmanhunt-open-denied-in-pre-game";
-                                    case RUNNING, PAUSE -> messageKey = "command-jmanhunt-open-denied-already-running";
-                                    case ENDED -> messageKey = "command-jmanhunt-open-denied-already-over";
-                                }
+                            // --- SUBCOMMAND: OPEN ---
+                            .then(Commands.literal("open")
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.open"))
+                                    .executes(context -> {
+                                        GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                        String messageKey = "";
+                                        boolean success = false;
 
-                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
-                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
+                                        switch (state) {
+                                            case SETUP -> {
+                                                messageKey = "command-jmanhunt-open-success";
+                                                plugin.getBootstrap().getPhaseManager().open();
+                                                success = true;
+                                            }
+                                            case PRE_GAME -> messageKey = "command-jmanhunt-open-denied-in-pre-game";
+                                            case RUNNING, PAUSE -> messageKey = "command-jmanhunt-open-denied-already-running";
+                                            case ENDED -> messageKey = "command-jmanhunt-open-denied-already-over";
+                                        }
 
-                                return Command.SINGLE_SUCCESS;
-                            }))
+                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
 
-                    // --- SUBCOMMAND: CLOSE ---
-                    .then(Commands.literal("close")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.close"))
-                            .executes(context -> {
-                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
-                                String messageKey = "";
-                                boolean success = false;
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
 
-                                switch (state) {
-                                    case SETUP -> messageKey = "command-jmanhunt-close-denied-in-setup";
-                                    case PRE_GAME -> {
-                                        messageKey = "command-jmanhunt-open-success";
-                                        plugin.getBootstrap().getPhaseManager().close();
-                                        success = true;
-                                    }
-                                    case RUNNING, PAUSE -> messageKey = "command-jmanhunt-close-denied-already-running";
-                                    case ENDED -> messageKey = "command-jmanhunt-close-denied-already-over";
-                                }
+                            // --- SUBCOMMAND: CLOSE ---
+                            .then(Commands.literal("close")
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.close"))
+                                    .executes(context -> {
+                                        GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                        String messageKey = "";
+                                        boolean success = false;
 
-                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
-                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
+                                        switch (state) {
+                                            case SETUP -> messageKey = "command-jmanhunt-close-denied-in-setup";
+                                            case PRE_GAME -> {
+                                                messageKey = "command-jmanhunt-close-success";
+                                                plugin.getBootstrap().getPhaseManager().close();
+                                                success = true;
+                                            }
+                                            case RUNNING, PAUSE -> messageKey = "command-jmanhunt-close-denied-already-running";
+                                            case ENDED -> messageKey = "command-jmanhunt-close-denied-already-over";
+                                        }
 
-                                return Command.SINGLE_SUCCESS;
-                            }))
+                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
+
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
 
 
-                    // --- SUBCOMMAND: START ---
-                    .then(Commands.literal("start")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.start"))
-                            .executes(context -> {
-                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
-                                String messageKey = "";
-                                boolean success = false;
+                            // --- SUBCOMMAND: START ---
+                            .then(Commands.literal("start")
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.start"))
+                                    .executes(context -> {
+                                        GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                        String messageKey = "";
+                                        boolean success = false;
 
-                                switch (state) {
-                                    case SETUP -> messageKey = "command-jmanhunt-start-denied-in-setup";
-                                    case PRE_GAME -> {
-                                        messageKey = "command-jmanhunt-start-success";
-                                        plugin.getBootstrap().getPhaseManager().start();
-                                        success = true;
-                                    }
-                                    case RUNNING -> messageKey = "command-jmanhunt-start-denied-already-running";
-                                    case PAUSE -> messageKey = "command-jmanhunt-start-denied-paused";
-                                    case ENDED -> messageKey = "command-jmanhunt-start-denied-already-over";
-                                }
+                                        switch (state) {
+                                            case SETUP -> messageKey = "command-jmanhunt-start-denied-in-setup";
+                                            case PRE_GAME -> {
+                                                messageKey = "command-jmanhunt-start-success";
+                                                plugin.getBootstrap().getPhaseManager().start();
+                                                success = true;
+                                            }
+                                            case RUNNING -> messageKey = "command-jmanhunt-start-denied-already-running";
+                                            case PAUSE -> messageKey = "command-jmanhunt-start-denied-paused";
+                                            case ENDED -> messageKey = "command-jmanhunt-start-denied-already-over";
+                                        }
 
-                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
-                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
+                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
 
-                                return Command.SINGLE_SUCCESS;
-                            }))
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
 
-                    // --- SUBCOMMAND: PAUSE ---
-                    .then(Commands.literal("pause")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.pause"))
-                            .executes(context -> {
-                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
-                                String messageKey = "";
-                                boolean success = false;
+                            // --- SUBCOMMAND: PAUSE ---
+                            .then(Commands.literal("pause")
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.pause"))
+                                    .executes(context -> {
+                                        GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                        String messageKey = "";
+                                        boolean success = false;
 
-                                switch (state) {
-                                    case SETUP, PRE_GAME -> messageKey = "command-jmanhunt-pause-denied-in-setup";
-                                    case RUNNING -> {
-                                        messageKey = "command-jmanhunt-pause-success";
-                                        plugin.getBootstrap().getPhaseManager().pause();
-                                        success = true;
-                                    }
-                                    case PAUSE -> messageKey = "command-jmanhunt-pause-denied-paused";
-                                    case ENDED -> messageKey = "command-jmanhunt-pause-denied-already-over";
-                                }
+                                        switch (state) {
+                                            case SETUP, PRE_GAME -> messageKey = "command-jmanhunt-pause-denied-in-setup";
+                                            case RUNNING -> {
+                                                messageKey = "command-jmanhunt-pause-success";
+                                                plugin.getBootstrap().getPhaseManager().pause();
+                                                success = true;
+                                            }
+                                            case PAUSE -> messageKey = "command-jmanhunt-pause-denied-paused";
+                                            case ENDED -> messageKey = "command-jmanhunt-pause-denied-already-over";
+                                        }
 
-                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
-                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
+                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
 
-                                return Command.SINGLE_SUCCESS;
-                            }))
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
 
-                    // --- SUBCOMMAND: RESUME ---
-                    .then(Commands.literal("resume")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.resume"))
-                            .executes(context -> {
-                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
-                                String messageKey = "";
-                                boolean success = false;
+                            // --- SUBCOMMAND: RESUME ---
+                            .then(Commands.literal("resume")
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.resume"))
+                                    .executes(context -> {
+                                        GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                        String messageKey = "";
+                                        boolean success = false;
 
-                                switch (state) {
-                                    case SETUP, PRE_GAME -> messageKey = "command-jmanhunt-resume-denied-in-setup";
-                                    case RUNNING -> messageKey = "command-jmanhunt-resume-denied-already-running";
-                                    case PAUSE -> {
-                                        messageKey = "command-jmanhunt-resume-success";
-                                        plugin.getBootstrap().getPhaseManager().resume();
-                                        success = true;
-                                    }
-                                    case ENDED -> messageKey = "command-jmanhunt-resume-denied-already-over";
-                                }
+                                        switch (state) {
+                                            case SETUP, PRE_GAME -> messageKey = "command-jmanhunt-resume-denied-in-setup";
+                                            case RUNNING -> messageKey = "command-jmanhunt-resume-denied-already-running";
+                                            case PAUSE -> {
+                                                messageKey = "command-jmanhunt-resume-success";
+                                                plugin.getBootstrap().getPhaseManager().resume();
+                                                success = true;
+                                            }
+                                            case ENDED -> messageKey = "command-jmanhunt-resume-denied-already-over";
+                                        }
 
-                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
-                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
+                                        context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.SUCCESS : Sound.ERROR, plugin);
 
-                                return Command.SINGLE_SUCCESS;
-                            }))
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
 
-                    // --- SUBCOMMAND: START ---
-                    .then(Commands.literal("end")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.end"))
-                            .executes(context -> {
-                                GameState state = plugin.getBootstrap().getGameManager().getGameState();
-                                String messageKey = "";
-                                boolean success = false;
+                            // --- SUBCOMMAND: START ---
+                            .then(Commands.literal("end")
+                                    .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.end"))
+                                    .executes(context -> {
+                                        GameState state = plugin.getBootstrap().getGameManager().getGameState();
+                                        String messageKey = "";
+                                        boolean success = false;
 
-                                switch (state) {
-                                    case SETUP -> messageKey = "command-jmanhunt-end-denied-in-setup";
-                                    case PRE_GAME -> messageKey = "command-jmanhunt-end-denied-in-pre-game";
-                                    case RUNNING, PAUSE -> {
-                                        plugin.getBootstrap().getPhaseManager().start();
-                                        success = true;
-                                        messageKey = ""; // command-jmanhunt-end-success
-                                    }
-                                    case ENDED -> messageKey = "command-jmanhunt-end-denied-already-over";
-                                }
+                                        switch (state) {
+                                            case SETUP -> messageKey = "command-jmanhunt-end-denied-in-setup";
+                                            case PRE_GAME -> messageKey = "command-jmanhunt-end-denied-in-pre-game";
+                                            case RUNNING, PAUSE -> {
+                                                plugin.getBootstrap().getPhaseManager().start();
+                                                success = true;
+                                                messageKey = ""; // command-jmanhunt-end-success
+                                            }
+                                            case ENDED -> messageKey = "command-jmanhunt-end-denied-already-over";
+                                        }
 
-                                PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.WARNING : Sound.ERROR, plugin);
-                                if (success) {
-                                    context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-end-information", null))));
+                                        PlaySoundUtils.playSound(context.getSource().getSender(), success ? Sound.WARNING : Sound.ERROR, plugin);
+                                        if (success) {
+                                            context.getSource().getSender().sendMessage(mm.deserialize(String.join("<newline>", lang.formatList("command-jmanhunt-end-information", null))));
 
-                                    UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
+                                            UUID uuid = UUID.fromString("00000000-0000-0000-0000-000000000000");
 
-                                    if (context.getSource().getSender() instanceof Player player) uuid = player.getUniqueId();
+                                            if (context.getSource().getSender() instanceof Player player) uuid = player.getUniqueId();
 
-                                    pendingActions.put(uuid, new PendingAction(ActionType.END, System.currentTimeMillis(), () -> {
-                                        plugin.getBootstrap().getGameManager().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
-                                    }));
+                                            pendingActions.put(uuid, new PendingAction(ActionType.END, System.currentTimeMillis(), () -> {
+                                                plugin.getBootstrap().getGameManager().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
+                                            }));
 
-                                } else context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
-                                return Command.SINGLE_SUCCESS;
-                            }))
+                                        } else context.getSource().getSender().sendMessage(mm.deserialize(lang.format(messageKey, Map.of())));
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
+                    )
 
                     // --- SUBCOMMAND: RESET ---
                     .then(Commands.literal("reset")
