@@ -3,7 +3,7 @@ prefix: '<dark_gray>[<aqua>JManhunt<dark_gray>]<reset>'
 phase-setup-player-kick:
   - "<dark_gray>--- <aqua><b>JManhunt</b></aqua> <dark_gray>---"
   - ""
-  - "<red>The manhunt is currently in setup mode!."
+  - "<red>The manhunt is currently in setup mode!"
   - "<gray>You will be able to join when the manhunt is open."
   - ""
   - "<dark_gray>---------------------------"
