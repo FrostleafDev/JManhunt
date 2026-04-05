@@ -14,6 +14,19 @@ admin-update-info:
   - "{prefix} <gray>Download via <click:open_url:'https://github.com/FrostleafDev/JManhunt/releases/latest'><hover:show_text:'<gray>Click to visit GitHub'><green>GitHub Releases</green></hover></click>"
   - ""
 
+admin-setup-join-info:
+  - ""
+  - "<dark_gray>------------------ <aqua>JManhunt <white>Setup <dark_gray>------------------"
+  - ""
+  - "<gray>The manhunt is currently in the <green>setup <gray>phase!<gray>."
+  - "<gray>You can view all commands with <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt help'><click:run_command:'/jmanhunt help'>/jmanhunt help</click></hover><gray>."
+  - ""
+  - "<gray>When you are finished with setting everything up just"
+  - "<gray>run <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game open'><click:run_command:'/jmanhunt game open'>/jmanhunt game open</click></hover><gray>."
+  - ""
+  - "<dark_gray>-------------------------------------------"
+  - ""
+  -
 join-message: '<dark_gray>[<green>+<dark_gray>] <gray>{player_name}'
 leave-message: '<dark_gray>[<red>-<dark_gray>] <gray>{player_name}'
 

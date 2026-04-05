@@ -4,6 +4,7 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.AdminJoinEvent;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
+import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +23,10 @@ public class AdminJoinListener implements Listener {
 
     @EventHandler
     public void onAdminJoin(AdminJoinEvent event) {
+        if (plugin.getBootstrap().getPhaseManager().isSetup()) {
+            event.getPlayer().sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-setup-join-info", null))));
+            PlaySoundUtils.playPling(event.getPlayer(), plugin);
+        }
         if (!plugin.getBootstrap().getUpdateManager().isUpdateAvailable()) {
             return;
         }

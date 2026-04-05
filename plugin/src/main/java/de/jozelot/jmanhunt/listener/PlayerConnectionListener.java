@@ -80,6 +80,8 @@ public class PlayerConnectionListener implements Listener {
         if (plugin.getBootstrap().getConfigManager().playJoinSound()) {
             manhuntPlayer.playSound(Sound.SUCCESS);
         }
+
+
     }
 
     @EventHandler
