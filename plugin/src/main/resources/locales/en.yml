@@ -18,7 +18,7 @@ admin-setup-join-info:
   - ""
   - "<dark_gray>------------------ <aqua>JManhunt <white>Setup <dark_gray>------------------"
   - ""
-  - "<gray>The manhunt is currently in the <green>setup <gray>phase!<gray>."
+  - "<gray>The manhunt is currently in the <green>setup <gray>phase."
   - "<gray>You can view all commands with <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt help'><click:run_command:'/jmanhunt help'>/jmanhunt help</click></hover><gray>."
   - ""
   - "<gray>When you are finished with setting everything up just"
@@ -109,7 +109,7 @@ command-jmanhunt-end-success: "{prefix} <gray>The manhunt was ended <green>succe
 command-jmanhunt-reset-information:
   - ""
   - "{prefix} <red><b>Attention:</b> <gray>A reset will completely wipe your manhunt data!"
-  - "{prefix} <gray>This means: <white>All teams and stats. <gray>Use this therefore to start a new manhunt."
+  - "{prefix} <gray>This means: <white>All teams, stats and the worlds. <gray>Use this therefore to start a new manhunt."
   - "{prefix} <dark_red>If you are sure: <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt confirm'><click:run_command:'/jmanhunt confirm'>/jmanhunt confirm</click></hover>"
   - "{prefix} <gray>You have <yellow>10 seconds <gray>to confirm."
   - ""

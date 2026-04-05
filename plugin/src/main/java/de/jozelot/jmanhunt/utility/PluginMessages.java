@@ -5,6 +5,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
+import java.util.logging.Level;
+
 public class PluginMessages {
 
     private static final MiniMessage mm = MiniMessage.miniMessage();
@@ -35,5 +37,17 @@ public class PluginMessages {
             return;
         }
         sender.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("command-jmanhunt-help-admin", null))));
+    }
+
+    public static void sendWipeError(JManhunt plugin) {
+        plugin.getLogger().log(Level.SEVERE, "");
+        plugin.getLogger().log(Level.SEVERE, "------------------------------");
+        plugin.getLogger().log(Level.SEVERE, " --- DO NOT REPORT THIS TO JMANHUNT - THIS IS NOT A BUG OR A CRASH ---");
+        plugin.getLogger().log(Level.SEVERE, "");
+        plugin.getLogger().log(Level.SEVERE, "You can savely ignore the following error!");
+        plugin.getLogger().log(Level.SEVERE, "");
+        plugin.getLogger().log(Level.SEVERE, " --- DO NOT REPORT THIS TO JMANHUNT - THIS IS NOT A BUG OR A CRASH ---");
+        plugin.getLogger().log(Level.SEVERE, "------------------------------");
+        plugin.getLogger().log(Level.SEVERE, "");
     }
 }

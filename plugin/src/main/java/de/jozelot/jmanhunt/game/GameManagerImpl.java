@@ -7,6 +7,7 @@ import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.game.PhaseManager;
 import de.jozelot.jmanhunt.api.game.timer.ManhuntTimer;
+import de.jozelot.jmanhunt.utility.PluginMessages;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
@@ -114,15 +115,16 @@ public class GameManagerImpl implements GameManager {
         }
 
         plugin.getBootstrap().getManhuntPlayerManager().getPlayers().clear();
-        plugin.getBootstrap().getMassManager().clearAllData();
 
         var kickLines = plugin.getBootstrap().getLangManager().formatList("command-manhunt-reset-kick", null);
         var kickMessage = mm.deserialize(String.join("<newline>", kickLines));
         Bukkit.getOnlinePlayers().forEach(p -> p.kick(kickMessage));
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
-        }, 20L);
+        plugin.getBootstrap().getMassManager().clearAllData();
+
+        PluginMessages.sendWipeError(plugin);
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart");
     }
 
     public boolean isWiping() {
