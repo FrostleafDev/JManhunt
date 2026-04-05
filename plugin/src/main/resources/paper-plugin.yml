@@ -4,7 +4,7 @@ main: de.jozelot.jmanhunt.JManhunt
 bootstrapper: de.jozelot.jmanhunt.core.JManhuntBootstrapImpl
 api-version: '1.21'
 authors: [ jozelot_ ]
-description: High Performance Manhunt Engine für Minecraft. For Players and Developers.
+description: High Performance Manhunt Engine for Minecraft. For Players and Developers.
 website: https://jozelot.de
 
 permissions:
