@@ -19,6 +19,13 @@ High Performance Manhunt Engine für Minecraft. For Players and Developers.
 - JManhunt API documentation [here](https://docs.jozelot.de/manhunt-api)
 - JManhunt API versions [here](https://repo.jozelot.de/#browse/browse:maven-public:de%2Fjozelot%2Fjmanhunt-api)
 
+You can easily create addons for the plugin.
+I will provide some addons from my own to show how the api works.
+When you publish an addon please send it to my discord so I can review it and advertise it here on the Github and the docs.
+
+**Addons I will create**
+- Simple Voice Chat Integration
+
 **Gradle**
 
 ```gradle
