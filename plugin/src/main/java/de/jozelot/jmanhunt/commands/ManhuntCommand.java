@@ -59,7 +59,7 @@ public class ManhuntCommand implements IManhuntCommand {
                     .executes(context -> {
                         PlaySoundUtils.playPling(context.getSource().getSender(), plugin);
 
-                        if (!context.getSource().getSender().hasPermission("jmanhunt.ui")) {
+                        if (!context.getSource().getSender().hasPermission("jmanhunt.ui") && !(context.getSource().getSender() instanceof Player)) {
                             PluginMessages.sendHelpMessage(context.getSource().getSender(), plugin);
                             return Command.SINGLE_SUCCESS;
                         }
