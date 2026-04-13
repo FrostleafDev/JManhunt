@@ -70,3 +70,7 @@ dependencies {
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
+
+## Contribution
+
+The plugin is open source. You can create forks and develop it on your own as long as you don't try to publish it.
