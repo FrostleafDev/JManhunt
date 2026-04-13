@@ -15,10 +15,10 @@ High Performance Manhunt Engine für Minecraft. For Players and Developers.
 - Full plugin- and world-reset for starting a new manhunt
 
 ## How to (Developing Addons)
+* [JManhunt documentation](https://docs.jozelot.de/jmanhunt)
 * [See our API](https://github.com/FrostleafDev/JManhunt/tree/master/api)
-* [Frostleaf's API javadocs](https://jozelot.de/javadocs)
+* [Frostleaf's javadocs](https://jozelot.de/javadocs)
 * [JManhunt API javadocs](https://jd.jozelot.de/jmanhunt-api/)
-* [JManhunt API documentation](https://docs.jozelot.de/jmanhunt)
 * [JManhunt API versions](https://repo.jozelot.de/#browse/browse:maven-public:de%2Fjozelot%2Fjmanhunt-api)
 
 You can easily create addons for the plugin.
