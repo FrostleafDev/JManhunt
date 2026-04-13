@@ -1,4 +1,4 @@
-# JManhunt [![Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.jozelot.de%2Frepository%2Fmaven-public%2Fde%2Fjozelot%2Fjmanhunt-api%2Fmaven-metadata.xml&label=version&color=aqua)](https://modrinth.com/plugin/jmanhunt) ![Java](https://img.shields.io/badge/Java-21-orange) ![Platform](https://img.shields.io/badge/Platform-Paper-blue) [![Discord](https://img.shields.io/discord/844095367704477756.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://jozelot.de/discord)
+# JManhunt [![Version](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.jozelot.de%2Frepository%2Fmaven-public%2Fde%2Fjozelot%2Fjmanhunt-api%2Fmaven-metadata.xml&label=version&color=red)](https://modrinth.com/plugin/jmanhunt) ![Java](https://img.shields.io/badge/Java-21-orange) ![Platform](https://img.shields.io/badge/Platform-Paper-blue) [![Discord](https://img.shields.io/discord/844095367704477756.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://jozelot.de/discord)
 
 High Performance Manhunt Engine für Minecraft. For Players and Developers.
 
