@@ -1,4 +1,4 @@
-# JManhunt ![Version](https://img.shields.io/badge/Version-1.0.0--SNAPSHOT-aqua) ![Java](https://img.shields.io/badge/Java-21-orange) ![Platform](https://img.shields.io/badge/Platform-Paper-blue) [![Discord](https://img.shields.io/discord/YOUR_ID?color=7289da&label=Discord)](https://jozelot.de/discord)
+# JManhunt ![Version](https://img.shields.io/badge/Version-1.0.0--SNAPSHOT-aqua) ![Java](https://img.shields.io/badge/Java-21-orange) ![Platform](https://img.shields.io/badge/Platform-Paper-blue) [![Discord](https://img.shields.io/discord/844095367704477756?color=7289da&label=Discord)](https://jozelot.de/discord)
 
 
 High Performance Manhunt Engine für Minecraft. For Players and Developers.
