@@ -2,6 +2,8 @@
 
 High Performance Manhunt Engine für Minecraft. For Players and Developers.
 
+**For full documentation for users and developers: [JManhunt documentation](https://docs.jozelot.de/jmanhunt)**
+
 **Support and Project Discussion:**
 - [Discord](https://jozelot.de/discord)
 
