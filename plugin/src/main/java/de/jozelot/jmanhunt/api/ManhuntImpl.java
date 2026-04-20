@@ -4,6 +4,8 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameManager;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayerManager;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.UUID;
 

@@ -88,6 +88,10 @@ command-jmanhunt-start-denied-in-setup: "{prefix} <red>Action denied: <gray>You 
 command-jmanhunt-start-denied-already-running: "{prefix} <red>Action denied: <gray>The manhunt is already running."
 command-jmanhunt-start-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
 command-jmanhunt-start-denied-paused: "{prefix} <red>Action denied: <gray>The manhunt is currently paused! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt resume'><click:run_command:'/jmanhunt resume'>resume</click></hover> <gray>the manhunt to continue."
+command-jmanhunt-start-denied-no-runners: "{prefix} <red>Action denied: <gray>There are no runners for this manhunt!"
+command-jmanhunt-start-denied-no-runner-online: "{prefix} <red>Action denied: <gray>One of the runners have to be online!"
+command-jmanhunt-start-denied-no-hunters: "{prefix} <red>Action denied: <gray>There are no hunters for this manhunt!"
+command-jmanhunt-start-denied-no-hunter-online: "{prefix} <red>Action denied: <gray>One of the hunters have to be online!"
 command-jmanhunt-start-success: "{prefix} <gray>The manhunt was started <green>successfully<gray>."
 
 command-jmanhunt-pause-denied-in-setup: "{prefix} <red>Action denied: <gray>The manhunt is not running."
