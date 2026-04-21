@@ -1,0 +1,6 @@
+Compass logik
+Start Check
+Hunter/Runner quit/join handling
+End Logik
+Ziele
+Aussehen
