@@ -12,11 +12,14 @@ public class TrackingCompass extends ManhuntItem {
 
     public TrackingCompass(JManhunt plugin) {
         this.plugin = plugin;
+        ManhuntItem.registerItem(this);
     }
 
     @Override
     public ItemStack getItemStack() {
         ItemStack item = new ItemStack(Material.getMaterial(plugin.getBootstrap().getConfigManager().getCompass().getItem()));
+
+        applyItemId(item);
         return null;
     }
 
@@ -28,5 +31,15 @@ public class TrackingCompass extends ManhuntItem {
     @Override
     public void handleInteract(PlayerInteractEvent event) {
 
+    }
+
+    @Override
+    public boolean canBeDropped() {
+        return false;
+    }
+
+    @Override
+    public boolean dropOnDeath() {
+        return false;
     }
 }

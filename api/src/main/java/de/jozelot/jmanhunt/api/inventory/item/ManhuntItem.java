@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public abstract class ManhuntItem {
 
-    private static final NamespacedKey ITEM_ID = new NamespacedKey("jmanhunt", "item_id");
+    public static final NamespacedKey ITEM_ID = new NamespacedKey("jmanhunt", "item_id");
 
     private static final Map<String, ManhuntItem> REGISTRY = new HashMap<>();
 
