@@ -10,6 +10,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -25,6 +26,8 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
     private int kills;
     private int deaths;
     private boolean online = false;
+
+    private ManhuntPlayer tracking = null;
 
     public ManhuntPlayerImpl(UUID uuid, String lastKnownName, JManhunt plugin) {
         this.uuid = uuid;
@@ -200,5 +203,10 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
     @Override
     public boolean isOnline() {
        return online;
+    }
+
+    @Override
+    public Optional<ManhuntPlayer> getTracking() {
+        return Optional.ofNullable(tracking);
     }
 }

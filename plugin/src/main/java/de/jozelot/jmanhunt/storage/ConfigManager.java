@@ -1,6 +1,7 @@
 package de.jozelot.jmanhunt.storage;
 
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.inventory.item.CompassUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,14 @@ public class ConfigManager {
         trackingCompass.lore = plugin.getConfig().getStringList("tracking-compass.lore");
         trackingCompass.item = plugin.getConfig().getString("tracking-compass.item", "COMPASS");
 
+        String configValue = plugin.getConfig().getString("tracking-compass.update-interval", "CLICK");
+        try {
+            trackingCompass.updateInterval = CompassUpdate.valueOf(configValue.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            trackingCompass.updateInterval = CompassUpdate.CLICK;
+            plugin.getLogger().log(Level.WARNING, "Invalid update-interval '" + configValue + "' in config.yml! Defaulting to CLICK.");
+        }
+
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
         playerJoinSound = plugin.getConfig().getBoolean("join-sound", true);
     }
@@ -126,6 +135,7 @@ public class ConfigManager {
         private String name;
         private List<String> lore;
         private String item;
+        private CompassUpdate updateInterval;
 
         public boolean isEnabled() {
             return enabled;
@@ -141,6 +151,10 @@ public class ConfigManager {
 
         public String getItem() {
             return item;
+        }
+
+        public CompassUpdate getUpdateInterval() {
+            return updateInterval;
         }
     }
 
