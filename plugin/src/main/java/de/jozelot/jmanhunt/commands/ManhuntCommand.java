@@ -154,12 +154,12 @@ public class ManhuntCommand implements IManhuntCommand {
                                         switch (state) {
                                             case SETUP -> messageKey = "command-jmanhunt-start-denied-in-setup";
                                             case PRE_GAME -> {
-                                                if (!playerManager.getRunners().isEmpty()) {
+                                                if (playerManager.getRunners().isEmpty()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-runners";
                                                     success = false;
                                                     break;
                                                 }
-                                                if (!playerManager.getHunters().isEmpty()) {
+                                                if (playerManager.getHunters().isEmpty()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-hunters";
                                                     success = false;
                                                     break;
@@ -226,12 +226,12 @@ public class ManhuntCommand implements IManhuntCommand {
                                             case SETUP, PRE_GAME -> messageKey = "command-jmanhunt-resume-denied-in-setup";
                                             case RUNNING -> messageKey = "command-jmanhunt-resume-denied-already-running";
                                             case PAUSE -> {
-                                                if (!playerManager.getRunners().isEmpty()) {
+                                                if (playerManager.getRunners().isEmpty()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-runners";
                                                     success = false;
                                                     break;
                                                 }
-                                                if (!playerManager.getHunters().isEmpty()) {
+                                                if (playerManager.getHunters().isEmpty()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-hunters";
                                                     success = false;
                                                     break;
