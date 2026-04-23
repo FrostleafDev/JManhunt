@@ -204,6 +204,8 @@ timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
 # This format is used when the timer is > 1h
 timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
 
+# The tracking compass that hunters get.
+# You can change its behavior and disable it.
 tracking-compass:
   enabled: true
   name: ""
@@ -211,6 +213,15 @@ tracking-compass:
     - ""
     - ""
   item: COMPASS
+  # Here you can choose if the compass should update in a given interval or
+  # when the hunter updates it via a click.
+  # Note: If you choose anything but CLICK the click functionality will be disabled
+  # Options:
+  # - CLICK -> When the hunter clicks
+  # - TICK -> Every tick
+  # - SECOND -> Every Second (20 Ticks)
+  # - MINUTE -> Every minute
+  update-interval:
 
 ##################################################################################
 ##                                                                              ##
