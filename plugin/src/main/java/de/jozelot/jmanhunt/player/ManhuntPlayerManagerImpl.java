@@ -250,22 +250,27 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
         return null;
     }
 
+    @Override
     public boolean isRunnerOnline() {
         return isTeamOnline(ManhuntTeam.RUNNER);
     }
 
+    @Override
     public boolean isHunterOnline() {
         return isTeamOnline(ManhuntTeam.HUNTER);
     }
 
+    @Override
     public boolean isSpectatorOnline() {
         return isTeamOnline(ManhuntTeam.SPECTATOR);
     }
 
+    @Override
     public boolean isPlayerWithoutTeamOnline() {
         return isTeamOnline(ManhuntTeam.NONE);
     }
 
+    @Override
     public boolean isTeamOnline(ManhuntTeam team) {
         return !getPlayers().stream().filter(p -> p.getTeam() == team).toList().isEmpty();
     }
