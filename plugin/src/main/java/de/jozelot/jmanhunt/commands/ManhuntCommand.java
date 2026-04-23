@@ -12,6 +12,7 @@ import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.commands.manager.IManhuntCommand;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
+import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.storage.LangManager;
 import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import de.jozelot.jmanhunt.utility.PluginMessages;
@@ -30,10 +31,12 @@ public class ManhuntCommand implements IManhuntCommand {
     private final JManhunt plugin;
     private final MiniMessage mm = MiniMessage.miniMessage();
     private final LangManager lang;
+    private final ManhuntPlayerManagerImpl playerManager;
 
     public ManhuntCommand(JManhunt plugin) {
         this.plugin = plugin;
         this.lang = plugin.getBootstrap().getLangManager();
+        this.playerManager = plugin.getBootstrap().getManhuntPlayerManager();
     }
 
     private final Map<UUID, PendingAction> pendingActions = new HashMap<>();
@@ -151,12 +154,22 @@ public class ManhuntCommand implements IManhuntCommand {
                                         switch (state) {
                                             case SETUP -> messageKey = "command-jmanhunt-start-denied-in-setup";
                                             case PRE_GAME -> {
-                                                if (!plugin.getBootstrap().getManhuntPlayerManager().isRunnerOnline()) {
+                                                if (!playerManager.getRunners().isEmpty()) {
+                                                    messageKey = "command-jmanhunt-start-denied-no-runners";
+                                                    success = false;
+                                                    break;
+                                                }
+                                                if (!playerManager.getHunters().isEmpty()) {
+                                                    messageKey = "command-jmanhunt-start-denied-no-hunters";
+                                                    success = false;
+                                                    break;
+                                                }
+                                                if (!playerManager.isRunnerOnline()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-runner-online";
                                                     success = false;
                                                     break;
                                                 }
-                                                if (!plugin.getBootstrap().getManhuntPlayerManager().isHunterOnline()) {
+                                                if (!playerManager.isHunterOnline()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-hunter-online";
                                                     success = false;
                                                     break;
@@ -213,12 +226,22 @@ public class ManhuntCommand implements IManhuntCommand {
                                             case SETUP, PRE_GAME -> messageKey = "command-jmanhunt-resume-denied-in-setup";
                                             case RUNNING -> messageKey = "command-jmanhunt-resume-denied-already-running";
                                             case PAUSE -> {
-                                                if (!plugin.getBootstrap().getManhuntPlayerManager().isRunnerOnline()) {
+                                                if (!playerManager.getRunners().isEmpty()) {
+                                                    messageKey = "command-jmanhunt-start-denied-no-runners";
+                                                    success = false;
+                                                    break;
+                                                }
+                                                if (!playerManager.getHunters().isEmpty()) {
+                                                    messageKey = "command-jmanhunt-start-denied-no-hunters";
+                                                    success = false;
+                                                    break;
+                                                }
+                                                if (!playerManager.isRunnerOnline()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-runner-online";
                                                     success = false;
                                                     break;
                                                 }
-                                                if (!plugin.getBootstrap().getManhuntPlayerManager().isHunterOnline()) {
+                                                if (!playerManager.isHunterOnline()) {
                                                     messageKey = "command-jmanhunt-start-denied-no-hunter-online";
                                                     success = false;
                                                     break;
