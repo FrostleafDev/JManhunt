@@ -19,8 +19,6 @@ import java.util.Map;
  */
 public abstract class ManhuntItem {
 
-    private final Modifier modifier = new Modifier();
-
     private static final NamespacedKey ITEM_ID = new NamespacedKey("jmanhunt", "item_id");
 
     private static final Map<String, ManhuntItem> REGISTRY = new HashMap<>();
@@ -42,22 +40,14 @@ public abstract class ManhuntItem {
         return item;
     }
 
-    public Modifier getModifier() {
-        return modifier;
+    public boolean canBeMoved() {
+        return true;
     }
-
-    public class Modifier {
-        public boolean canBeMoved() {
-            return true;
-        }
-
-        public boolean canBeDropped() {
-            return true;
-        }
-
-        public boolean dropOnDeath() {
-            return true;
-        }
+    public boolean canBeDropped() {
+        return true;
+    }
+    public boolean dropOnDeath() {
+        return true;
     }
 
     /**

@@ -22,7 +22,7 @@ public class TrackingCompass extends ManhuntItem {
 
     @Override
     public String getId() {
-        return "tracking_compass";
+        return "TRACKING_COMPASS";
     }
 
     @Override
