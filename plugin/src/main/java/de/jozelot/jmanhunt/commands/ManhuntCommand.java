@@ -91,6 +91,7 @@ public class ManhuntCommand implements IManhuntCommand {
                             }))
 
                     .then(Commands.literal("game")
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.game"))
 
                             // --- SUBCOMMAND: OPEN ---
                             .then(Commands.literal("open")

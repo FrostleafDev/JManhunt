@@ -23,6 +23,7 @@ permissions:
       jmanhunt.command.reset: true
       jmanhunt.setup.bypass: true
       jmanhunt.setup.teams: true
+      jmanhunt.command.game: true
 
       jmanhunt.ui: true
 
@@ -48,6 +49,9 @@ permissions:
     default: op
 
   jmanhunt.command.teams:
+    default: op
+
+  jmanhunt.command.game:
     default: op
 
   jmanhunt.ui:
