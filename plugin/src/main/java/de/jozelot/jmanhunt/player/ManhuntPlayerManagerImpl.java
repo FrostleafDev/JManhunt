@@ -249,4 +249,24 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
         }
         return null;
     }
+
+    public boolean isRunnerOnline() {
+        return isTeamOnline(ManhuntTeam.RUNNER);
+    }
+
+    public boolean isHunterOnline() {
+        return isTeamOnline(ManhuntTeam.HUNTER);
+    }
+
+    public boolean isSpectatorOnline() {
+        return isTeamOnline(ManhuntTeam.SPECTATOR);
+    }
+
+    public boolean isPlayerWithoutTeamOnline() {
+        return isTeamOnline(ManhuntTeam.NONE);
+    }
+
+    public boolean isTeamOnline(ManhuntTeam team) {
+        return !getPlayers().stream().filter(p -> p.getTeam() == team).toList().isEmpty();
+    }
 }
