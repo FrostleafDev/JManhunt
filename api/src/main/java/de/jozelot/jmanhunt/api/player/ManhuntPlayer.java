@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -159,4 +160,11 @@ public interface ManhuntPlayer {
      * @return
      */
     boolean isOnline();
+
+    /**
+     * If the player is a hunter here you can get
+     * the runner that is currently selected by the hunter
+     * @return
+     */
+    Optional<ManhuntPlayer> getTracking();
 }
