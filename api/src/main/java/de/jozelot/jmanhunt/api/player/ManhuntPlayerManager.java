@@ -91,4 +91,39 @@ public interface ManhuntPlayerManager {
      * @return a collection of players without a team
      */
     Collection<ManhuntPlayer> getPlayersWithoutTeam();
+
+    /**
+     * Checks if there is a runner online on the server.
+     * @return
+     */
+    boolean isRunnerOnline();
+
+    /**
+     * Checks if there is a hunter online on the server.
+     * @return
+     */
+    boolean isHunterOnline();
+
+    /**
+     * Checks if there is a specator online on the server.
+     * @return
+     */
+    boolean isSpectatorOnline();
+
+    /**
+     * Checks if there is a player without a team online.
+     * <p>
+     * Note: During the game this will always return false
+     * as unassigned players are typically moved to the spectator team once the game starts.
+     * </p>
+     * @return
+     */
+    boolean isPlayerWithoutTeamOnline();
+
+    /**
+     * Checks if there is a player in the given team online.
+     * @param team The team that which should be checked
+     * @return
+     */
+    boolean isTeamOnline(ManhuntTeam team);
 }
