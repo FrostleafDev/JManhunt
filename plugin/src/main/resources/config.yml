@@ -204,6 +204,14 @@ timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
 # This format is used when the timer is > 1h
 timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
 
+tracking-compass:
+  enabled: true
+  name: ""
+  lore:
+    - ""
+    - ""
+  item: COMPASS
+
 ##################################################################################
 ##                                                                              ##
 ##                               Manhunt Options                                ##

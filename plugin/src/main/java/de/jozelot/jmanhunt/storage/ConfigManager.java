@@ -2,16 +2,20 @@ package de.jozelot.jmanhunt.storage;
 
 import de.jozelot.jmanhunt.JManhunt;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public class ConfigManager {
 
     private final JManhunt plugin;
     private final Sounds sounds;
+    private final TrackingCompass trackingCompass;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
         this.sounds = new Sounds();
+        this.trackingCompass = new TrackingCompass();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1;
@@ -73,6 +77,11 @@ public class ConfigManager {
         sounds.notify = plugin.getConfig().getString("sounds.notify");
         sounds.experience = plugin.getConfig().getString("sounds.experience");
 
+        trackingCompass.enabled = plugin.getConfig().getBoolean("tracking-compass.enabled", true);
+        trackingCompass.name = plugin.getConfig().getString("tracking-compass.name", "<aqua>Tracking Compass");
+        trackingCompass.lore = plugin.getConfig().getStringList("tracking-compass.lore");
+        trackingCompass.item = plugin.getConfig().getString("tracking-compass.item", "COMPASS");
+
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
         playerJoinSound = plugin.getConfig().getBoolean("join-sound", true);
     }
@@ -111,8 +120,36 @@ public class ConfigManager {
         }
     }
 
+    public class TrackingCompass {
+
+        private boolean enabled;
+        private String name;
+        private List<String> lore;
+        private String item;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public List<String> getLore() {
+            return lore;
+        }
+
+        public String getItem() {
+            return item;
+        }
+    }
+
     public Sounds getSounds() {
         return sounds;
+    }
+
+    public TrackingCompass getCompass() {
+        return trackingCompass;
     }
 
     public String getLocale() {
