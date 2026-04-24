@@ -299,6 +299,8 @@ default-time: DAY
 ##################################################################################
 
 # jmanhunt.command                    -> For using the '/jmanhunt' command. With that you can just use like the help, version etc.
+# jmanhunt.command.help               -> For '/jmanhunt help' which shows every command
+# jmanhunt.command.version            -> For '/jmanhunt version' which shows the plugin version
 # jmanhunt.admin                      -> With this you have full access over the plugin
 # jmanhunt.command.reload             -> You can reload the plugin via '/jmanhunt reload'
 # jmanhunt.command.setup              -> You can set up the plugin via the ui and '/jmanhunt runner/hunter' etc

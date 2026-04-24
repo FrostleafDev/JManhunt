@@ -73,10 +73,18 @@ public class ManhuntCommand implements IManhuntCommand {
 
                     // --- SUBCOMMAND: HELP ---
                     .then(Commands.literal("help")
-                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command"))
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.help"))
                             .executes(context -> {
                                 PlaySoundUtils.playPling(context.getSource().getSender(), plugin);
                                 PluginMessages.sendHelpMessage(context.getSource().getSender(), plugin);
+                                return Command.SINGLE_SUCCESS;
+                            }))
+
+                    .then(Commands.literal("version")
+                            .requires(stack -> stack.getSender().hasPermission("jmanhunt.command.version"))
+                            .executes(context -> {
+                                PlaySoundUtils.playPling(context.getSource().getSender(), plugin);
+                                context.getSource().getSender().sendMessage(mm.deserialize(lang.format("command-jmanhunt-version", Map.of("current_version", plugin.getBootstrap().getUpdateManager().getCurrentVersion()))));
                                 return Command.SINGLE_SUCCESS;
                             }))
 

@@ -11,6 +11,12 @@ permissions:
   jmanhunt.command:
     default: true
 
+  jmanhunt.command.help:
+    default: true
+
+  jmanhunt.command.version:
+    default: true
+
   jmanhunt.admin:
     default: op
     children:
