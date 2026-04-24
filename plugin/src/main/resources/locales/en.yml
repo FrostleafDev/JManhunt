@@ -10,8 +10,14 @@ phase-setup-player-kick:
 
 admin-update-info:
   - ""
-  - "{prefix} <gray>A new update is available: <aqua>v{version}"
-  - "{prefix} <gray>Download via <click:open_url:'https://github.com/FrostleafDev/JManhunt/releases/latest'><hover:show_text:'<gray>Click to visit GitHub'><green>GitHub Releases</green></hover></click>"
+  - "<dark_gray>----------------- <aqua>JManhunt <white>Update <dark_gray>-----------------"
+  - ""
+  - "<gray>A new version is available: <green><b>v{version}</b>"
+  - "<gray>Your current version: <red>{current_version}"
+  - ""
+  - "<dark_gray>» <white><click:open_url:'https://github.com/FrostleafDev/JManhunt/releases/latest'><hover:show_text:'<gray>Click to view the changelog on GitHub'><aqua><u>Click here to download</u></aqua></hover></click>"
+  - ""
+  - "<dark_gray>-------------------------------------------"
   - ""
 
 admin-setup-join-info:
