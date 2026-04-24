@@ -14,7 +14,7 @@ public class UpdateManager {
 
     private final JManhunt plugin;
     private final String currentVersion;
-    private String latestVersion = "0.0.0";;
+    private String latestVersion = "0.0.0"; // Fallback value when there is no GitHub release
     private boolean updateAvailable = false;
 
     public UpdateManager(JManhunt plugin) {
@@ -65,6 +65,10 @@ public class UpdateManager {
 
     public String getLatestVersion() {
         return latestVersion;
+    }
+
+    public String getCurrentVersion() {
+        return currentVersion;
     }
 
     public boolean isUpdateAvailable() {

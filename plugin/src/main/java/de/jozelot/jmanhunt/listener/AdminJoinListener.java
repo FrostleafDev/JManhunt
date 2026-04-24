@@ -34,8 +34,9 @@ public class AdminJoinListener implements Listener {
         Player player = event.getPlayer();
         ManhuntPlayerImpl manhuntPlayer = (ManhuntPlayerImpl) plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
         String latestVersion = plugin.getBootstrap().getUpdateManager().getLatestVersion();
+        String currentVersion = plugin.getBootstrap().getUpdateManager().getCurrentVersion();
 
-        player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-update-info", Map.of("version", latestVersion)))));
+        player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-update-info", Map.of("version", latestVersion, "current_version", currentVersion)))));
         manhuntPlayer.playSound(Sound.NOTIFY);
     }
 }
