@@ -22,7 +22,8 @@
 ##################################################################################
 
 # Do not change this number!
-# Its only purpose is for checking if the config is up to date with the plugin
+# Its only purpose is for checking if the config is up to date with the plugin.
+# If the version doesn't match, the plugin will try to update your config while keeping your settings
 version: 1
 
 # Should the plugin check for new updates and send an information message to
