@@ -17,7 +17,7 @@ public class UpdateManager {
     private String latestVersion = "0.0.0";;
     private boolean updateAvailable = false;
 
-    public UpdateManager(@NotNull JManhunt plugin) {
+    public UpdateManager(JManhunt plugin) {
         this.plugin = plugin;
         this.currentVersion = plugin.getDescription().getVersion();
     }
