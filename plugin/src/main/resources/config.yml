@@ -7,10 +7,13 @@
 ##   ██   ██║██║╚██╔╝██║██╔══██║██║╚██╗██║██╔══██║██║   ██║██║╚██╗██║   ██║     ##
 ##   ╚█████╔╝██║ ╚═╝ ██║██║  ██║██║ ╚████║██║  ██║╚██████╔╝██║ ╚████║   ██║     ##
 ##    ╚════╝ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝     ##
-##                                                                              ##
-## Project: JManhunt                                                            ##
+##                                                                              ##                                                        ##
 ## Author: jozelot_                                                             ##
 ##################################################################################
+
+# You can find the documentation for this plugin on my site:
+# Java Docs: https://jd.jozelot.de/jmanhunt
+# Documentation: https://docs.jozelot.de/jmanhunt
 
 ##################################################################################
 ##                                                                              ##
@@ -91,9 +94,8 @@ team-prefix:
   tab: true
   nametags: true
   chat: true
-
-# If the above is true this will be the format for the tablist and the player names in chat and nametags.
-team-prefix-format: '{team} | {player_name}'
+  # If the above is true this will be the format for the tablist and the player names in chat and nametags.
+  format: '{team} | {player_name}'
 
 # Should the custom chat be enabled?
 # Supports minimessage format.
@@ -223,7 +225,7 @@ tracking-compass:
   # - TICK -> Every tick
   # - SECOND -> Every Second (20 Ticks)
   # - MINUTE -> Every minute
-  update-interval:
+  update-interval: CLICK
 
 ##################################################################################
 ##                                                                              ##
