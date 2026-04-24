@@ -27,8 +27,7 @@ admin-setup-join-info:
   - "<gray>The manhunt is currently in the <green>setup <gray>phase."
   - "<gray>You can view all commands with <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt help'><click:run_command:'/jmanhunt help'>/jmanhunt help</click></hover><gray>."
   - ""
-  - "<gray>When you are finished with setting everything up just"
-  - "<gray>run <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game open'><click:run_command:'/jmanhunt game open'>/jmanhunt game open</click></hover><gray>."
+  - "<gray>Once the setup is complete just <gray>run <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game open'><click:run_command:'/jmanhunt game open'>/jmanhunt game open</click></hover><gray>."
   - ""
   - "<dark_gray>-------------------------------------------"
   - ""
@@ -95,9 +94,9 @@ command-jmanhunt-start-denied-already-running: "{prefix} <red>Action denied: <gr
 command-jmanhunt-start-denied-already-over: "{prefix} <red>Action denied: <gray>The manhunt is already over! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>reset</click></hover> <gray>the manhunt first."
 command-jmanhunt-start-denied-paused: "{prefix} <red>Action denied: <gray>The manhunt is currently paused! You have to <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt game resume'><click:run_command:'/jmanhunt game resume'>resume</click></hover> <gray>the manhunt to continue."
 command-jmanhunt-start-denied-no-runners: "{prefix} <red>Action denied: <gray>There are no runners for this manhunt!"
-command-jmanhunt-start-denied-no-runner-online: "{prefix} <red>Action denied: <gray>One of the runners have to be online!"
+command-jmanhunt-start-denied-no-runner-online: "{prefix} <red>Action denied: <gray>At least one runner must be online to start!"
 command-jmanhunt-start-denied-no-hunters: "{prefix} <red>Action denied: <gray>There are no hunters for this manhunt!"
-command-jmanhunt-start-denied-no-hunter-online: "{prefix} <red>Action denied: <gray>One of the hunters have to be online!"
+command-jmanhunt-start-denied-no-hunter-online: "{prefix} <red>Action denied: <gray>At least one hunter must be online to start!"
 command-jmanhunt-start-success: "{prefix} <gray>The manhunt was started <green>successfully<gray>."
 
 command-jmanhunt-pause-denied-in-setup: "{prefix} <red>Action denied: <gray>The manhunt is not running."
@@ -124,7 +123,7 @@ command-jmanhunt-reset-information:
   - "{prefix} <gray>You have <yellow>10 seconds <gray>to confirm."
   - ""
 
-command-jmanhunt-reset-already: "{prefix} <gray>You already have an pending action for resetting the manhunt!"
+command-jmanhunt-reset-already: "{prefix} <gray>You already have a pending action for resetting the manhunt!"
 
 command-jmanhunt-end-information:
   - ""
@@ -134,7 +133,7 @@ command-jmanhunt-end-information:
   - "{prefix} <gray>You have <yellow>10 seconds <gray>to confirm."
   - ""
 
-command-jmanhunt-end-already: "{prefix} <gray>You already have an pending action for ending the manhunt!"
+command-jmanhunt-end-already: "{prefix} <gray>You already have a pending action for ending the manhunt!"
 
 command-manhunt-reset-kick:
   - "<dark_gray>--- <aqua><b>JManhunt</b></aqua> <dark_gray>---"
@@ -147,7 +146,7 @@ command-manhunt-reset-kick:
   - "<dark_gray>» <aqua>You can rejoin in a few seconds"
   - "<dark_gray>---------------------------"
 
-command-jmanhunt-confirm-no-action: '{prefix} <gray>There is no pending action to <red>confirm<gray>.'
+command-jmanhunt-confirm-no-action: '{prefix} <gray>There are no <red>pending actions <gray>to confirm.'
 command-jmanhunt-confirm-expired: '{prefix} <gray>The action you are trying to confirm has <red>expired<gray>!'
 command-jmanhunt-reset-success: '{prefix} <gray>The manhunt reset was started <green>successfully<gray>.'
 
@@ -169,7 +168,7 @@ command-jmanhunt-team-info-no-team: '{prefix} <gray>You are currently not in a <
 
 command-jmanhunt-team-add-success: '{prefix} <green>{player_name} <gray>was added to the <green>{team} <gray>team <green>successfully<gray>.'
 command-jmanhunt-team-add-error-already-in-team: "{prefix} <red>Action denied: <red>{player_name} <gray>is already in team <red>{team}<gray>. Remove them first!"
-command-jmanhunt-team-add-error-wrong-phase: "{prefix} <red>Action denied: <gray>You can only modify the spectator team during the game!"
+command-jmanhunt-team-add-error-wrong-phase: "{prefix} <red>Action denied: <gray>Teams can only be modified during the setup phase!"
 command-jmanhunt-team-remove-success: '{prefix} <green>{player_name} <gray>was removed from the <green>{team} <gray>team <green>successfully<gray>.'
 command-jmanhunt-team-remove-error-not-in-team: "{prefix} <red>Action denied: <red>{player_name} <gray>is not in the <red>{team} <gray>team."
 command-jmanhunt-team-remove-error-wrong-phase: "{prefix} <red>Action denied: <gray>You can only modify the spectator team during the game and remove players from the other team when the game is paused."
