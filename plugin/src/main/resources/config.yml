@@ -128,8 +128,8 @@ pause-freeze-game: true
 
 # Should all players be frozen when the game is paused?
 # This prevents movement and blocks all damage/interactions.
-# Note: If 'pause-freeze-game' is true, this is automatically active.
-pause-only-freeze-players: true
+# Note: If this is true the players can't move at all.
+pause-freeze-players: true
 
 # Should the timer be paused when the game is paused?
 pause-freeze-timer: true

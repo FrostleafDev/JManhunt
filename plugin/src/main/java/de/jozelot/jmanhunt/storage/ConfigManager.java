@@ -36,6 +36,8 @@ public class ConfigManager {
     private String databasePrefix;
     private boolean sendCustomJoinLeaveMessages;
     private boolean playerJoinSound;
+    private boolean pauseFreezeGame;
+    private boolean pauseFreezePlayer;
 
     public boolean load() {
         plugin.saveDefaultConfig();
@@ -116,6 +118,9 @@ public class ConfigManager {
         // CUSTOM JOIN
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
         playerJoinSound = plugin.getConfig().getBoolean("join-sound", true);
+
+        pauseFreezeGame = plugin.getConfig().getBoolean("pause-freeze-game", true);
+        pauseFreezePlayer = plugin.getConfig().getBoolean("pause-freeze-players", true);
     }
 
     public class Sounds {
@@ -286,5 +291,13 @@ public class ConfigManager {
 
     public boolean playJoinSound() {
         return playerJoinSound;
+    }
+
+    public boolean isPauseFreezeGame() {
+        return pauseFreezeGame;
+    }
+
+    public boolean isPauseFreezePlayer() {
+        return pauseFreezePlayer;
     }
 }

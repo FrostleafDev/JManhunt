@@ -67,6 +67,10 @@ public class PhaseManagerImpl implements PhaseManager {
         return plugin.getBootstrap().getGameManager().getGameState() == GameState.ENDED;
     }
 
+    @Override
+    public boolean isPaused() {
+        return plugin.getBootstrap().getGameManager().getGameState() == GameState.PAUSE;
+    }
 
     @Override
     public void setSetup() {
@@ -103,6 +107,11 @@ public class PhaseManagerImpl implements PhaseManager {
     public void end(ManhuntEndReason reason) {
         gameManager.setGameState(GameState.ENDED);
         gameManager.setEndReason(reason);
+    }
+
+    @Override
+    public boolean isProtected() {
+        return isSetup() || isPreGame() || isPaused();
     }
 
     public boolean canAddToTeam(ManhuntTeam team) {
