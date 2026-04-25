@@ -1,8 +1,10 @@
 package de.jozelot.jmanhunt.storage;
 
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.api.minecraft.Weather;
 import de.jozelot.jmanhunt.inventory.item.CompassUpdate;
 import org.bukkit.Server;
+import org.bukkit.WeatherType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class ConfigManager {
         this.serverList = new ServerList();
     }
 
-    private static final int CURRENT_CONFIG_VERSION = 1;
+    private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
 
     private String locale;
     private boolean checkForUpdates;
@@ -38,6 +40,9 @@ public class ConfigManager {
     private boolean playerJoinSound;
     private boolean pauseFreezeGame;
     private boolean pauseFreezePlayer;
+    private boolean resetWeatherTimeOnStart;
+    private Weather defaultWeather;
+    private String defaultTime;
 
     public boolean load() {
         plugin.saveDefaultConfig();
@@ -119,8 +124,21 @@ public class ConfigManager {
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
         playerJoinSound = plugin.getConfig().getBoolean("join-sound", true);
 
+        // PAUSE
         pauseFreezeGame = plugin.getConfig().getBoolean("pause-freeze-game", true);
         pauseFreezePlayer = plugin.getConfig().getBoolean("pause-freeze-players", true);
+
+        // TIME WEATHER
+        resetWeatherTimeOnStart = plugin.getConfig().getBoolean("reset-weather-time-on-start", false);
+
+        configValue = plugin.getConfig().getString("default-weather", "CLEAR");
+        try {
+            defaultWeather = Weather.valueOf(configValue.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            defaultWeather = Weather.CLEAR;
+            plugin.getLogger().log(Level.WARNING, "Invalid weather type on l.285 '" + configValue + "' in config.yml! Defaulting to CLEAR.");
+        }
+        defaultTime = plugin.getConfig().getString("default-time", "DAY");
     }
 
     public class Sounds {
@@ -299,5 +317,17 @@ public class ConfigManager {
 
     public boolean isPauseFreezePlayer() {
         return pauseFreezePlayer;
+    }
+
+    public boolean resetWeatherTimeOnStart() {
+        return resetWeatherTimeOnStart;
+    }
+
+    public Weather getDefaultWeather() {
+        return defaultWeather;
+    }
+
+    public String getDefaultTime() {
+        return defaultTime;
     }
 }

@@ -1,4 +1,4 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.protection;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
@@ -6,8 +6,6 @@ import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-
-import javax.swing.plaf.PanelUI;
 
 public class PauseGameFreezeListener implements Listener {
 

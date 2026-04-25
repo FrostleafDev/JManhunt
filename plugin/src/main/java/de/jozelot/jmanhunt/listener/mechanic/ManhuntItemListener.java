@@ -1,4 +1,4 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.mechanic;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;

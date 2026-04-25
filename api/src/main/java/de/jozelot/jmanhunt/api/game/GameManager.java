@@ -31,8 +31,9 @@ public interface GameManager {
      * </p>
      *
      * @param state the new {@link GameState} to apply
+     * @return true if the gamestate switch was successfull and false if it was cancelt by for e.g. a plugin
      */
-    void setGameState(@NotNull GameState state);
+    boolean setGameState(@NotNull GameState state);
 
     /**
      * Gets the phase manager used to transition between different game stages.

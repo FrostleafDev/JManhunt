@@ -9,8 +9,10 @@ import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
+import de.jozelot.jmanhunt.utility.WorldUtils;
 import org.bukkit.GameMode;
 import org.bukkit.WeatherType;
+import org.bukkit.World;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class PhaseManagerImpl implements PhaseManager {
@@ -93,7 +95,13 @@ public class PhaseManagerImpl implements PhaseManager {
 
     @Override
     public void start() {
-        gameManager.setGameState(GameState.RUNNING);
+        if (!gameManager.setGameState(GameState.RUNNING)) return;
+        if (plugin.getBootstrap().getConfigManager().resetWeatherTimeOnStart()) {
+            var world = plugin.getServer().getWorld("world");
+            WorldUtils.changeTime(world, plugin.getBootstrap().getConfigManager().getDefaultTime());
+            WorldUtils.changeWeather(world, plugin.getBootstrap().getConfigManager().getDefaultWeather().name().toLowerCase());
+        }
+
     }
 
     @Override

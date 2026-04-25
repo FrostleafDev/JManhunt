@@ -1,17 +1,14 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.connection;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.AdminJoinEvent;
 import de.jozelot.jmanhunt.api.event.DisallowReason;
 import de.jozelot.jmanhunt.api.event.ManhuntLoginEvent;
-import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
-import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -22,8 +19,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Map;
-import java.util.function.Supplier;
-import java.util.logging.Level;
 
 public class PlayerConnectionListener implements Listener {
 

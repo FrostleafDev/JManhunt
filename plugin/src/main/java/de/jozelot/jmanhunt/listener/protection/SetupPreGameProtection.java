@@ -1,8 +1,6 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.protection;
 
-import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import de.jozelot.jmanhunt.JManhunt;
-import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
 import io.papermc.paper.event.player.PlayerSwapWithEquipmentSlotEvent;
 import org.bukkit.GameMode;
@@ -16,7 +14,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;

@@ -1,4 +1,4 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.mechanic;
 
 import org.bukkit.event.Listener;
 

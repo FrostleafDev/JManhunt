@@ -1,9 +1,8 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.connection;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.storage.ConfigManager;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Server;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;

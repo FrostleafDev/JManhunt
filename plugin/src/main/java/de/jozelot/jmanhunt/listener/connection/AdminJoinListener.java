@@ -1,4 +1,4 @@
-package de.jozelot.jmanhunt.listener;
+package de.jozelot.jmanhunt.listener.connection;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.AdminJoinEvent;

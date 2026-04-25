@@ -37,19 +37,20 @@ public class GameManagerImpl implements GameManager {
 
 
     @Override
-    public void setGameState(@NotNull GameState state) {
+    public boolean setGameState(@NotNull GameState state) {
         GameStateChangeEvent event = new GameStateChangeEvent(this.state, state);
 
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) {
             plugin.getLogger().info("Game state change to " + state + " was canceled");
-            return;
+            return false;
         }
 
         this.state = state;
 
         plugin.getBootstrap().getPhaseManager().handleStateChange(state);
+        return true;
     }
 
 

@@ -288,7 +288,7 @@ default-weather: CLEAR
 # - 'DAY'
 # - 'MIDNIGHT'
 # - 'NIGHT'
-# - 'SOON'
+# - 'NOON'
 # - The time in ticks (0 = Dawn, 6000 = Midday, 18000 = Midnight).
 default-time: DAY
 
