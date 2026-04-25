@@ -1,8 +1,10 @@
 package de.jozelot.jmanhunt.listener;
 
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
+import io.papermc.paper.event.player.PlayerSwapWithEquipmentSlotEvent;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +18,8 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class SetupPreGameProtection implements Listener {
@@ -93,6 +97,24 @@ public class SetupPreGameProtection implements Listener {
 
     @EventHandler
     public void onItemSwap(PlayerSwapHandItemsEvent event) {
+        if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+        if (phaseManager.isProtected()) event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemPickup(PlayerPickupItemEvent event) {
+        if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+        if (phaseManager.isProtected()) event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInteraction(PlayerInteractEvent event) {
+        if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+        if (phaseManager.isProtected()) event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onArmorChange(PlayerSwapWithEquipmentSlotEvent event) {
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         if (phaseManager.isProtected()) event.setCancelled(true);
     }
