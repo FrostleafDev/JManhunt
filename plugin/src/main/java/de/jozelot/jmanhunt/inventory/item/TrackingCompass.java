@@ -102,6 +102,7 @@ public class TrackingCompass extends ManhuntItem {
             }
         }
         if (event.getAction().isRightClick()) {
+            PlaySoundUtils.playPling(player, plugin);
             mPlayer.openInventory(InventoryType.COMPASS_SELECTOR);
         }
     }

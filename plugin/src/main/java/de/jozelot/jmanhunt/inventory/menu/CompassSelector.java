@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,11 @@ public class CompassSelector extends Menu{
             ManhuntPlayer runner = runners.get(i);
             Player rPlayer = runner.getPlayer();
 
-            setPlayer(runner, i + 9,player.getTracking().get() == runner );
+            boolean isCurrentTarget = player.getTracking()
+                    .map(target -> target.equals(runner))
+                    .orElse(false);
+
+            setPlayer(runner, i + 9, isCurrentTarget);
         }
         setFiller(inventory.getSize());
         setBackButton(inventory.getSize() - 9, player, null);
@@ -49,8 +54,10 @@ public class CompassSelector extends Menu{
     private void setPlayer(ManhuntPlayer runner, int slot, boolean isCurrentTarget) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 
-        item.editMeta(meta -> {
-            meta.displayName(mm.deserialize("<!italic>" + (isCurrentTarget ? "<gray>" : "<green>") + runner.getPlayer().getName()));
+        item.editMeta(SkullMeta.class, meta -> {
+            meta.displayName(mm.deserialize("<!italic>" + (isCurrentTarget ? "<green>" : "<gray>") + runner.getPlayer().getName()));
+
+            meta.setOwningPlayer(runner.getPlayer());
 
             meta.getPersistentDataContainer().set(
                     new org.bukkit.NamespacedKey(plugin, "target_uuid"),
