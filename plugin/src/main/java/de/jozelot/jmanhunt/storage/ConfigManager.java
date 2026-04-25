@@ -27,6 +27,7 @@ public class ConfigManager {
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
+    private boolean debugMode;
 
     private String locale;
     private boolean checkForUpdates;
@@ -69,6 +70,9 @@ public class ConfigManager {
      * Saves all the config options to the RAM
      */
     private void loadData() {
+        // DEV CHECKS
+        debugMode = plugin.getConfig().getBoolean("debug-mode", false);
+
         // SYSTEM CONFIGURATION
         locale = plugin.getConfig().getString("locale", "en").toLowerCase().trim();
         checkForUpdates = plugin.getConfig().getBoolean("check-for-updates", true);
@@ -301,6 +305,10 @@ public class ConfigManager {
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
     }
 
     public String getLocale() {

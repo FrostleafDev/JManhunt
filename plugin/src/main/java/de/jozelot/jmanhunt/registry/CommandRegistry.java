@@ -22,7 +22,8 @@ public class CommandRegistry {
     public void register() {
         this.commandManager = new CommandManager();
         commandManager.registerCommands(new ManhuntCommand(plugin), List.of("jmanhunt", "manhunt", "jm"));
-        commandManager.registerCommands(new DebugCommand(plugin), List.of("jmanhunt-debug", "manhunt-debug", "jm-debug"));
+
+        if (plugin.getBootstrap().isDebugMode()) commandManager.registerCommands(new DebugCommand(plugin), List.of("jmanhunt-debug", "manhunt-debug", "jm-debug"));
     }
 
     public CommandManager getCommandManager() {

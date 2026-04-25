@@ -13,7 +13,9 @@ import de.jozelot.jmanhunt.registry.ListenerRegistry;
 import de.jozelot.jmanhunt.storage.ConfigManager;
 import de.jozelot.jmanhunt.storage.LangManager;
 import de.jozelot.jmanhunt.storage.mass.MassManager;
+import de.jozelot.jmanhunt.utility.PluginMessages;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.logging.Level;
 
@@ -22,6 +24,7 @@ public class JManhuntBootstrap {
     private final JManhunt plugin;
     private PluginDependencies pluginDependencies;
     private boolean canShutdownSafely = false;
+    private boolean debugMode = false;
 
     public JManhuntBootstrap(JManhunt plugin) {
         this.plugin = plugin;
@@ -47,7 +50,6 @@ public class JManhuntBootstrap {
     public void initialize() {
         pluginDependencies = new PluginDependencies(plugin);
         pluginDependencies.checkDependencies();
-
         configManager = new ConfigManager(plugin);
         langManager = new LangManager(plugin);
         updateManager = new UpdateManager(plugin);
@@ -66,6 +68,7 @@ public class JManhuntBootstrap {
      * Enables all the logic for the plugin in the given order
      */
     public boolean enable() {
+        checkDebugMode();
         if (!configManager.load()) return false;
         if (!langManager.load(configManager.getLocale())) return false;
         if (!massManager.load()) return false;
@@ -118,6 +121,24 @@ public class JManhuntBootstrap {
 
         if (plugin.getBootstrap().getPhaseManager().isRunning()) timerManager.start();
         if (plugin.getBootstrap().getConfigManager().getTimer().isEnabled()) timerManager.startActionbar();
+    }
+
+    /**
+     * This checks if the plugin is running in the debug mode
+     * This enables debug and developer tools and logging
+     */
+    private void checkDebugMode() {
+        File debugFile = new File(plugin.getDataFolder(), ".debug");
+        boolean configEnabled = configManager.isDebugMode();
+
+        if (debugFile.exists() && configEnabled) {
+            this.debugMode = true;
+            PluginMessages.sendDebugWarning();
+        }
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
     }
 
     public PluginDependencies getDependencies() {

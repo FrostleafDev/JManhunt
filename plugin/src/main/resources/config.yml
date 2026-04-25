@@ -297,6 +297,19 @@ default-time: DAY
 
 ##################################################################################
 ##                                                                              ##
+##                               DEVELOPER ONLY                                 ##
+##                                                                              ##
+##################################################################################
+
+# WARNING: DO NOT ENABLE THIS ON A PUBLIC SERVER!
+# This mode is strictly for development and debugging.
+# - It bypasses ALL permission checks for certain commands.
+# - It logs sensitive data to the console.
+# - It requires a file named '.debug' in the plugin folder to work.
+debug-mode: false
+
+##################################################################################
+##                                                                              ##
 ##                                 PERMISSIONS                                  ##
 ##                                                                              ##
 ##################################################################################
@@ -343,8 +356,3 @@ default-time: DAY
 # %jmanhunt_total_runners%            -> The total number of runners that started the game (e.g. '3')
 # %jmanhunt_total_hunters%            -> The total number of hunters that started the game (e.g. '3')
 # %jmanhunt_total_spectators%         -> The total number of spectators that are registered)
-
-
-
-
-

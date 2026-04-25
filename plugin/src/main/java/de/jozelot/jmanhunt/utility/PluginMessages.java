@@ -51,4 +51,20 @@ public class PluginMessages {
         plugin.getLogger().log(Level.SEVERE, "------------------------------");
         plugin.getLogger().log(Level.SEVERE, "");
     }
+
+    public static void sendDebugWarning() {
+        var sender = Bukkit.getConsoleSender();
+
+        sender.sendMessage(mm.deserialize("<yellow>############################################################<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##                <red><b>!!! DEBUG MODE ACTIVE !!!</b></red>               ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##  <gray>The plugin is running in development mode.</gray>            ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##  <gray>- Permissions are bypassed for debug commands.</gray>      ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##  <gray>- Internal data is logged to the console.</gray>          ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##  <red><b>DO NOT USE THIS ON A PRODUCTION SERVER!</b></red>              ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
+        sender.sendMessage(mm.deserialize("<yellow>############################################################<newline>"));
+    }
 }
