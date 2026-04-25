@@ -43,7 +43,7 @@ public class CompassSelector extends Menu{
             setPlayer(runner, i + 9,player.getTracking().get() == runner );
         }
         setFiller(inventory.getSize());
-        setBackButton(inventory.getSize() - 1, player, null);
+        setBackButton(inventory.getSize() - 9, player, null);
     }
 
     private void setPlayer(ManhuntPlayer runner, int slot, boolean isCurrentTarget) {

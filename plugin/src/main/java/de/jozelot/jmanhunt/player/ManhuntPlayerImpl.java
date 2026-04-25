@@ -44,6 +44,7 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
         this.deaths = 0;
         this.plugin = plugin;
         this.lastKnownName = lastKnownName;
+        giveCompass();
     }
 
     public ManhuntPlayerImpl(UUID uuid, JManhunt plugin) {
