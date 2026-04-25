@@ -3,6 +3,7 @@ package de.jozelot.jmanhunt.listener.mechanic;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
 import de.jozelot.jmanhunt.utility.PlaySoundUtils;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -96,6 +97,17 @@ public class ManhuntItemListener implements Listener {
                     cancelClick(event);
                     return;
                 }
+            }
+        }
+
+        if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BUNDLE ||
+                event.getCursor() != null && event.getCursor().getType() == Material.BUNDLE) {
+
+            if (mCurrent != null && !mCurrent.canBeMovedIntoDifferentInventory() ||
+                    mCursor != null && !mCursor.canBeMovedIntoDifferentInventory()) {
+
+                cancelClick(event);
+                return;
             }
         }
 
