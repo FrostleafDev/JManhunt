@@ -21,8 +21,17 @@ public class ServerPingListener implements Listener {
 
     @EventHandler
     public void onServerPing(ServerListPingEvent event) {
-        if (config.getMotd().isEnabled()) {
-            event.motd(mm.deserialize(String.join("<newline>", config.getMotd().getLines())));
+        var serverList = config.getServerList();
+
+        if (serverList.getMotd().isEnabled()) {
+            event.motd(mm.deserialize(String.join("<newline>", serverList.getMotd().getLines())));
+        }
+
+        if (serverList.getPlayerCount().isEnabled()) {
+            switch (serverList.getPlayerCount().getMode()) {
+                case STATIC -> event.setMaxPlayers(serverList.getPlayerCount().getValue());
+                case DYNAMIC -> event.setMaxPlayers(plugin.getServer().getOnlinePlayers().size() + serverList.getPlayerCount().getValue());
+            }
         }
     }
 }

@@ -152,11 +152,11 @@ motd:
 # This is only visual
 # Mode options:
 # - 'STATIC' -> Shows a static number
-# - 'DYNAMIC' -> Increases the number by the given number
+# - 'DYNAMIC' -> Increases the online player count by the given number
 max-player-count:
   enabled: true
   mode: DYNAMIC # Both together mean that there is always one slot more than the current player count free
-  number: 1
+  value: 1
 
 # Here you can enable the custom tablist
 # Placeholders: {player_count}, {lives_left}, {current_team}, {runner_count}, {hunter_count}, {runner_goal}, {runner_goal_progress}, {runner_goal_entity}, {team_deaths}, {player_deaths}
