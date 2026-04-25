@@ -71,6 +71,20 @@ public class DebugCommand implements IManhuntCommand {
                                     )
                             ))
                     .then(Commands.literal("timer")
+                            .then(Commands.literal("start")
+                                    .executes(context -> {
+                                        plugin.getBootstrap().getTimerManager().start();
+                                        context.getSource().getSender().sendMessage(mm.deserialize("<gray>Timer was started"));
+                                        return Command.SINGLE_SUCCESS;
+                                    })
+                            )
+                            .then(Commands.literal("stop")
+                                    .executes(context -> {
+                                        plugin.getBootstrap().getTimerManager().stop();
+                                        context.getSource().getSender().sendMessage(mm.deserialize("<gray>Timer was stopped"));
+                                        return Command.SINGLE_SUCCESS;
+                                    })
+                            )
                             .then(Commands.literal("get")
                                     .executes(context -> {
                                         context.getSource().getSender().sendMessage(mm.deserialize("<gray>Timer is currently at: <white>" + plugin.getBootstrap().getTimerManager().getTimer().getElapsedSeconds() + "s"));
