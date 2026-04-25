@@ -1,5 +1,7 @@
 package de.jozelot.jmanhunt.utility;
 
+import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.World;
 
 public class WorldUtils {
@@ -31,5 +33,11 @@ public class WorldUtils {
             }
         }
         world.setWeatherDuration(12000);
+    }
+
+    public static void applyGamerules() {
+        Bukkit.getWorlds().forEach(world -> {
+            world.setGameRule(GameRule.LOCATOR_BAR, false);
+        });
     }
 }

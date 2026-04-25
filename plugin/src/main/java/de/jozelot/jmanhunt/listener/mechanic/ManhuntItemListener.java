@@ -5,9 +5,15 @@ import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
 import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,13 +33,17 @@ public class ManhuntItemListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         ItemStack item = event.getItem();
-
         ManhuntItem manhuntItem = getManhuntItemByItemStack(item);
 
         if (manhuntItem != null) {
+            if (!manhuntItem.canInteract() && event.hasBlock()) {
+                event.setCancelled(true);
+            }
             manhuntItem.handleInteract(event);
         }
     }
+
+    // PROTECTION STUFF
 
     @EventHandler
     public void onInventoryMove(InventoryClickEvent event) {
@@ -43,26 +53,113 @@ public class ManhuntItemListener implements Listener {
         ManhuntItem mCurrent = getManhuntItemByItemStack(current);
         ManhuntItem mCursor = getManhuntItemByItemStack(cursor);
 
-        boolean cancel = false;
-        if (mCurrent != null && !mCurrent.canBeMoved()) cancel = true;
-        if (mCursor != null && !mCursor.canBeMoved()) cancel = true;
+        if (event.getClick() == ClickType.NUMBER_KEY) {
+            ItemStack hotbarItem = event.getWhoClicked().getInventory().getItem(event.getHotbarButton());
+            ManhuntItem mHotbar = getManhuntItemByItemStack(hotbarItem);
 
-        if (cancel) {
-            event.setCancelled(true);
-            PlaySoundUtils.playError(event.getWhoClicked(), plugin);
+            if (mHotbar != null) {
+                if (!mHotbar.canBeMovedIntoDifferentInventory()) {
+                    if (event.getClickedInventory() != null && !event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+                        cancelClick(event);
+                        return;
+                    }
+
+                    if (event.getSlotType() == InventoryType.SlotType.CRAFTING) {
+                        cancelClick(event);
+                        return;
+                    }
+                }
+
+                if (!mHotbar.canBeMoved()) {
+                    cancelClick(event);
+                    return;
+                }
+            }
+        }
+
+        if ((mCurrent != null && !mCurrent.canBeMoved()) || (mCursor != null && !mCursor.canBeMoved())) {
+            cancelClick(event);
+            return;
+        }
+
+        if (mCurrent != null && !mCurrent.canBeUsedToCraft()) {
+            if (event.getSlotType() == InventoryType.SlotType.CRAFTING) {
+                cancelClick(event);
+                return;
+            }
+        }
+
+        if (mCursor != null && !mCursor.canBeMovedIntoDifferentInventory()) {
+            if (event.getClickedInventory() != null && !event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+                cancelClick(event);
+                return;
+            }
+        }
+
+        if (mCurrent != null && !mCurrent.canBeMovedIntoDifferentInventory()) {
+            if (event.getSlotType() == InventoryType.SlotType.CRAFTING) {
+                cancelClick(event);
+                return;
+            }
+
+            if (event.isShiftClick()) {
+                InventoryType type = event.getView().getTopInventory().getType();
+
+                if (type != InventoryType.CRAFTING && type != InventoryType.PLAYER) {
+                    cancelClick(event);
+                    return;
+                }
+            }
+
+            if (event.getClickedInventory() != null && !event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+                cancelClick(event);
+            }
         }
     }
 
     @EventHandler
-    public void onItemSwap(PlayerSwapHandItemsEvent event) {
-        ManhuntItem mMain = getManhuntItemByItemStack(event.getMainHandItem());
-        ManhuntItem mOff = getManhuntItemByItemStack(event.getOffHandItem());
+    public void onInventoryDrag(InventoryDragEvent event) {
+        ManhuntItem mDrag = getManhuntItemByItemStack(event.getOldCursor());
+        if (mDrag != null && !mDrag.canBeMovedIntoDifferentInventory()) {
+            for (int slot : event.getRawSlots()) {
+                if (slot < event.getInventory().getSize() && !event.getInventory().equals(event.getWhoClicked().getInventory())) {
+                    event.setCancelled(true);
+                    PlaySoundUtils.playError(event.getWhoClicked(), plugin);
+                    return;
+                }
+            }
+        }
+    }
 
-        boolean cancel = false;
-        if (mMain != null && !mMain.canBeMoved()) cancel = true;
-        if (mOff != null && !mOff.canBeMoved()) cancel = true;
+    @EventHandler
+    public void onEntityInteract(PlayerInteractEntityEvent event) {
+        ItemStack item = event.getPlayer().getInventory().getItem(event.getHand());
+        ManhuntItem mItem = getManhuntItemByItemStack(item);
 
-        if (cancel) {
+        if (mItem != null && !mItem.canBePutIntoItemFrame()) {
+            if (event.getRightClicked().getType().name().contains("ITEM_FRAME")) {
+                event.setCancelled(true);
+                PlaySoundUtils.playError(event.getPlayer(), plugin);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlaceBlock(BlockPlaceEvent event) {
+        ManhuntItem manhuntItem = getManhuntItemByItemStack(event.getItemInHand());
+        if (manhuntItem != null && !manhuntItem.canBePlaced()) {
+            event.setCancelled(true);
+            PlaySoundUtils.playError(event.getPlayer(), plugin);
+        }
+    }
+
+    @EventHandler
+    public void onBreakBlock(BlockBreakEvent event) {
+        // Hinweis: getActiveItem() ist oft für Bogen/Essen. Nutze lieber ItemInMainHand
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        ManhuntItem manhuntItem = getManhuntItemByItemStack(item);
+
+        if (manhuntItem != null && !manhuntItem.canBreakBlocks()) {
             event.setCancelled(true);
             PlaySoundUtils.playError(event.getPlayer(), plugin);
         }
@@ -70,39 +167,42 @@ public class ManhuntItemListener implements Listener {
 
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
-        ItemStack item = event.getItemDrop().getItemStack();
-
-        ManhuntItem manhuntItem = getManhuntItemByItemStack(item);
-
-        if (manhuntItem != null) {
-            event.setCancelled(!manhuntItem.canBeDropped());
-            if (!manhuntItem.canBeDropped()) PlaySoundUtils.playError(event.getPlayer(), plugin);
+        ManhuntItem manhuntItem = getManhuntItemByItemStack(event.getItemDrop().getItemStack());
+        if (manhuntItem != null && !manhuntItem.canBeDropped()) {
+            event.setCancelled(true);
+            PlaySoundUtils.playError(event.getPlayer(), plugin);
         }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        List<ItemStack> drops = event.getDrops();
-        Iterator<ItemStack> iterator = drops.iterator();
-
+        Iterator<ItemStack> iterator = event.getDrops().iterator();
         while (iterator.hasNext()) {
-            ItemStack item = iterator.next();
-            ManhuntItem manhuntItem = getManhuntItemByItemStack(item);
-
-            if (manhuntItem != null) {
-                if (!manhuntItem.dropOnDeath()) {
-                    iterator.remove();
-                }
+            ManhuntItem manhuntItem = getManhuntItemByItemStack(iterator.next());
+            if (manhuntItem != null && !manhuntItem.dropOnDeath()) {
+                iterator.remove();
             }
         }
     }
 
+    @EventHandler
+    public void onItemSwap(PlayerSwapHandItemsEvent event) {
+        ManhuntItem mMain = getManhuntItemByItemStack(event.getMainHandItem());
+        ManhuntItem mOff = getManhuntItemByItemStack(event.getOffHandItem());
+        if ((mMain != null && !mMain.canBeMoved()) || (mOff != null && !mOff.canBeMoved())) {
+            event.setCancelled(true);
+            PlaySoundUtils.playError(event.getPlayer(), plugin);
+        }
+    }
+
+    private void cancelClick(InventoryClickEvent event) {
+        event.setCancelled(true);
+        PlaySoundUtils.playError(event.getWhoClicked(), plugin);
+    }
 
     private ManhuntItem getManhuntItemByItemStack(ItemStack item) {
         if (item == null || !item.hasItemMeta()) return null;
         String key = item.getItemMeta().getPersistentDataContainer().get(ManhuntItem.ITEM_ID, PersistentDataType.STRING);
-        if (key == null) return null;
-
-        return ManhuntItem.fromId(key);
+        return (key == null) ? null : ManhuntItem.fromId(key);
     }
 }

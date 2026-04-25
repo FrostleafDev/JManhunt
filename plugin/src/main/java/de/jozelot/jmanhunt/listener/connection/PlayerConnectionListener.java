@@ -59,6 +59,7 @@ public class PlayerConnectionListener implements Listener {
         Player player = event.getPlayer();
         ManhuntPlayerImpl manhuntPlayer = plugin.getBootstrap().getManhuntPlayerManager().getOrLoadPlayer(player.getUniqueId(), player.getName());
         manhuntPlayer.setOnline(true);
+        manhuntPlayer.giveCompass();
 
         if (player.hasPermission("jmanhunt.admin")) {
             AdminJoinEvent adminJoinEvent = new AdminJoinEvent(player);

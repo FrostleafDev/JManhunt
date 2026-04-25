@@ -167,4 +167,23 @@ public interface ManhuntPlayer {
      * @return
      */
     Optional<ManhuntPlayer> getTracking();
+
+    /**
+     * If the player is a hunter here you can set
+     * the runner that is currently selected by the hunter
+     * Set to 'null' to remove target
+     * @param target -> object of the target
+     */
+    void setTracking(ManhuntPlayer target);
+
+    /**
+     * If the player is a hunter he will get a tracking
+     * compass to track the runners
+     */
+    void giveCompass();
+
+    /**
+     * Remove the compass item from the inventory of the player
+     */
+    void removeCompass();
 }

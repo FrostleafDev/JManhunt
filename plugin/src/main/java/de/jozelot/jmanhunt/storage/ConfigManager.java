@@ -102,6 +102,7 @@ public class ConfigManager {
         trackingCompass.name = plugin.getConfig().getString("tracking-compass.name", "<aqua>Tracking Compass");
         trackingCompass.lore = plugin.getConfig().getStringList("tracking-compass.lore");
         trackingCompass.item = plugin.getConfig().getString("tracking-compass.item", "COMPASS");
+        trackingCompass.cooldown = plugin.getConfig().getInt("tracking-compass.click-cooldown", 3);
 
         String configValue = plugin.getConfig().getString("tracking-compass.update-interval", "CLICK");
         try {
@@ -198,6 +199,7 @@ public class ConfigManager {
         private List<String> lore;
         private String item;
         private CompassUpdate updateInterval;
+        private int cooldown;
 
         public boolean isEnabled() {
             return enabled;
@@ -217,6 +219,10 @@ public class ConfigManager {
 
         public CompassUpdate getUpdateInterval() {
             return updateInterval;
+        }
+
+        public int getCooldown() {
+            return cooldown;
         }
     }
 

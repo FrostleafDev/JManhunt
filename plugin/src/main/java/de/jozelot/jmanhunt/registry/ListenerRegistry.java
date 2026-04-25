@@ -5,6 +5,7 @@ import de.jozelot.jmanhunt.listener.connection.AdminJoinListener;
 import de.jozelot.jmanhunt.listener.connection.PlayerConnectionListener;
 import de.jozelot.jmanhunt.listener.connection.ServerPingListener;
 import de.jozelot.jmanhunt.listener.mechanic.ManhuntItemListener;
+import de.jozelot.jmanhunt.listener.mechanic.PlayerRespawnListener;
 import de.jozelot.jmanhunt.listener.protection.PauseGameFreezeListener;
 import de.jozelot.jmanhunt.listener.protection.SetupPreGameProtection;
 
@@ -28,5 +29,6 @@ public class ListenerRegistry {
         pm.registerEvents(new ServerPingListener(plugin), plugin);
         pm.registerEvents(new SetupPreGameProtection(plugin), plugin);
         pm.registerEvents(new PauseGameFreezeListener(plugin), plugin);
+        pm.registerEvents(new PlayerRespawnListener(plugin), plugin);
     }
 }

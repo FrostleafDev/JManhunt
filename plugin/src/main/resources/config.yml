@@ -222,7 +222,7 @@ timer-format-not-running: "<gradient:green:dark_green><b><i>Manhunt {state}"
 # You can change its behavior and disable it.
 tracking-compass:
   enabled: true
-  # For the name and lore u can use {tracking_player_name} for the player
+  # For the name and lore you can use {tracking_player_name} for the player
   # that is currently being tracked.
   name: "<gray>Tracking: <aqua>{tracking_player_name}"
   lore:
@@ -238,6 +238,8 @@ tracking-compass:
   # - SECOND -> Every Second (20 Ticks)
   # - MINUTE -> Every minute
   update-interval: CLICK
+  # Cooldown in seconds
+  click-cooldown: 3
 
 ##################################################################################
 ##                                                                              ##

@@ -14,8 +14,11 @@ import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.storage.LangManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,6 +44,70 @@ public class DebugCommand implements IManhuntCommand {
             final Commands commands = event.registrar();
 
             var mainBuilder = Commands.literal(mainName)
+                    .then(Commands.literal("team")
+                            .then(Commands.argument("player", ArgumentTypes.player())
+                                    .then(Commands.argument("team", StringArgumentType.word())
+                                            .suggests((context, builder) -> {
+                                                String input = builder.getRemaining().toLowerCase();
+                                                for (ManhuntTeam team : ManhuntTeam.values()) {
+                                                    if (team.name().toLowerCase().startsWith(input)) {
+                                                        builder.suggest(team.name());
+                                                    }
+                                                }
+                                                return builder.buildFuture();
+                                            })
+                                            .executes(context -> {
+                                                var playerResolver = context.getArgument("player", PlayerSelectorArgumentResolver.class);
+                                                Player target = playerResolver.resolve(context.getSource()).get(0);
+                                                String teamStr = StringArgumentType.getString(context, "team").toUpperCase();
+
+                                                try {
+                                                    ManhuntTeam team = ManhuntTeam.valueOf(teamStr);
+                                                    ManhuntPlayer mPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(target.getUniqueId());
+
+                                                    mPlayer.forceSetTeam(team);
+
+                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                            "<gray>Set team of <white>" + target.getName() + " <gray>to <white>" + team.name()));
+                                                } catch (Exception e) {
+                                                    context.getSource().getSender().sendMessage(mm.deserialize("<red>Invalid team: " + teamStr));
+                                                }
+                                                return Command.SINGLE_SUCCESS;
+                                            })
+                                    )
+                            )
+                    )
+                    .then(Commands.literal("hunter")
+                            .then(Commands.literal("target")
+                                    .then(Commands.literal("set")
+                                            .then(Commands.argument("targetHunter", ArgumentTypes.player())
+                                                    .then(Commands.argument("targetRunner", ArgumentTypes.player())
+                                                            .executes(ctx -> {
+                                                                var hunterResolver = ctx.getArgument("targetHunter", PlayerSelectorArgumentResolver.class);
+                                                                var runnerResolver = ctx.getArgument("targetRunner", PlayerSelectorArgumentResolver.class);
+
+                                                                Player hunter = hunterResolver.resolve(ctx.getSource()).get(0);
+                                                                Player runner = runnerResolver.resolve(ctx.getSource()).get(0);
+
+                                                                ManhuntPlayer mHunter = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(hunter.getUniqueId());
+                                                                mHunter.setTracking(plugin.getBootstrap().getManhuntPlayerManager().getPlayer(runner));
+
+                                                                return Command.SINGLE_SUCCESS;
+                                                            })
+                                                    )
+                                            )
+                                    )
+                                    .then(Commands.literal("get")
+                                            .then(Commands.argument("targetHunter", ArgumentTypes.player())
+                                                    .executes(context -> {
+                                                        var hunterResolver = context.getArgument("targetHunter", PlayerSelectorArgumentResolver.class);
+                                                        Player hunter = hunterResolver.resolve(context.getSource()).get(0);
+                                                        ManhuntPlayer mHunter = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(hunter.getUniqueId());
+                                                        context.getSource().getSender().sendMessage(mm.deserialize("<gray>Target from <white>" + hunter.getName() + " <gray>: <white>" + mHunter.getTracking().get().getPlayer().getName()));
+                                                        return Command.SINGLE_SUCCESS;
+                                                    })
+                                            )
+                            )))
                     .then(Commands.literal("state")
                             .then(Commands.literal("get")
                                     .executes(context -> {

@@ -6,6 +6,8 @@ import de.jozelot.jmanhunt.core.dependencies.PluginDependencies;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
 import de.jozelot.jmanhunt.game.timer.ManhuntTimerManagerImpl;
+import de.jozelot.jmanhunt.inventory.item.ItemManager;
+import de.jozelot.jmanhunt.inventory.item.ItemUpdateService;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
@@ -14,6 +16,7 @@ import de.jozelot.jmanhunt.storage.ConfigManager;
 import de.jozelot.jmanhunt.storage.LangManager;
 import de.jozelot.jmanhunt.storage.mass.MassManager;
 import de.jozelot.jmanhunt.utility.PluginMessages;
+import de.jozelot.jmanhunt.utility.WorldUtils;
 
 import java.io.File;
 import java.util.Timer;
@@ -40,6 +43,8 @@ public class JManhuntBootstrap {
     private ManhuntPlayerManagerImpl manhuntPlayerManager;
     private MassManager massManager;
     private ManhuntTimerManagerImpl timerManager;
+    private ItemUpdateService itemUpdateService;
+    private ItemManager itemManager;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -62,6 +67,8 @@ public class JManhuntBootstrap {
         manhuntPlayerManager = new ManhuntPlayerManagerImpl(plugin);
         massManager = new MassManager(plugin);
         timerManager = new ManhuntTimerManagerImpl(plugin);
+        itemUpdateService = new ItemUpdateService();
+        itemManager = new ItemManager(plugin);
     }
 
     /**
@@ -80,6 +87,9 @@ public class JManhuntBootstrap {
         listenerRegistry.register();
         pluginDependencies.register();
         timerManager.setup();
+        itemManager.init();
+
+        WorldUtils.applyGamerules();
         canShutdownSafely = true;
         return true;
     }
@@ -184,5 +194,13 @@ public class JManhuntBootstrap {
 
     public ManhuntTimerManagerImpl getTimerManager() {
         return timerManager;
+    }
+
+    public ItemUpdateService getItemUpdateService() {
+        return itemUpdateService;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 }

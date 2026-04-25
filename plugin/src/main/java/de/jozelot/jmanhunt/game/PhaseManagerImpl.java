@@ -19,24 +19,23 @@ import org.bukkit.scheduler.BukkitTask;
 public class PhaseManagerImpl implements PhaseManager {
 
     private final JManhunt plugin;
-    private final GameManagerImpl gameManager;
-    private final ManhuntPlayerManagerImpl playerManager;
     private BukkitTask pauseTask;
 
     public PhaseManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
-        this.gameManager = plugin.getBootstrap().getGameManager();
-        this.playerManager = plugin.getBootstrap().getManhuntPlayerManager();
     }
 
     protected void handleStateChange(GameState state) {
+        var playerManager = plugin.getBootstrap().getManhuntPlayerManager();
         boolean canclePauseTask = true;
         switch (state) {
             case SETUP -> {
                 plugin.getBootstrap().getTimerManager().stop();
+                plugin.getServer().getServerTickManager().setFrozen(false);
             }
             case PRE_GAME -> {
                 plugin.getBootstrap().getTimerManager().stop();
+                plugin.getServer().getServerTickManager().setFrozen(false);
             }
             case RUNNING -> {
                 plugin.getServer().getServerTickManager().setFrozen(false);
@@ -54,6 +53,7 @@ public class PhaseManagerImpl implements PhaseManager {
             }
             case ENDED -> {
                 plugin.getBootstrap().getTimerManager().stop();
+                plugin.getServer().getServerTickManager().setFrozen(false);
             }
         }
 
@@ -87,22 +87,22 @@ public class PhaseManagerImpl implements PhaseManager {
 
     @Override
     public void setSetup() {
-        gameManager.setGameState(GameState.SETUP);
+        plugin.getBootstrap().getGameManager().setGameState(GameState.SETUP);
     }
 
     @Override
     public void open() {
-        gameManager.setGameState(GameState.PRE_GAME);
+        plugin.getBootstrap().getGameManager().setGameState(GameState.PRE_GAME);
     }
 
     @Override
     public void close() {
-        gameManager.setGameState(GameState.SETUP);
+        plugin.getBootstrap().getGameManager().setGameState(GameState.SETUP);
     }
 
     @Override
     public void start() {
-        if (!gameManager.setGameState(GameState.RUNNING)) return;
+        if (!plugin.getBootstrap().getGameManager().setGameState(GameState.RUNNING)) return;
         if (plugin.getBootstrap().getConfigManager().resetWeatherTimeOnStart()) {
             var world = plugin.getServer().getWorld("world");
             WorldUtils.changeTime(world, plugin.getBootstrap().getConfigManager().getDefaultTime());
@@ -113,7 +113,7 @@ public class PhaseManagerImpl implements PhaseManager {
 
     @Override
     public void pause() {
-        gameManager.setGameState(GameState.PAUSE);
+        plugin.getBootstrap().getGameManager().setGameState(GameState.PAUSE);
         pauseTask = plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             end(ManhuntEndReason.MANHUNT_CANCELED);
         }, plugin.getBootstrap().getConfigManager().getEndManhuntAtPause() * 20L);
@@ -121,19 +121,19 @@ public class PhaseManagerImpl implements PhaseManager {
 
     @Override
     public void resume() {
-        gameManager.setGameState(GameState.RUNNING);
+        plugin.getBootstrap().getGameManager().setGameState(GameState.RUNNING);
     }
 
 
     @Override
     public void end(ManhuntEndReason reason) {
-        gameManager.setGameState(GameState.ENDED);
-        gameManager.setEndReason(reason);
+        plugin.getBootstrap().getGameManager().setGameState(GameState.ENDED);
+        plugin.getBootstrap().getGameManager().setEndReason(reason);
     }
 
     @Override
     public boolean isProtected() {
-        return isSetup() || isPreGame() || isPaused();
+        return !isRunning();
     }
 
     public boolean canAddToTeam(ManhuntTeam team) {

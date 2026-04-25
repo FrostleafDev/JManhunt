@@ -2,12 +2,15 @@ package de.jozelot.jmanhunt.player;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.ManhuntTeamAssignEvent;
+import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
 import org.bukkit.Bukkit;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -56,7 +59,7 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
 
     @Override
     public void setTeam(ManhuntTeam team) {
-        if (this.team != ManhuntTeam.NONE && team != ManhuntTeam.NONE) { plugin.getLogger().log(Level.WARNING, "Some plugin accessing the api tried to change the team of " + lastKnownName + " without resetting is!"); return;}
+        if (this.team != ManhuntTeam.NONE && team != ManhuntTeam.NONE) { plugin.getLogger().log(Level.WARNING, "Some plugin accessing the api tried to change the team of " + lastKnownName + " without resetting it!"); return;}
         setTeamIntern(team);
     }
 
@@ -70,6 +73,7 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
             }
 
             this.team = event.getNewTeam();
+            giveCompass();
         });
     }
 
@@ -205,6 +209,41 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
 
     @Override
     public Optional<ManhuntPlayer> getTracking() {
+        if (tracking == null) return Optional.empty();
+        if (!tracking.isOnline()) return Optional.empty();
         return Optional.ofNullable(tracking);
+    }
+
+    @Override
+    public void setTracking(ManhuntPlayer target) {
+        tracking = target;
+    }
+
+    @Override
+    public void giveCompass() {
+        if (getPlayer() == null) return;
+        removeCompass();
+        if (!plugin.getBootstrap().getConfigManager().getCompass().isEnabled()) return;
+        if (!(team == ManhuntTeam.HUNTER)) return;
+        getPlayer().give(plugin.getBootstrap().getItemManager().getTrackingCompass().getItemStack());
+    }
+
+    @Override
+    public void removeCompass() {
+        String compassId = plugin.getBootstrap().getItemManager().getTrackingCompass().getId();
+        Player player = getPlayer();
+
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+            ItemStack item = player.getInventory().getItem(i);
+
+            if (item == null || !item.hasItemMeta()) continue;
+
+            String id = item.getItemMeta().getPersistentDataContainer()
+                    .get(ManhuntItem.ITEM_ID, PersistentDataType.STRING);
+
+            if (compassId.equals(id)) {
+                player.getInventory().setItem(i, null);
+            }
+        }
     }
 }

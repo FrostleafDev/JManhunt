@@ -1,5 +1,7 @@
 prefix: '<dark_gray>[<aqua>JManhunt<dark_gray>]<reset>'
 
+none: 'None'
+
 teams:
   hunter: 'Hunter'
   runner: 'Runner'
