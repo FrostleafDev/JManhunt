@@ -1,11 +1,17 @@
 name: JManhunt
 version: '1.0.0'
 main: de.jozelot.jmanhunt.JManhunt
-bootstrapper: de.jozelot.jmanhunt.core.JManhuntBootstrapImpl
+bootstrapper: de.jozelot.jmanhunt.core.PluginBootstrap
 api-version: '1.21'
 authors: [ jozelot_ ]
 description: High Performance Manhunt Engine for Minecraft. For Players and Developers.
 website: https://jozelot.de
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
 
 permissions:
   jmanhunt.command:

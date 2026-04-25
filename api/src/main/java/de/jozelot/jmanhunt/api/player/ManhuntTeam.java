@@ -15,22 +15,22 @@ public enum ManhuntTeam {
     /**
      * Players who are hunting the runners.
      */
-    HUNTER("hunter"),
+    HUNTER,
 
     /**
      * Players who are being hunted and must reach the objective.
      */
-    RUNNER("runner"),
+    RUNNER,
 
     /**
      * Players who are observing the game and do not participate in the logic.
      */
-    SPECTATOR("spectator"),
+    SPECTATOR,
 
     /**
      * Players who have not been assigned to a team yet (e.g., during setup).
      */
-    NONE("none");
+    NONE;
 
     /**
      * Checks if the team is actively participating in the manhunt gameplay.
@@ -42,15 +42,5 @@ public enum ManhuntTeam {
      */
     public boolean isActive() {
         return this == HUNTER || this == RUNNER;
-    }
-
-    private final String nameKey;
-
-    ManhuntTeam(String nameKey) {
-        this.nameKey = nameKey;
-    }
-
-    public String getNameKey() {
-        return nameKey;
     }
 }

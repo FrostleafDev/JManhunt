@@ -4,6 +4,7 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameManager;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayerManager;
+import de.jozelot.jmanhunt.api.player.ManhuntTeamManager;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
@@ -30,5 +31,10 @@ public class ManhuntImpl implements Manhunt {
     @Override
     public ManhuntPlayer getPlayer(UUID uuid) {
         return plugin.getBootstrap().getManhuntPlayerManager().getPlayer(uuid);
+    }
+
+    @Override
+    public ManhuntTeamManager getTeamManager() {
+        return null;
     }
 }

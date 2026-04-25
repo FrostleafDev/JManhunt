@@ -116,4 +116,7 @@ public class LangManager {
         return prefix;
     }
 
+    public FileConfiguration getLanguageConfig() {
+        return languageConfig;
+    }
 }

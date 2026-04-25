@@ -2,9 +2,11 @@ package de.jozelot.jmanhunt.core;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.ApiManager;
+import de.jozelot.jmanhunt.core.dependencies.PluginDependencies;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
+import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
 import de.jozelot.jmanhunt.registry.ListenerRegistry;
 import de.jozelot.jmanhunt.storage.ConfigManager;
@@ -16,6 +18,7 @@ import java.util.logging.Level;
 public class JManhuntBootstrap {
 
     private final JManhunt plugin;
+    private PluginDependencies pluginDependencies;
     private boolean canShutdownSafely = false;
 
     public JManhuntBootstrap(JManhunt plugin) {
@@ -28,6 +31,7 @@ public class JManhuntBootstrap {
     private ApiManager apiManager;
     private GameManagerImpl gameManager;
     private PhaseManagerImpl phaseManager;
+    private ManhuntTeamManagerImpl teamManager;
     private ManhuntPlayerManagerImpl manhuntPlayerManager;
     private MassManager massManager;
 
@@ -38,12 +42,16 @@ public class JManhuntBootstrap {
      * Creates all the needed Object Classes for the project
      */
     public void initialize() {
+        pluginDependencies = new PluginDependencies(plugin);
+        pluginDependencies.checkDependencies();
+
         configManager = new ConfigManager(plugin);
         langManager = new LangManager(plugin);
         updateManager = new UpdateManager(plugin);
         apiManager = new ApiManager(plugin);
         gameManager = new GameManagerImpl(plugin);
         phaseManager = new PhaseManagerImpl(plugin);
+        teamManager = new ManhuntTeamManagerImpl(plugin);
         commandRegistry = new CommandRegistry(plugin);
         listenerRegistry = new ListenerRegistry(plugin);
         manhuntPlayerManager = new ManhuntPlayerManagerImpl(plugin);
@@ -63,6 +71,7 @@ public class JManhuntBootstrap {
         gameManager.loadFromStorage();
         commandRegistry.register();
         listenerRegistry.register();
+        pluginDependencies.register();
         canShutdownSafely = true;
         return true;
     }
@@ -96,6 +105,10 @@ public class JManhuntBootstrap {
         massManager.getStorage().init();
         gameManager.loadFromStorage();
         manhuntPlayerManager.loadAllFromStorage();
+    }
+
+    public PluginDependencies getDependencies() {
+        return pluginDependencies;
     }
 
     public ConfigManager getConfigManager() {

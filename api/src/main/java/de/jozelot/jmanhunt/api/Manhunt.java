@@ -7,6 +7,7 @@ package de.jozelot.jmanhunt.api;
 import de.jozelot.jmanhunt.api.game.GameManager;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayerManager;
+import de.jozelot.jmanhunt.api.player.ManhuntTeamManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,4 +52,10 @@ public interface Manhunt {
      */
     @Nullable
     ManhuntPlayer getPlayer(UUID uuid);
+
+    /**
+     * Gets the manager responsible for team focused actions
+     * @return
+     */
+    ManhuntTeamManager getTeamManager();
 }

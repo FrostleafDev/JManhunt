@@ -1,5 +1,11 @@
 prefix: '<dark_gray>[<aqua>JManhunt<dark_gray>]<reset>'
 
+teams:
+  hunter: 'Hunter'
+  runner: 'Runner'
+  spectator: 'Spectator'
+  none: 'None'
+
 phase-setup-player-kick:
   - "<dark_gray>--- <aqua><b>JManhunt</b></aqua> <dark_gray>---"
   - ""
