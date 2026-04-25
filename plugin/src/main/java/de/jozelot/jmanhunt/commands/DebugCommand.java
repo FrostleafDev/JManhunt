@@ -1,9 +1,13 @@
 package de.jozelot.jmanhunt.commands;
 
 import com.mojang.brigadier.Command;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
+import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.commands.manager.IManhuntCommand;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.storage.LangManager;
@@ -35,6 +39,35 @@ public class DebugCommand implements IManhuntCommand {
             final Commands commands = event.registrar();
 
             var mainBuilder = Commands.literal(mainName)
+                    .then(Commands.literal("state")
+                            .then(Commands.literal("get")
+                                    .executes(context -> {
+                                        context.getSource().getSender().sendMessage(mm.deserialize("<gray>Current Gamestate: <white>" + plugin.getBootstrap().getGameManager().getGameState().name()));
+                                        return Command.SINGLE_SUCCESS;
+                                    }))
+                            .then(Commands.literal("set")
+                                    .then(Commands.argument("state", StringArgumentType.word())
+                                            .suggests((context, builder) -> {
+                                                String input = builder.getRemaining().toLowerCase();
+                                                for (GameState state : GameState.values()) {
+                                                    if (!state.name().startsWith(input)) continue;
+                                                    builder.suggest(state.name());
+                                                }
+                                                return builder.buildFuture();
+                                            })
+                                            .executes(context -> {
+                                                String state = StringArgumentType.getString(context, "state").toUpperCase();
+                                                try {
+                                                    GameState gameState = GameState.valueOf(state);
+                                                    plugin.getBootstrap().getGameManager().setGameState(gameState);
+                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Changed Gamestate to: <white>" + state));
+                                                } catch (Exception e) {
+                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Can't change Gamestate to: <white>" + state + "<newline><red>" + e));
+                                                }
+                                                return Command.SINGLE_SUCCESS;
+                                            })
+                                    )
+                            )
                     .then(Commands.literal("start")
                             .executes(context -> {
                                 plugin.getBootstrap().getPhaseManager().start();
@@ -65,7 +98,7 @@ public class DebugCommand implements IManhuntCommand {
                             .executes(context -> {
                                 plugin.getBootstrap().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
                                 return Command.SINGLE_SUCCESS;
-                            }))
+                            })))
                     ;
 
             LiteralCommandNode<CommandSourceStack> mainNode = mainBuilder.build();

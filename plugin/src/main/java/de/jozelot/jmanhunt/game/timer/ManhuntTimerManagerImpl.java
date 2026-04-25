@@ -79,7 +79,7 @@ public class ManhuntTimerManagerImpl implements ManhuntTimerManager {
         }
     }
 
-    private void updateActionbar() {
+    public void updateActionbar() {
         String text = "<red>Plugin error...";
 
         if (timer.getElapsedSeconds() < 60) text = timer.format(conf.getFormatS());

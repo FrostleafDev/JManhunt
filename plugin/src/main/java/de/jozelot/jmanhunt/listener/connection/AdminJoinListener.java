@@ -27,16 +27,19 @@ public class AdminJoinListener implements Listener {
             event.getPlayer().sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-setup-join-info", null))));
             PlaySoundUtils.playPling(event.getPlayer(), plugin);
         }
-        if (!plugin.getBootstrap().getUpdateManager().isUpdateAvailable()) {
-            return;
+        Player player = event.getPlayer();
+        if (plugin.getBootstrap().getUpdateManager().isUpdateAvailable()) {
+            ManhuntPlayerImpl manhuntPlayer = (ManhuntPlayerImpl) plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
+            String latestVersion = plugin.getBootstrap().getUpdateManager().getLatestVersion();
+            String currentVersion = plugin.getBootstrap().getUpdateManager().getCurrentVersion();
+
+            player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-update-info", Map.of("version", latestVersion, "current_version", currentVersion)))));
+            manhuntPlayer.playSound(Sound.NOTIFY);
         }
 
-        Player player = event.getPlayer();
-        ManhuntPlayerImpl manhuntPlayer = (ManhuntPlayerImpl) plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
-        String latestVersion = plugin.getBootstrap().getUpdateManager().getLatestVersion();
-        String currentVersion = plugin.getBootstrap().getUpdateManager().getCurrentVersion();
-
-        player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-update-info", Map.of("version", latestVersion, "current_version", currentVersion)))));
-        manhuntPlayer.playSound(Sound.NOTIFY);
+        if (plugin.getBootstrap().isDebugMode()) {
+            player.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("admin-debug-join-info", null)));
+            PlaySoundUtils.playWarning(player, plugin);
+        }
     }
 }

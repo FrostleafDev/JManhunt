@@ -193,3 +193,20 @@ command-jmanhunt-list-footer: '<newline><dark_gray>---------------------------'
 command-jmanhunt-team-clear-success: "{prefix} <gray>Successfully removed <green>{count} <gray>players from team <green>{team}<gray>."
 
 command-jmanhunt-version: '{prefix} <gray>The server is running version <green>v{current_version} <gray>of the plugin.'
+
+admin-debug-join-info:
+  - ""
+  - "<dark_gray>------------------ <red>JManhunt <white>Debug <dark_gray>------------------"
+  - ""
+  - "<red><b>ATTENTION: <gray>The plugin is currently in <red>DEBUG MODE<gray>!"
+  - "<gray>The <white>'.debug' <gray>file was found and the config is active."
+  - ""
+  - "<yellow>Security Warning:"
+  - "<dark_gray>» <gray>Permission checks for many actions are <red>disabled<gray>."
+  - "<dark_gray>» <gray>Debug command  <white>/jm-debug <gray>is <green>active<gray>."
+  - ""
+  - "<gray>To disable this, remove the <white>'.debug' <gray>file or change"
+  - "<gray>the config and restart the server."
+  - ""
+  - "<dark_gray>-------------------------------------------"
+  - ""

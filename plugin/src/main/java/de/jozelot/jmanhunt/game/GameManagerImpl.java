@@ -48,7 +48,7 @@ public class GameManagerImpl implements GameManager {
         }
 
         this.state = state;
-
+        plugin.getBootstrap().getTimerManager().updateActionbar();
         plugin.getBootstrap().getPhaseManager().handleStateChange(state);
         return true;
     }
