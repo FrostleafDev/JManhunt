@@ -88,7 +88,7 @@ public class ManhuntTimerManagerImpl implements ManhuntTimerManager {
 
         if (plugin.getBootstrap().getPhaseManager().isPaused()) text = timer.format(conf.getFormatPause());
         if (plugin.getBootstrap().getPhaseManager().isSetup() || plugin.getBootstrap().getPhaseManager().isPreGame() || plugin.getBootstrap().getPhaseManager().isEnded()) {
-            text = timer.format(conf.getFormatNotRunning()).replace("{state}", plugin.getBootstrap().getGameManager().getGameState().name().toLowerCase());
+            text = timer.format(conf.getFormatNotRunning()).replace("{state}", plugin.getBootstrap().getGameManager().getGameState().getName());
         }
 
         String finalText = text;

@@ -202,13 +202,19 @@ timer-in-actionbar: true
 #
 # This format is used when the timer is < 1m
 timer-format-s: "<gradient:green:dark_green><b>{s}s"
+
 # This format is used when the timer is < 1h
 timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
+
 # This format is used when the timer is > 1h
 timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
+
 # This format is used when the timer is not running
 timer-format-paused: "<gradient:green:dark_green><b><i>Manhunt paused..."
-# This when the manhunt is in setup/pregame/end
+
+# This when the manhunt is in setup/pregame/end.
+# This has no translation.
+#
 # - SETUP -> "Setup"
 # - PREGAME -> "Pregame"
 # - ENDED -> "Ended"
