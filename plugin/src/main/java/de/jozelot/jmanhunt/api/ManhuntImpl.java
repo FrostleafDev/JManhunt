@@ -43,4 +43,9 @@ public class ManhuntImpl implements Manhunt {
     public ManhuntTimerManager getTimerManager() {
         return plugin.getBootstrap().getTimerManager();
     }
+
+    @Override
+    public boolean isDebugMode() {
+        return plugin.getBootstrap().isDebugMode();
+    }
 }

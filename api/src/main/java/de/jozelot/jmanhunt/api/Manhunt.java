@@ -60,5 +60,16 @@ public interface Manhunt {
      */
     ManhuntTeamManager getTeamManager();
 
+    /**
+     * Gets the manager responsible for the timer focused action
+     * @return
+     */
     ManhuntTimerManager getTimerManager();
+
+    /**
+     * Is the plugin running in debug mode?
+     * With this check you can secure your addon to do specific things based on that
+     * @return The current state
+     */
+    boolean isDebugMode();
 }
