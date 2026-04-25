@@ -67,7 +67,7 @@ public class DebugCommand implements IManhuntCommand {
                                                 return Command.SINGLE_SUCCESS;
                                             })
                                     )
-                            )
+                            ))
                     .then(Commands.literal("start")
                             .executes(context -> {
                                 plugin.getBootstrap().getPhaseManager().start();
@@ -98,7 +98,7 @@ public class DebugCommand implements IManhuntCommand {
                             .executes(context -> {
                                 plugin.getBootstrap().getPhaseManager().end(ManhuntEndReason.MANHUNT_CANCELED);
                                 return Command.SINGLE_SUCCESS;
-                            })))
+                            }))
                     ;
 
             LiteralCommandNode<CommandSourceStack> mainNode = mainBuilder.build();

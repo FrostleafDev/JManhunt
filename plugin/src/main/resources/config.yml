@@ -210,7 +210,7 @@ timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
 timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
 
 # This format is used when the timer is not running
-timer-format-paused: "<gradient:green:dark_green><b><i>Manhunt paused..."
+timer-format-paused: "<gradient:green:dark_green><b><i>Manhunt paused"
 
 # This when the manhunt is in setup/pregame/end.
 # This has no translation.

@@ -28,7 +28,7 @@ admin-update-info:
 
 admin-setup-join-info:
   - ""
-  - "<dark_gray>------------------ <aqua>JManhunt <white>Setup <dark_gray>------------------"
+  - "<dark_gray>---------------- <aqua>JManhunt <white>Setup <dark_gray>-----------------"
   - ""
   - "<gray>The manhunt is currently in the <green>setup <gray>phase."
   - "<gray>You can view all commands with <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt help'><click:run_command:'/jmanhunt help'>/jmanhunt help</click></hover><gray>."
@@ -46,7 +46,7 @@ command-jmanhunt-player-not-found: '{prefix} <red>{player_name} <gray>does not e
 
 command-jmanhunt-help-not-admin:
   - ""
-  - "<dark_gray>------------------ <aqua>JManhunt <white>Player <dark_gray>------------------"
+  - "<dark_gray>--------------- <aqua>JManhunt <white>Player <dark_gray>-----------------"
   - ""
   - "<gray>You are currently participating in a <aqua>Manhunt<gray>."
   - ""
@@ -59,7 +59,7 @@ command-jmanhunt-help-not-admin:
 
 command-jmanhunt-help-admin:
   - ""
-  - "<dark_gray>------------------ <aqua>JManhunt <white>Admin <dark_gray>------------------"
+  - "<dark_gray>--------------- <aqua>JManhunt <white>Admin <dark_gray>-----------------"
   - ""
   - "<yellow>Commands:"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt version'><click:run_command:'/jmanhunt version'>/jmanhunt version</click></hover> <dark_gray>- <gray>Show the plugin version"
@@ -80,7 +80,7 @@ command-jmanhunt-help-admin:
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt reset'><click:run_command:'/jmanhunt reset'>/jmanhunt reset</click></hover> <dark_gray>- <gray>Resets and deletes all plugin data"
   - " <dark_gray>» <white><hover:show_text:'<gray>Click to run: <white>/jmanhunt confirm'><click:run_command:'/jmanhunt confirm'>/jmanhunt confirm</click></hover> <dark_gray>- <gray>This confirms dangerous commands"
   - ""
-  - "<dark_gray>----------------------------------------------------"
+  - "<dark_gray>-------------------------------------------"
   - ""
 
 command-jmanhunt-reload-success: "{prefix} <gray>The plugin was <green>successfully <gray>reloaded"
@@ -158,7 +158,7 @@ command-jmanhunt-reset-success: '{prefix} <gray>The manhunt reset was started <g
 
 command-jmanhunt-team-info-header:
   - ""
-  - "<dark_gray>--- <aqua>JManhunt <white>Team <dark_gray>---"
+  - "<dark_gray>--------------- <aqua>JManhunt <white>Team <dark_gray>-----------------"
   - ""
   - "<gray>Your Team: <aqua>{team}"
   - "<gray>Team <aqua>{member_count}<gray>:"
@@ -167,7 +167,7 @@ command-jmanhunt-team-info-member:
 
 command-jmanhunt-team-info-footer:
   - ""
-  - "<dark_gray>---------------------------"
+  - "<dark_gray>-------------------------------------------"
   - ""
 
 command-jmanhunt-team-info-no-team: '{prefix} <gray>You are currently not in a <red>team<gray>.'
@@ -196,16 +196,16 @@ command-jmanhunt-version: '{prefix} <gray>The server is running version <green>v
 
 admin-debug-join-info:
   - ""
-  - "<dark_gray>------------------ <red>JManhunt <white>Debug <dark_gray>------------------"
+  - "<dark_gray>--------------- <aqua>JManhunt <white>Debug <dark_gray>-----------------"
   - ""
-  - "<red><b>ATTENTION: </b><gray>The plugin is currently in <red>DEBUG MODE<gray>!"
-  - "<gray>The <white>'.debug' <gray>file was found and the config is active."
+  - "<red><b>ATTENTION: </b><gray>The plugin is currently in <red>Debug Mode<gray>!"
+  - "<gray>The <white>.debug <gray>file was found and the config is active."
   - ""
   - "<yellow>Security Warning:"
   - "<dark_gray>» <gray>Permission checks for many actions are <red>disabled<gray>."
   - "<dark_gray>» <gray>Debug command  <white>/jm-debug <gray>is <green>active<gray>."
   - ""
-  - "<gray>To disable this, remove the <white>'.debug' <gray>file or change"
+  - "<gray>To disable this, remove the <white>.debug <gray>file or change"
   - "<gray>the config and restart the server."
   - ""
   - "<dark_gray>-------------------------------------------"
