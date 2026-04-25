@@ -2,6 +2,7 @@ package de.jozelot.jmanhunt.api;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameManager;
+import de.jozelot.jmanhunt.api.game.timer.ManhuntTimerManager;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayerManager;
 import de.jozelot.jmanhunt.api.player.ManhuntTeamManager;
@@ -36,5 +37,10 @@ public class ManhuntImpl implements Manhunt {
     @Override
     public ManhuntTeamManager getTeamManager() {
         return null;
+    }
+
+    @Override
+    public ManhuntTimerManager getTimerManager() {
+        return plugin.getBootstrap().getTimerManager();
     }
 }

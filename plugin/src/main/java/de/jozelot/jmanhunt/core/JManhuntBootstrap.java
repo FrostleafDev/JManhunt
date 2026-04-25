@@ -5,6 +5,7 @@ import de.jozelot.jmanhunt.api.ApiManager;
 import de.jozelot.jmanhunt.core.dependencies.PluginDependencies;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
+import de.jozelot.jmanhunt.game.timer.ManhuntTimerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
@@ -13,6 +14,7 @@ import de.jozelot.jmanhunt.storage.ConfigManager;
 import de.jozelot.jmanhunt.storage.LangManager;
 import de.jozelot.jmanhunt.storage.mass.MassManager;
 
+import java.util.Timer;
 import java.util.logging.Level;
 
 public class JManhuntBootstrap {
@@ -34,6 +36,7 @@ public class JManhuntBootstrap {
     private ManhuntTeamManagerImpl teamManager;
     private ManhuntPlayerManagerImpl manhuntPlayerManager;
     private MassManager massManager;
+    private ManhuntTimerManagerImpl timerManager;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -56,6 +59,7 @@ public class JManhuntBootstrap {
         listenerRegistry = new ListenerRegistry(plugin);
         manhuntPlayerManager = new ManhuntPlayerManagerImpl(plugin);
         massManager = new MassManager(plugin);
+        timerManager = new ManhuntTimerManagerImpl(plugin);
     }
 
     /**
@@ -145,5 +149,9 @@ public class JManhuntBootstrap {
 
     public UpdateManager getUpdateManager() {
         return updateManager;
+    }
+
+    public ManhuntTimerManagerImpl getTimerManager() {
+        return timerManager;
     }
 }

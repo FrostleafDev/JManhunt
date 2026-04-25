@@ -1,0 +1,9 @@
+/*
+ * Copyright (c) 2026 jozelot_. All rights reserved.
+ * Project: JManhunt | Module: API
+ */
+package de.jozelot.jmanhunt.api.game.timer;
+
+public interface ManhuntTimerManager {
+    ManhuntTimer getTimer();
+}
