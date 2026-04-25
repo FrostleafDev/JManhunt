@@ -127,7 +127,7 @@ public class DebugCommand implements IManhuntCommand {
                                                 return builder.buildFuture();
                                             })
                                             .executes(context -> {
-                                                plugin.getBootstrap().getTimerManager().getTimer().setElapsedSeconds(plugin.getBootstrap().getTimerManager().getTimer().getElapsedSeconds() + IntegerArgumentType.getInteger(context, "timerRemove"));
+                                                plugin.getBootstrap().getTimerManager().getTimer().setElapsedSeconds(plugin.getBootstrap().getTimerManager().getTimer().getElapsedSeconds() - IntegerArgumentType.getInteger(context, "timerRemove"));
                                                 context.getSource().getSender().sendMessage(mm.deserialize("<gray>Timer removed seconds: <white>" + IntegerArgumentType.getInteger(context, "timerRemove")+ "s<gray>. Now: <white>" + plugin.getBootstrap().getTimerManager().getTimer().getElapsedSeconds() + "s"));
                                                 return Command.SINGLE_SUCCESS;
                                             })
