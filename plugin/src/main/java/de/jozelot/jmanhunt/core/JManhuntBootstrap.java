@@ -131,6 +131,10 @@ public class JManhuntBootstrap {
         return phaseManager;
     }
 
+    public ManhuntTeamManagerImpl getTeamManager() {
+        return teamManager;
+    }
+
     public ManhuntPlayerManagerImpl getManhuntPlayerManager() {
         return manhuntPlayerManager;
     }

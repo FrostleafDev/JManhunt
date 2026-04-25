@@ -338,6 +338,8 @@ default-time: DAY
 # %jmanhunt_status%                   -> The current game status: SETUP, PRE_GAME, RUNNING, PAUSE, ENDED
 # %jmanhunt_active_runners%           -> The raw number of runners currently alive (e.g. '2')
 # %jmanhunt_total_runners%            -> The total number of runners that started the game (e.g. '3')
+# %jmanhunt_total_hunters%            -> The total number of hunters that started the game (e.g. '3')
+# %jmanhunt_total_spectators%         -> The total number of spectators that are registered)
 
 
 
