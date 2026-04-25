@@ -198,7 +198,7 @@ admin-debug-join-info:
   - ""
   - "<dark_gray>------------------ <red>JManhunt <white>Debug <dark_gray>------------------"
   - ""
-  - "<red><b>ATTENTION: <gray>The plugin is currently in <red>DEBUG MODE<gray>!"
+  - "<red><b>ATTENTION: </b><gray>The plugin is currently in <red>DEBUG MODE<gray>!"
   - "<gray>The <white>'.debug' <gray>file was found and the config is active."
   - ""
   - "<yellow>Security Warning:"

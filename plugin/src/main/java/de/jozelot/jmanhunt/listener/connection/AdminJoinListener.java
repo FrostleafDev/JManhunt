@@ -38,7 +38,7 @@ public class AdminJoinListener implements Listener {
         }
 
         if (plugin.getBootstrap().isDebugMode()) {
-            player.sendMessage(mm.deserialize(plugin.getBootstrap().getLangManager().format("admin-debug-join-info", null)));
+            player.sendMessage(mm.deserialize(String.join("<newline>", plugin.getBootstrap().getLangManager().formatList("admin-debug-join-info", null))));
             PlaySoundUtils.playWarning(player, plugin);
         }
     }

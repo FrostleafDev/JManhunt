@@ -135,7 +135,7 @@ public class JManhuntBootstrap {
             this.debugMode = true;
             PluginMessages.sendDebugWarning();
         }
-        plugin.getLogger().log(Level.INFO, "Config einstellung: " + configEnabled + ". Datei: " + debugFile.exists() + ". Debug Mode: " + debugMode);
+        // plugin.getLogger().log(Level.INFO, "Config einstellung: " + configEnabled + ". Datei: " + debugFile.exists() + ". Debug Mode: " + debugMode);
     }
 
     public boolean isDebugMode() {
