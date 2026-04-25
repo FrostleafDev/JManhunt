@@ -76,6 +76,7 @@ public class JManhuntBootstrap {
         commandRegistry.register();
         listenerRegistry.register();
         pluginDependencies.register();
+        timerManager.setup();
         canShutdownSafely = true;
         return true;
     }
@@ -88,6 +89,7 @@ public class JManhuntBootstrap {
         if (!canShutdownSafely) return;
         apiManager.shutdown();
         if (!gameManager.isWiping()) {
+            timerManager.save();
             gameManager.saveToStorage();
             manhuntPlayerManager.saveAllToStorage();
         }

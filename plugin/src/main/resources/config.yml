@@ -197,6 +197,7 @@ tablist:
 timer-in-actionbar: true
 
 # Available placeholders: {s} (seconds), {m} (minutes), {h} (hours).
+# When writing these in uppercase the '0' will be added for values below 10
 # The plugin automatically switches between these formats based on the elapsed time.
 #
 # This format is used when the timer is < 1m

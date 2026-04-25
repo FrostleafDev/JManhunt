@@ -45,7 +45,7 @@ public interface ManhuntTimer {
     /**
      * Formats the current elapsed time into a human-readable string using a custom pattern.
      *
-     * @param pattern the formatting pattern (e.g., "HH:mm:ss")
+     * @param pattern Available placeholders: {s} (seconds), {m} (minutes), {h} (hours). When writing these in uppercase the '0' will be added for values below 10
      * @return the formatted time string
      */
     @NotNull

@@ -34,8 +34,22 @@ public class ManhuntTimerImpl implements ManhuntTimer {
         return 0;
     }
 
+    public void tick() {
+        seconds++;
+    }
+
     @Override
     public @NotNull String format(@NotNull String pattern) {
-        return "";
+        long h = seconds / 3600;
+        long m = (seconds % 3600) / 60;
+        long s = seconds % 60;
+
+        return pattern
+                .replace("{h}", String.valueOf(h))
+                .replace("{m}", String.valueOf(m))
+                .replace("{s}", String.valueOf(s))
+                .replace("{H}", String.format("%02d", h))
+                .replace("{M}", String.format("%02d", m))
+                .replace("{S}", String.format("%02d", s));
     }
 }

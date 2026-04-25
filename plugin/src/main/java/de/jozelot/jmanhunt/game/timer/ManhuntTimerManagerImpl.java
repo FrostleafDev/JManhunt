@@ -11,7 +11,14 @@ public class ManhuntTimerManagerImpl implements ManhuntTimerManager {
 
     public ManhuntTimerManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
-        timer = new ManhuntTimerImpl(true, 0);
+    }
+
+    public void setup() {
+        timer = new ManhuntTimerImpl(plugin.getBootstrap().getPhaseManager().isRunning(), plugin.getBootstrap().getMassManager().getTimer());
+    }
+
+    public void save() {
+        plugin.getBootstrap().getMassManager().saveTimer(timer.getElapsedSeconds());
     }
 
     @Override

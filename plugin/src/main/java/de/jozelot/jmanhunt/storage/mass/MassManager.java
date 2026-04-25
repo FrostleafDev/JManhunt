@@ -247,6 +247,36 @@ public class MassManager {
         return null;
     }
 
+    public long getTimer() {
+        String sql = "SELECT timer FROM `" + storage.getPrefix() + "game` WHERE id = 1";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getLong("timer");
+            }
+        } catch (SQLException e) {
+            return 0;
+        }
+        return 0;
+    }
+
+    public void saveTimer(long timer) {
+        String sql = "UPDATE `" + storage.getPrefix() + "game` SET timer = ? WHERE id = 1";
+
+        try (Connection con = storage.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setLong(1, timer);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Couldn't save timer: " + e.getMessage());
+        }
+    }
+
     public ManhuntStorage getStorage() {
         return storage;
     }

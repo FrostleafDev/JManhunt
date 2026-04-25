@@ -61,7 +61,8 @@ public class SQLiteStorage implements ManhuntStorage {
                 "CREATE TABLE IF NOT EXISTS `" + databasePrefix + "game` (" +
                         "id INT PRIMARY KEY, " +
                         "state VARCHAR(20) DEFAULT 'SETUP', " +
-                        "end_reason VARCHAR(20) DEFAULT 'NONE'" +
+                        "end_reason VARCHAR(20) DEFAULT 'NONE'," +
+                        "timer LONG DEFAULT 0" +
                         ");"
         };
 
