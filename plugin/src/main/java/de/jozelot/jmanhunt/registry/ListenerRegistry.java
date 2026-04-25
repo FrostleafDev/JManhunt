@@ -1,10 +1,7 @@
 package de.jozelot.jmanhunt.registry;
 
 import de.jozelot.jmanhunt.JManhunt;
-import de.jozelot.jmanhunt.listener.AdminJoinListener;
-import de.jozelot.jmanhunt.listener.ManhuntItemListener;
-import de.jozelot.jmanhunt.listener.PlayerConnectionListener;
-import de.jozelot.jmanhunt.listener.ServerPingListener;
+import de.jozelot.jmanhunt.listener.*;
 
 public class ListenerRegistry {
 
@@ -24,5 +21,7 @@ public class ListenerRegistry {
         pm.registerEvents(new AdminJoinListener(plugin), plugin);
         pm.registerEvents(new ManhuntItemListener(plugin), plugin);
         pm.registerEvents(new ServerPingListener(plugin), plugin);
+        pm.registerEvents(new SetupPreGameProtection(plugin), plugin);
+        pm.registerEvents(new PauseGameFreezeListener(plugin), plugin);
     }
 }
