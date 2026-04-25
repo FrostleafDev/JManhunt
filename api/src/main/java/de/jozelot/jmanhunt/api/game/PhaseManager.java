@@ -71,4 +71,10 @@ public interface PhaseManager {
      * @param reason the reason why the game ended
      */
     void end(@NotNull ManhuntEndReason reason);
+
+    /**
+     * Check if the game is in a player protective state
+     * @return true if the Manhunt is in setup or pregame
+     */
+    boolean isProtected();
 }
