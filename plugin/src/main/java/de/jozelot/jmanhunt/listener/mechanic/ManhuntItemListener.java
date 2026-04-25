@@ -77,6 +77,28 @@ public class ManhuntItemListener implements Listener {
             }
         }
 
+        if (event.getClick() == ClickType.SWAP_OFFHAND) {
+            ItemStack offhandItem = event.getWhoClicked().getInventory().getItemInOffHand();
+            ManhuntItem mOffhand = getManhuntItemByItemStack(offhandItem);
+
+            if (mOffhand != null) {
+                if (!mOffhand.canBeMovedIntoDifferentInventory()) {
+                    if (event.getClickedInventory() != null && !event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+                        cancelClick(event);
+                        return;
+                    }
+                    if (event.getSlotType() == InventoryType.SlotType.CRAFTING) {
+                        cancelClick(event);
+                        return;
+                    }
+                }
+                if (!mOffhand.canBeMoved()) {
+                    cancelClick(event);
+                    return;
+                }
+            }
+        }
+
         if ((mCurrent != null && !mCurrent.canBeMoved()) || (mCursor != null && !mCursor.canBeMoved())) {
             cancelClick(event);
             return;
