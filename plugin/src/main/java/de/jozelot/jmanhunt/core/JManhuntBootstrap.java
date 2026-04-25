@@ -68,8 +68,8 @@ public class JManhuntBootstrap {
      * Enables all the logic for the plugin in the given order
      */
     public boolean enable() {
-        checkDebugMode();
         if (!configManager.load()) return false;
+        checkDebugMode();
         if (!langManager.load(configManager.getLocale())) return false;
         if (!massManager.load()) return false;
         manhuntPlayerManager.loadAllFromStorage();
@@ -135,6 +135,7 @@ public class JManhuntBootstrap {
             this.debugMode = true;
             PluginMessages.sendDebugWarning();
         }
+        plugin.getLogger().log(Level.INFO, "Config einstellung: " + configEnabled + ". Datei: " + debugFile.exists() + ". Debug Mode: " + debugMode);
     }
 
     public boolean isDebugMode() {

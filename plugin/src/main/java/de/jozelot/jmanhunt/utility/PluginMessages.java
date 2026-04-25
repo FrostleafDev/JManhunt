@@ -11,24 +11,23 @@ import java.util.logging.Level;
 public class PluginMessages {
 
     private static final MiniMessage mm = MiniMessage.miniMessage();
+    private static final String prefix = "<dark_gray>[<aqua>JManhunt<dark_gray>]";
 
     public static void sendStartup(JManhunt plugin) {
         var sender = Bukkit.getConsoleSender();
         var version = plugin.getDescription().getVersion();
         var mcVersion = Bukkit.getBukkitVersion();
 
-        String prefix = "§8[§bJManhunt§8]";
-
         sender.sendMessage("");
-        sender.sendMessage(prefix + "§7 Minecraft läuft in der §a" + mcVersion);
-        sender.sendMessage(prefix + "§8 ----------------------------------------------");
-        sender.sendMessage(prefix + "§b    +==================+");
-        sender.sendMessage(prefix + "§b    |     JManhunt     |");
-        sender.sendMessage(prefix + "§b    +==================+");
-        sender.sendMessage(prefix + "§8 ----------------------------------------------");
-        sender.sendMessage(prefix + "§7    Version: §a" +  version);
-        sender.sendMessage(prefix + "§8 ----------------------------------------------");
-        sender.sendMessage(prefix + "§a Plugin start was successful");
+        sender.sendMessage(mm.deserialize(prefix + "<gray> Minecraft läuft in der <green>" + mcVersion));
+        sender.sendMessage(mm.deserialize(prefix + "<dark_gray> ----------------------------------------------"));
+        sender.sendMessage(mm.deserialize(prefix + "<aqua>    +==================+"));
+        sender.sendMessage(mm.deserialize(prefix + "<aqua>    |     JManhunt     |"));
+        sender.sendMessage(mm.deserialize(prefix + "<aqua>    +==================+"));
+        sender.sendMessage(mm.deserialize(prefix + "<dark_gray> ----------------------------------------------"));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>    Version: <green>" +  version));
+        sender.sendMessage(mm.deserialize(prefix + "<dark_gray> ----------------------------------------------"));
+        sender.sendMessage(mm.deserialize(prefix + "<green> Plugin start was successful"));
         sender.sendMessage("");
     }
 
@@ -55,16 +54,18 @@ public class PluginMessages {
     public static void sendDebugWarning() {
         var sender = Bukkit.getConsoleSender();
 
-        sender.sendMessage(mm.deserialize("<yellow>############################################################<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##                <red><b>!!! DEBUG MODE ACTIVE !!!</b></red>               ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##  <gray>The plugin is running in development mode.</gray>            ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##  <gray>- Permissions are bypassed for debug commands.</gray>      ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##  <gray>- Internal data is logged to the console.</gray>          ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##  <red><b>DO NOT USE THIS ON A PRODUCTION SERVER!</b></red>              ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>##                                                        ##<newline>" ));
-        sender.sendMessage(mm.deserialize("<yellow>############################################################<newline>"));
+        sender.sendMessage("");
+        sender.sendMessage(mm.deserialize(prefix + "<dark_gray>>----------------------------------------------" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>"));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>                <red><b>!!! DEBUG MODE ACTIVE !!!</b></red>" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>  The plugin is running in development mode.</gray>" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>  - Permissions are bypassed for debug commands.</gray>" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>  - Internal data is logged to the console.</gray>" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>"));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>        <red><b>DO NOT USE THIS ON A PRODUCTION SERVER!</b></red>" ));
+        sender.sendMessage(mm.deserialize(prefix + "<gray>"));
+        sender.sendMessage(mm.deserialize(prefix + "<dark_gray>>----------------------------------------------" ));
+        sender.sendMessage("");
     }
 }
