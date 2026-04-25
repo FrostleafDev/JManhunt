@@ -1,12 +1,14 @@
 package de.jozelot.jmanhunt.inventory.item;
 
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ItemManager {
 
-    private final Map<String, TrackingCompass> items = new HashMap<>();
+    private final Map<String, ManhuntItem> items = new HashMap<>();
     private final JManhunt plugin;
 
     public ItemManager(JManhunt plugin) {
@@ -18,6 +20,6 @@ public class ItemManager {
     }
 
     public TrackingCompass getTrackingCompass() {
-        return items.get("TRACKING_COMPASS");
+        return (TrackingCompass) items.get("TRACKING_COMPASS");
     }
 }

@@ -212,3 +212,6 @@ admin-debug-join-info:
   - ""
   - "<dark_gray>-------------------------------------------"
   - ""
+
+menu-compass-selector-title: 'Select a runner'
+menu-item-back-arrow: '<gray>Back'

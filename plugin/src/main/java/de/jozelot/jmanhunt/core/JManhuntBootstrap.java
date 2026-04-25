@@ -8,6 +8,7 @@ import de.jozelot.jmanhunt.game.PhaseManagerImpl;
 import de.jozelot.jmanhunt.game.timer.ManhuntTimerManagerImpl;
 import de.jozelot.jmanhunt.inventory.item.ItemManager;
 import de.jozelot.jmanhunt.inventory.item.ItemUpdateService;
+import de.jozelot.jmanhunt.inventory.menu.MenuManager;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
@@ -45,6 +46,7 @@ public class JManhuntBootstrap {
     private ManhuntTimerManagerImpl timerManager;
     private ItemUpdateService itemUpdateService;
     private ItemManager itemManager;
+    private MenuManager menuManager;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -69,6 +71,7 @@ public class JManhuntBootstrap {
         timerManager = new ManhuntTimerManagerImpl(plugin);
         itemUpdateService = new ItemUpdateService();
         itemManager = new ItemManager(plugin);
+        menuManager = new MenuManager(plugin);
     }
 
     /**
@@ -88,6 +91,7 @@ public class JManhuntBootstrap {
         pluginDependencies.register();
         timerManager.setup();
         itemManager.init();
+        menuManager.registerMenus();
 
         WorldUtils.applyGamerules();
         canShutdownSafely = true;
@@ -128,6 +132,7 @@ public class JManhuntBootstrap {
         massManager.getStorage().init();
         gameManager.loadFromStorage();
         manhuntPlayerManager.loadAllFromStorage();
+        menuManager.handleReload();
 
         if (plugin.getBootstrap().getPhaseManager().isRunning()) timerManager.start();
         if (plugin.getBootstrap().getConfigManager().getTimer().isEnabled()) timerManager.startActionbar();
@@ -202,5 +207,9 @@ public class JManhuntBootstrap {
 
     public ItemManager getItemManager() {
         return itemManager;
+    }
+
+    public MenuManager getMenuManager() {
+        return menuManager;
     }
 }

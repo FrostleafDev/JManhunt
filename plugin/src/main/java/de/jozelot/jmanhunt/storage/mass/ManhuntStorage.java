@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public interface ManhuntStorage {
-    void init();
+    boolean init();
     void close();
 
     Connection getConnection() throws SQLException;

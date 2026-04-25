@@ -42,9 +42,7 @@ public class MassManager {
         }
         plugin.getLogger().log(Level.INFO, "Storage method is: " + storageType);
 
-        storage.init();
-
-        return true;
+        return storage.init();
     }
 
     public GameState loadState() {

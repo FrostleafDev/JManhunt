@@ -7,6 +7,7 @@ import de.jozelot.jmanhunt.JManhunt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 public class MySQLStorage implements ManhuntStorage {
 
@@ -19,7 +20,7 @@ public class MySQLStorage implements ManhuntStorage {
     }
 
     @Override
-    public void init() {
+    public boolean init() {
         var cm = plugin.getBootstrap().getConfigManager();
         this.databasePrefix = cm.getDatabasePrefix();
 
@@ -38,9 +39,20 @@ public class MySQLStorage implements ManhuntStorage {
         config.setMaximumPoolSize(10);
         config.setConnectionTimeout(5000);
 
-        this.dataSource = new HikariDataSource(config);
+        try {
+            this.dataSource = new HikariDataSource(config);
 
-        createTables();
+            createTables();
+            return true;
+        } catch (Exception e) {
+            plugin.getLogger().log(Level.SEVERE, "");
+            plugin.getLogger().log(Level.SEVERE, "Failed to connect to your database!");
+            plugin.getLogger().log(Level.SEVERE, "Make sure you have the right username, password and database configured.");
+            plugin.getLogger().log(Level.SEVERE, "And make sure the database you have selected exists.");
+            plugin.getLogger().log(Level.SEVERE, "");
+
+            return false;
+        }
     }
 
     private void createTables() {
@@ -59,7 +71,7 @@ public class MySQLStorage implements ManhuntStorage {
                         "id INT PRIMARY KEY, " +
                         "state VARCHAR(20) DEFAULT 'SETUP', " +
                         "end_reason VARCHAR(20) DEFAULT 'NONE'," +
-                        "timer LONG DEFAULT 0" +
+                        "timer BIGINT DEFAULT 0" +
                         ");"
         };
 

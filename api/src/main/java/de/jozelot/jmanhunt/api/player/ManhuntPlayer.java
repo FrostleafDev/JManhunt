@@ -4,6 +4,7 @@
  */
 package de.jozelot.jmanhunt.api.player;
 
+import de.jozelot.jmanhunt.api.inventory.menu.InventoryType;
 import org.bukkit.Warning;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -186,4 +187,25 @@ public interface ManhuntPlayer {
      * Remove the compass item from the inventory of the player
      */
     void removeCompass();
+
+    /**
+     * Open an inventory from the plugin.
+     * @param inventory
+     */
+    void openInventory(InventoryType inventory);
+
+    /**
+     * Open an inventory from the plugin.
+     * @param inventory The inventory to open
+     * @param previousInventory The inventory that was open previously
+     */
+    void openInventory(InventoryType inventory, InventoryType previousInventory);
+
+    /**
+     * Open an inventory from the plugin.
+     * @param inventory The inventory to open
+     * @param previousInventory The inventory that was open previously
+     * @param data Additional data for an ui that needs further information
+     */
+    void openInventory(InventoryType inventory, InventoryType previousInventory, Object data);
 }

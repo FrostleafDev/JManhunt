@@ -3,9 +3,12 @@ package de.jozelot.jmanhunt.player;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.ManhuntTeamAssignEvent;
 import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
+import de.jozelot.jmanhunt.api.inventory.menu.InventoryType;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
+import de.jozelot.jmanhunt.inventory.menu.Menu;
+import de.jozelot.jmanhunt.inventory.menu.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
@@ -246,4 +249,26 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
             }
         }
     }
+
+    @Override
+    public void openInventory(InventoryType type) {
+        openInventory(type, null, null);
+    }
+
+    @Override
+    public void openInventory(InventoryType type, InventoryType previousType) {
+        openInventory(type, previousType, null);
+    }
+
+    @Override
+    public void openInventory(InventoryType type, InventoryType previousType, Object data) {
+        MenuManager mm = plugin.getBootstrap().getMenuManager();
+
+        Menu menu = mm.createMenu(type, getPlayer(), data);
+
+        if (menu != null) {
+            menu.open(this, previousType);
+        }
+    }
+
 }

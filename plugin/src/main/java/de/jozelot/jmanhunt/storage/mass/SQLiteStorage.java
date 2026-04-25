@@ -20,7 +20,7 @@ public class SQLiteStorage implements ManhuntStorage {
     }
 
     @Override
-    public void init() {
+    public boolean init() {
         this.databasePrefix = plugin.getBootstrap().getConfigManager().getDatabasePrefix();
 
         File storageFolder = new File(plugin.getDataFolder(), "storage");
@@ -44,6 +44,7 @@ public class SQLiteStorage implements ManhuntStorage {
         this.dataSource = new HikariDataSource(config);
 
         createTables();
+        return true;
     }
 
     private void createTables() {
@@ -62,7 +63,7 @@ public class SQLiteStorage implements ManhuntStorage {
                         "id INT PRIMARY KEY, " +
                         "state VARCHAR(20) DEFAULT 'SETUP', " +
                         "end_reason VARCHAR(20) DEFAULT 'NONE'," +
-                        "timer LONG DEFAULT 0" +
+                        "timer BIGINT DEFAULT 0" +
                         ");"
         };
 

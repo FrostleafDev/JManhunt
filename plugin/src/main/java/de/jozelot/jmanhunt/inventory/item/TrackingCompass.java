@@ -2,7 +2,9 @@ package de.jozelot.jmanhunt.inventory.item;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
+import de.jozelot.jmanhunt.api.inventory.menu.InventoryType;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.utility.PlaySoundUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -86,7 +88,7 @@ public class TrackingCompass extends ManhuntItem {
         ManhuntPlayer mPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
         Material material = event.getMaterial();
 
-        if (player.hasCooldown(material)) {
+        if (player.hasCooldown(material) || mPlayer.getTeam() != ManhuntTeam.HUNTER) {
             return;
         }
         if (event.getAction().isLeftClick()) {
@@ -100,7 +102,7 @@ public class TrackingCompass extends ManhuntItem {
             }
         }
         if (event.getAction().isRightClick()) {
-
+            mPlayer.openInventory(InventoryType.COMPASS_SELECTOR);
         }
     }
 
