@@ -131,10 +131,8 @@ pause-freeze-game: true
 # Note: If this is true the players can't move at all.
 pause-freeze-players: true
 
-# Should the timer be paused when the game is paused?
-pause-freeze-timer: true
-
 # How many seconds should the game stay paused before it's automatically canceled?
+# This will also end the game even if it was manually paused.
 # Set to 0 for an infinite pause.
 pause-timeout: 600
 

@@ -14,12 +14,14 @@ import org.bukkit.GameMode;
 import org.bukkit.WeatherType;
 import org.bukkit.World;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 public class PhaseManagerImpl implements PhaseManager {
 
     private final JManhunt plugin;
     private final GameManagerImpl gameManager;
     private final ManhuntPlayerManagerImpl playerManager;
+    private BukkitTask pauseTask;
 
     public PhaseManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
@@ -28,6 +30,7 @@ public class PhaseManagerImpl implements PhaseManager {
     }
 
     protected void handleStateChange(GameState state) {
+        boolean canclePauseTask = true;
         switch (state) {
             case SETUP -> {
                 plugin.getBootstrap().getTimerManager().stop();
@@ -43,6 +46,7 @@ public class PhaseManagerImpl implements PhaseManager {
                 plugin.getBootstrap().getTimerManager().start();
             }
             case PAUSE -> {
+                canclePauseTask = false;
                 if (plugin.getBootstrap().getConfigManager().isPauseFreezeGame()) {
                     plugin.getServer().getServerTickManager().setFrozen(true);
                 }
@@ -52,6 +56,8 @@ public class PhaseManagerImpl implements PhaseManager {
                 plugin.getBootstrap().getTimerManager().stop();
             }
         }
+
+        if (canclePauseTask && pauseTask != null) pauseTask.cancel();
     }
 
     @Override
@@ -108,6 +114,9 @@ public class PhaseManagerImpl implements PhaseManager {
     @Override
     public void pause() {
         gameManager.setGameState(GameState.PAUSE);
+        pauseTask = plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            end(ManhuntEndReason.MANHUNT_CANCELED);
+        }, plugin.getBootstrap().getConfigManager().getEndManhuntAtPause() * 20L);
     }
 
     @Override

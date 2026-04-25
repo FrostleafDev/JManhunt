@@ -31,6 +31,7 @@ public final class JManhunt extends JavaPlugin {
     @Override
     public void onDisable() {
         bootstrap.shutdown();
+        Bukkit.getScheduler().cancelTasks(this);
     }
 
     public JManhuntBootstrap getBootstrap() {

@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * @author jozelot_
  * @since 1.0.0
  */
-public final class ManhuntProvider {
+public final class  ManhuntProvider {
 
     /**
      * The internal singleton instance of the API.

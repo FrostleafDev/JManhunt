@@ -46,6 +46,7 @@ public class ConfigManager {
     private boolean resetWeatherTimeOnStart;
     private Weather defaultWeather;
     private String defaultTime;
+    private int endManhuntAtPause;
 
     public boolean load() {
         plugin.saveDefaultConfig();
@@ -153,6 +154,7 @@ public class ConfigManager {
             plugin.getLogger().log(Level.WARNING, "Invalid weather type on l.285 '" + configValue + "' in config.yml! Defaulting to CLEAR.");
         }
         defaultTime = plugin.getConfig().getString("default-time", "DAY");
+        endManhuntAtPause = plugin.getConfig().getInt("pause-timeout", 600);
     }
 
     public class Sounds {
@@ -384,5 +386,9 @@ public class ConfigManager {
 
     public String getDefaultTime() {
         return defaultTime;
+    }
+
+    public int getEndManhuntAtPause() {
+        return endManhuntAtPause;
     }
 }
