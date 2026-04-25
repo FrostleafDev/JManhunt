@@ -12,11 +12,13 @@ public class ConfigManager {
     private final JManhunt plugin;
     private final Sounds sounds;
     private final TrackingCompass trackingCompass;
+    private final Motd motd;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
         this.sounds = new Sounds();
         this.trackingCompass = new TrackingCompass();
+        this.motd = new Motd();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1;
@@ -82,6 +84,9 @@ public class ConfigManager {
         trackingCompass.name = plugin.getConfig().getString("tracking-compass.name", "<aqua>Tracking Compass");
         trackingCompass.lore = plugin.getConfig().getStringList("tracking-compass.lore");
         trackingCompass.item = plugin.getConfig().getString("tracking-compass.item", "COMPASS");
+
+        motd.enabled = plugin.getConfig().getBoolean("motd.enabled", false);
+        motd.lines = plugin.getConfig().getStringList("motd.lines");
 
         String configValue = plugin.getConfig().getString("tracking-compass.update-interval", "CLICK");
         try {
@@ -158,12 +163,30 @@ public class ConfigManager {
         }
     }
 
+    public class Motd {
+
+        private boolean enabled;
+        private List<String> lines;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public List<String> getLines() {
+            return lines;
+        }
+    }
+
     public Sounds getSounds() {
         return sounds;
     }
 
     public TrackingCompass getCompass() {
         return trackingCompass;
+    }
+
+    public Motd getMotd() {
+        return motd;
     }
 
     public String getLocale() {

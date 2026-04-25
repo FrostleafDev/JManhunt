@@ -4,6 +4,7 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.listener.AdminJoinListener;
 import de.jozelot.jmanhunt.listener.ManhuntItemListener;
 import de.jozelot.jmanhunt.listener.PlayerConnectionListener;
+import de.jozelot.jmanhunt.listener.ServerPingListener;
 
 public class ListenerRegistry {
 
@@ -22,5 +23,6 @@ public class ListenerRegistry {
         pm.registerEvents(new PlayerConnectionListener(plugin), plugin);
         pm.registerEvents(new AdminJoinListener(plugin), plugin);
         pm.registerEvents(new ManhuntItemListener(plugin), plugin);
+        pm.registerEvents(new ServerPingListener(plugin), plugin);
     }
 }
