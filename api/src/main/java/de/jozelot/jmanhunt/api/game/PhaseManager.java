@@ -35,6 +35,11 @@ public interface PhaseManager {
     boolean isEnded();
 
     /**
+     * @return true if the manhunt is paused
+     */
+    boolean isPaused();
+
+    /**
      * Transitions the game into the setup phase.
      * Use this for initial configuration or maintenance.
      */
