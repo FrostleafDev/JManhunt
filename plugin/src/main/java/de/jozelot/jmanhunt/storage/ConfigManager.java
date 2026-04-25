@@ -132,6 +132,7 @@ public class ConfigManager {
         timer.formatMS = plugin.getConfig().getString("timer-format-ms", "<gradient:green:dark_green><b>{m}m {s}s");
         timer.formatHMS = plugin.getConfig().getString("timer-format-mhs", "<gradient:green:dark_green><b>{h}h {m}m {s}s");
         timer.formatPause = plugin.getConfig().getString("timer-format-paused", "<gradient:green:dark_green><b><i>Manhunt paused...");
+        timer.formatNotRunning = plugin.getConfig().getString("timer-format-not-running", "<gradient:green:dark_green><b><i>Manhunt {state}");
 
         // CUSTOM JOIN
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
@@ -269,6 +270,7 @@ public class ConfigManager {
         private String formatMS;
         private String formatHMS;
         private String formatPause;
+        private String formatNotRunning;
 
         public boolean isEnabled() {
             return enabled;
@@ -288,6 +290,10 @@ public class ConfigManager {
 
         public String getFormatPause() {
             return formatPause;
+        }
+
+        public String getFormatNotRunning() {
+            return formatNotRunning;
         }
     }
 

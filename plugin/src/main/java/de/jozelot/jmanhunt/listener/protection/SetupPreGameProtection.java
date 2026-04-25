@@ -109,10 +109,4 @@ public class SetupPreGameProtection implements Listener {
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         if (phaseManager.isProtected()) event.setCancelled(true);
     }
-
-    @EventHandler
-    public void onArmorChange(PlayerSwapWithEquipmentSlotEvent event) {
-        if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-        if (phaseManager.isProtected()) event.setCancelled(true);
-    }
 }

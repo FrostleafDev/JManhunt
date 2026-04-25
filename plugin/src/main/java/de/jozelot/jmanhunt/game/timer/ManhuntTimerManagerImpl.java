@@ -1,6 +1,7 @@
 package de.jozelot.jmanhunt.game.timer;
 
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.timer.ManhuntTimer;
 import de.jozelot.jmanhunt.api.game.timer.ManhuntTimerManager;
 import de.jozelot.jmanhunt.storage.ConfigManager;
@@ -85,7 +86,10 @@ public class ManhuntTimerManagerImpl implements ManhuntTimerManager {
         else if (timer.getElapsedSeconds() < 3600) text = timer.format(conf.getFormatMS());
         else text = timer.format(conf.getFormatHMS());
 
-        if (!timer.isRunning()) text = timer.format(conf.getFormatPause());
+        if (plugin.getBootstrap().getPhaseManager().isPaused()) text = timer.format(conf.getFormatPause());
+        if (plugin.getBootstrap().getPhaseManager().isSetup() || plugin.getBootstrap().getPhaseManager().isPreGame() || plugin.getBootstrap().getPhaseManager().isEnded()) {
+            text = timer.format(conf.getFormatNotRunning()).replace("{state}", plugin.getBootstrap().getGameManager().getGameState().name().toLowerCase());
+        }
 
         String finalText = text;
         plugin.getServer().getOnlinePlayers().forEach(p -> p.sendActionBar(mm.deserialize(finalText)));

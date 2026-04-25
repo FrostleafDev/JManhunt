@@ -36,7 +36,7 @@ public class PluginBootstrap implements io.papermc.paper.plugin.bootstrap.Plugin
                     .map(java.nio.file.Path::toFile)
                     .forEach(File::delete);
         } catch (IOException e) {
-            System.err.println("Erro wile deleting " + path.getName() + ": " + e.getMessage());
+            System.err.println("Error while deleting " + path.getName() + ": " + e.getMessage());
         }
     }
 
