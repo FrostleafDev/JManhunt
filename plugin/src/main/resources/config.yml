@@ -207,6 +207,8 @@ timer-format-s: "<gradient:green:dark_green><b>{s}s"
 timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
 # This format is used when the timer is > 1h
 timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
+# This format is used when the timer is paused
+timer-format-paused: "<gradient:green:dark_green><b><i>Manhunt paused..."
 
 # The tracking compass that hunters get.
 # You can change its behavior and disable it.

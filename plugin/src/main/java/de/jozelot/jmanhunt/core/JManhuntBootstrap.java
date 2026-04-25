@@ -86,9 +86,11 @@ public class JManhuntBootstrap {
      */
     public void shutdown() {
         plugin.getLogger().log(Level.INFO, "Plugin shutting down...");
+        timerManager.stopActionbar();
         if (!canShutdownSafely) return;
         apiManager.shutdown();
         if (!gameManager.isWiping()) {
+            timerManager.stop();
             timerManager.save();
             gameManager.saveToStorage();
             manhuntPlayerManager.saveAllToStorage();
@@ -104,6 +106,8 @@ public class JManhuntBootstrap {
         configManager.load();
         langManager.load(configManager.getLocale());
 
+        timerManager.stop();
+        timerManager.stopActionbar();
         manhuntPlayerManager.saveAllToStorage();
         gameManager.saveToStorage();
         massManager.getStorage().close();
@@ -111,6 +115,9 @@ public class JManhuntBootstrap {
         massManager.getStorage().init();
         gameManager.loadFromStorage();
         manhuntPlayerManager.loadAllFromStorage();
+
+        if (plugin.getBootstrap().getPhaseManager().isRunning()) timerManager.start();
+        if (plugin.getBootstrap().getConfigManager().getTimer().isEnabled()) timerManager.startActionbar();
     }
 
     public PluginDependencies getDependencies() {

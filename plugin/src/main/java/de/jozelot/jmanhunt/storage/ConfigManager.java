@@ -16,12 +16,14 @@ public class ConfigManager {
     private final Sounds sounds;
     private final TrackingCompass trackingCompass;
     private final ServerList serverList;
+    private final Timer timer;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
         this.sounds = new Sounds();
         this.trackingCompass = new TrackingCompass();
         this.serverList = new ServerList();
+        this.timer = new Timer();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
@@ -119,6 +121,13 @@ public class ConfigManager {
         }
 
         serverList.playerCount.value = plugin.getConfig().getInt("max-player-count.value", 1);
+
+        // TIMER
+        timer.enabled = plugin.getConfig().getBoolean("timer-in-actionbar", true);
+        timer.formatS = plugin.getConfig().getString("timer-format-s", "<gradient:green:dark_green><b>{s}s");
+        timer.formatMS = plugin.getConfig().getString("timer-format-ms", "<gradient:green:dark_green><b>{m}m {s}s");
+        timer.formatHMS = plugin.getConfig().getString("timer-format-mhs", "<gradient:green:dark_green><b>{h}h {m}m {s}s");
+        timer.formatPause = plugin.getConfig().getString("timer-format-paused", "<gradient:green:dark_green><b><i>Manhunt paused...");
 
         // CUSTOM JOIN
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
@@ -250,6 +259,34 @@ public class ConfigManager {
         }
     }
 
+    public class Timer {
+        private boolean enabled;
+        private String formatS;
+        private String formatMS;
+        private String formatHMS;
+        private String formatPause;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public String getFormatS() {
+            return formatS;
+        }
+
+        public String getFormatMS() {
+            return formatMS;
+        }
+
+        public String getFormatHMS() {
+            return formatHMS;
+        }
+
+        public String getFormatPause() {
+            return formatPause;
+        }
+    }
+
     public Sounds getSounds() {
         return sounds;
     }
@@ -260,6 +297,10 @@ public class ConfigManager {
 
     public ServerList getServerList() {
         return serverList;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     public String getLocale() {
