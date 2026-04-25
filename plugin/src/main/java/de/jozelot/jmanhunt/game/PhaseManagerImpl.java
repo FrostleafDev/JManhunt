@@ -5,7 +5,11 @@ import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
 import de.jozelot.jmanhunt.api.game.PhaseManager;
 import de.jozelot.jmanhunt.api.minecraft.Weather;
+import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
+import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
+import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
+import org.bukkit.GameMode;
 import org.bukkit.WeatherType;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
@@ -13,10 +17,12 @@ public class PhaseManagerImpl implements PhaseManager {
 
     private final JManhunt plugin;
     private final GameManagerImpl gameManager;
+    private final ManhuntPlayerManagerImpl playerManager;
 
     public PhaseManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
         this.gameManager = plugin.getBootstrap().getGameManager();
+        this.playerManager = plugin.getBootstrap().getManhuntPlayerManager();
     }
 
     protected void handleStateChange(GameState state) {
@@ -28,7 +34,9 @@ public class PhaseManagerImpl implements PhaseManager {
 
             }
             case RUNNING -> {
-
+                playerManager.getRunners().stream().filter(p -> !p.isOnline()).forEach(ManhuntPlayer::eliminate);
+                playerManager.getPlayersWithoutTeam().forEach(p -> p.setTeam(ManhuntTeam.SPECTATOR));
+                playerManager.getSpectators().forEach(p -> p.getPlayer().setGameMode(GameMode.SPECTATOR));
             }
             case PAUSE -> {
 

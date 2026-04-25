@@ -4,6 +4,8 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.event.AdminJoinEvent;
 import de.jozelot.jmanhunt.api.event.DisallowReason;
 import de.jozelot.jmanhunt.api.event.ManhuntLoginEvent;
+import de.jozelot.jmanhunt.api.game.GameState;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.api.player.Sound;
 import de.jozelot.jmanhunt.player.ManhuntPlayerImpl;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
@@ -11,6 +13,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -80,8 +83,9 @@ public class PlayerConnectionListener implements Listener {
         if (plugin.getBootstrap().getConfigManager().playJoinSound()) {
             manhuntPlayer.playSound(Sound.SUCCESS);
         }
-
-
+        if (plugin.getBootstrap().getGameManager().getPhaseManager().isRunning()) {
+            if (manhuntPlayer.getTeam() == ManhuntTeam.SPECTATOR || manhuntPlayer.isEliminated()) player.setGameMode(GameMode.SPECTATOR);
+        }
     }
 
     @EventHandler

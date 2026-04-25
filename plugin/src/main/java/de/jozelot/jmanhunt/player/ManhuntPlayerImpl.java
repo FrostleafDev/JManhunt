@@ -101,7 +101,6 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
     public void eliminate() {
         if (!alive) return;
 
-        // TODO
         if (!(team == ManhuntTeam.RUNNER)) return;
         alive = false;
     }
@@ -110,7 +109,6 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
     public void revive() {
         if (alive) return;
 
-        // TODO
         if (!(team == ManhuntTeam.RUNNER)) return;
         alive = true;
     }
