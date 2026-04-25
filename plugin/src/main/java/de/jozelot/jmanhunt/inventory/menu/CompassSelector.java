@@ -36,6 +36,10 @@ public class CompassSelector extends Menu{
 
     @Override
     public void setupItems(ManhuntPlayer player, InventoryType previousInventory) {
+        setupPlayers(player);
+    }
+
+    private void setupPlayers(ManhuntPlayer player) {
         List<ManhuntPlayer> runners = plugin.getBootstrap().getManhuntPlayerManager().getRunners().stream().filter(ManhuntPlayer::isOnline).toList();
 
         for (int i = 0; i < runners.size(); i++) {
@@ -95,6 +99,7 @@ public class CompassSelector extends Menu{
                 if (target != null) {
                     user.setTracking(target);
                     PlaySoundUtils.playPling(user.getPlayer(), plugin);
+                    setupPlayers(user);
                 }
             }
         });

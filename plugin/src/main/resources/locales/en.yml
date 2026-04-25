@@ -219,4 +219,4 @@ menu-item-player-head:
   active: 'Active'
   lore:
     - ''
-    - '[Left-Click] to select'
+    - '<!italic><gray>[Left-Click] to select'
