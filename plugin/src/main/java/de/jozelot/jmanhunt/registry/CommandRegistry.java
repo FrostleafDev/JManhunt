@@ -1,6 +1,7 @@
 package de.jozelot.jmanhunt.registry;
 
 import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.commands.DebugCommand;
 import de.jozelot.jmanhunt.commands.ManhuntCommand;
 import de.jozelot.jmanhunt.commands.manager.CommandManager;
 
@@ -21,6 +22,7 @@ public class CommandRegistry {
     public void register() {
         this.commandManager = new CommandManager();
         commandManager.registerCommands(new ManhuntCommand(plugin), List.of("jmanhunt", "manhunt", "jm"));
+        commandManager.registerCommands(new DebugCommand(plugin), List.of("jmanhunt-debug", "manhunt-debug", "jm-debug"));
     }
 
     public CommandManager getCommandManager() {

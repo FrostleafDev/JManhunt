@@ -30,25 +30,26 @@ public class PhaseManagerImpl implements PhaseManager {
     protected void handleStateChange(GameState state) {
         switch (state) {
             case SETUP -> {
-
+                plugin.getBootstrap().getTimerManager().stop();
             }
             case PRE_GAME -> {
-
+                plugin.getBootstrap().getTimerManager().stop();
             }
             case RUNNING -> {
                 plugin.getServer().getServerTickManager().setFrozen(false);
                 playerManager.getRunners().stream().filter(p -> !p.isOnline()).forEach(ManhuntPlayer::eliminate);
                 playerManager.getPlayersWithoutTeam().forEach(p -> p.setTeam(ManhuntTeam.SPECTATOR));
                 playerManager.getSpectators().forEach(p -> p.getPlayer().setGameMode(GameMode.SPECTATOR));
+                plugin.getBootstrap().getTimerManager().start();
             }
             case PAUSE -> {
                 if (plugin.getBootstrap().getConfigManager().isPauseFreezeGame()) {
                     plugin.getServer().getServerTickManager().setFrozen(true);
                 }
-
+                plugin.getBootstrap().getTimerManager().stop();
             }
             case ENDED -> {
-
+                plugin.getBootstrap().getTimerManager().stop();
             }
         }
     }

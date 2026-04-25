@@ -85,7 +85,7 @@ public class ManhuntTimerManagerImpl implements ManhuntTimerManager {
         else if (timer.getElapsedSeconds() < 3600) text = timer.format(conf.getFormatMS());
         else text = timer.format(conf.getFormatHMS());
 
-        if (!timer.isRunning()) text = conf.getFormatPause();
+        if (!timer.isRunning()) text = timer.format(conf.getFormatPause());
 
         String finalText = text;
         plugin.getServer().getOnlinePlayers().forEach(p -> p.sendActionBar(mm.deserialize(finalText)));
