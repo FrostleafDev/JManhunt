@@ -215,3 +215,8 @@ admin-debug-join-info:
 
 menu-compass-selector-title: 'Select a runner'
 menu-item-back-arrow: '<gray>Back'
+menu-item-player-head:
+  active: 'Active'
+  lore:
+    - ''
+    - '[Left-Click] to select'

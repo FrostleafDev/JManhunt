@@ -4,12 +4,14 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.inventory.menu.InventoryType;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.utility.PlaySoundUtils;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,7 +57,16 @@ public class CompassSelector extends Menu{
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 
         item.editMeta(SkullMeta.class, meta -> {
-            meta.displayName(mm.deserialize("<!italic>" + (isCurrentTarget ? "<green>" : "<gray>") + runner.getPlayer().getName()));
+            meta.displayName(mm.deserialize(
+                    "<!italic>" + (
+                            isCurrentTarget ? "<green>" + runner.getPlayer().getName() + " (" + plugin.getBootstrap().getLangManager().format("menu-item-player-head.active", null) + ")"
+                                    : "<gray>" + runner.getPlayer().getName())));
+
+            List<String> linesRaw = plugin.getBootstrap().getLangManager().formatList("menu-item-player-head.lore", null);
+            List<Component> lines = new ArrayList<>();
+            linesRaw.forEach(line -> lines.add(mm.deserialize(line)));
+
+            meta.lore(lines);
 
             meta.setOwningPlayer(runner.getPlayer());
 
@@ -84,7 +95,6 @@ public class CompassSelector extends Menu{
                 if (target != null) {
                     user.setTracking(target);
                     PlaySoundUtils.playPling(user.getPlayer(), plugin);
-                    user.getPlayer().closeInventory();
                 }
             }
         });
