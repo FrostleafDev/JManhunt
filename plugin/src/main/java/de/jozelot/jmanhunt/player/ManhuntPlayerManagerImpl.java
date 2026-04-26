@@ -272,6 +272,8 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
 
     @Override
     public boolean isTeamOnline(ManhuntTeam team) {
-        return !getPlayers().stream().filter(p -> p.getTeam() == team).toList().isEmpty();
+        return getPlayers().stream()
+                .filter(p -> p.getTeam() == team)
+                .anyMatch(ManhuntPlayer::isOnline);
     }
 }
