@@ -112,6 +112,32 @@ public class DebugCommand implements IManhuntCommand {
                             )
                     )
                     .then(Commands.literal("hunter")
+                            .then(Commands.literal("compass")
+                                    .then(Commands.literal("give")
+                                            .then(Commands.argument("hunter", ArgumentTypes.player()).executes(ctx -> {
+                                                var hunterResolver = ctx.getArgument("hunter", PlayerSelectorArgumentResolver.class);
+
+                                                Player hunter = hunterResolver.resolve(ctx.getSource()).get(0);
+
+                                                plugin.getBootstrap().getManhuntPlayerManager().getPlayer(hunter.getUniqueId()).giveCompass();
+
+                                                return Command.SINGLE_SUCCESS;
+                                            })
+                                            )
+                                    )
+                                    .then(Commands.literal("remove")
+                                            .then(Commands.argument("hunter", ArgumentTypes.player()).executes(ctx -> {
+                                                var hunterResolver = ctx.getArgument("hunter", PlayerSelectorArgumentResolver.class);
+
+                                                Player hunter = hunterResolver.resolve(ctx.getSource()).get(0);
+
+                                                plugin.getBootstrap().getManhuntPlayerManager().getPlayer(hunter.getUniqueId()).removeCompass();
+
+                                                return Command.SINGLE_SUCCESS;
+                                            })
+                                            )
+                                    )
+                            )
                             .then(Commands.literal("target")
                                     .then(Commands.literal("set")
                                             .then(Commands.argument("targetHunter", ArgumentTypes.player())
