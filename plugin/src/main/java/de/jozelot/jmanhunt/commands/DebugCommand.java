@@ -54,8 +54,28 @@ public class DebugCommand implements IManhuntCommand {
                                     .then(Commands.literal("set")
                                                     .then(Commands.argument("value", StringArgumentType.greedyString())
                                                             .suggests((context, builder) -> {
-                                                                String key = context.getArgument("configKey", String.class);
+                                                                String key;
+                                                                try {
+                                                                    key = context.getArgument("configKey", String.class);
+                                                                } catch (IllegalArgumentException e) {
+                                                                    String input = context.getInput();
+                                                                    String[] parts = input.split(" ");
+                                                                    int setIndex = -1;
+                                                                    for (int i = 0; i < parts.length; i++) {
+                                                                        if (parts[i].equalsIgnoreCase("set")) {
+                                                                            setIndex = i;
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                    if (setIndex > 0) {
+                                                                        key = parts[setIndex - 1];
+                                                                    } else {
+                                                                        return builder.buildFuture();
+                                                                    }
+                                                                }
+
                                                                 Object oldValue = plugin.getConfig().get(key);
+                                                                if (oldValue == null) return builder.buildFuture();
 
                                                                 if (oldValue instanceof Boolean) {
                                                                     builder.suggest("true");
@@ -65,7 +85,7 @@ public class DebugCommand implements IManhuntCommand {
                                                                     builder.suggest("0");
                                                                     builder.suggest("10");
                                                                 } else if (oldValue instanceof String) {
-                                                                    builder.suggest("\"" + oldValue + "\"");
+                                                                    builder.suggest(String.valueOf(oldValue));
                                                                 } else if (oldValue instanceof Double) {
                                                                     builder.suggest(String.valueOf(oldValue));
                                                                     builder.suggest("1.0");
