@@ -1,5 +1,6 @@
 package de.jozelot.jmanhunt.inventory.item;
 
+import com.google.common.io.ByteArrayDataOutput;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.inventory.item.ManhuntItem;
 import de.jozelot.jmanhunt.api.inventory.menu.InventoryType;
@@ -61,7 +62,7 @@ public class TrackingCompass extends ManhuntItem {
     public ItemStack getItemStack() {
         ItemStack item = new ItemStack(Material.getMaterial(plugin.getBootstrap().getConfigManager().getCompass().getItem()));
         applyItemId(item);
-
+        System.out.println(item);
         item.editMeta(meta -> {
             meta.displayName(mm.deserialize("<!italic>" + plugin.getBootstrap().getConfigManager().getCompass().getName()
                     .replace("{tracking_player_name}", plugin.getBootstrap().getLangManager().format("none", null))));
@@ -88,6 +89,12 @@ public class TrackingCompass extends ManhuntItem {
         ManhuntPlayer mPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
         Material material = event.getMaterial();
 
+        if (event.getAction().isRightClick()) {
+            PlaySoundUtils.playPling(player, plugin);
+            mPlayer.openInventory(InventoryType.COMPASS_SELECTOR);
+            return;
+        }
+
         if (player.hasCooldown(material) || mPlayer.getTeam() != ManhuntTeam.HUNTER) {
             return;
         }
@@ -100,10 +107,6 @@ public class TrackingCompass extends ManhuntItem {
                 player.setCooldown(material, plugin.getBootstrap().getConfigManager().getCompass().getCooldown() * 20);
                 PlaySoundUtils.playPling(player, plugin);
             }
-        }
-        if (event.getAction().isRightClick()) {
-            PlaySoundUtils.playPling(player, plugin);
-            mPlayer.openInventory(InventoryType.COMPASS_SELECTOR);
         }
     }
 

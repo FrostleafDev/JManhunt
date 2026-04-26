@@ -44,7 +44,6 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
         this.deaths = 0;
         this.plugin = plugin;
         this.lastKnownName = lastKnownName;
-        giveCompass();
     }
 
     public ManhuntPlayerImpl(UUID uuid, JManhunt plugin) {
@@ -225,11 +224,31 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
 
     @Override
     public void giveCompass() {
-        if (getPlayer() == null) return;
+        if (getPlayer() == null) {
+            if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] giveCompass canceled: Player object is null for " + lastKnownName);
+            return;
+        }
         removeCompass();
-        if (!plugin.getBootstrap().getConfigManager().getCompass().isEnabled()) return;
-        if (!(team == ManhuntTeam.HUNTER)) return;
-        getPlayer().give(plugin.getBootstrap().getItemManager().getTrackingCompass().getItemStack());
+
+        if (!plugin.getBootstrap().getConfigManager().getCompass().isEnabled()) {
+            if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] giveCompass canceled: Compass is deactivated in config");
+            return;
+        }
+
+        boolean isRunning = plugin.getBootstrap().getPhaseManager().isRunning();
+        boolean isPaused = plugin.getBootstrap().getPhaseManager().isPaused();
+        if (!isRunning && !isPaused) {
+            if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] giveCompass canceled: Game not running (isRunning: " + isRunning + ", isPaused: " + isPaused + ")");
+            return;
+        }
+
+        if (!(team == ManhuntTeam.HUNTER)) {
+            if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] giveCompass canceled: Player " + lastKnownName + " is not a hunter (Team: " + team + ")");
+            return;
+        }
+
+        if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] Give compass to " + lastKnownName);
+        getPlayer().getInventory().addItem(plugin.getBootstrap().getItemManager().getTrackingCompass().getItemStack());
     }
 
     @Override
