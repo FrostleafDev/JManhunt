@@ -79,7 +79,7 @@ public class DebugCommand implements IManhuntCommand {
                                                                 Object oldValue = plugin.getConfig().get(key);
 
                                                                 if (oldValue == null) {
-                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<red>Dieser Key existiert nicht!"));
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>The key <white>" + key + "<red> does not exist>"));
                                                                     return 0;
                                                                 }
 
@@ -101,10 +101,10 @@ public class DebugCommand implements IManhuntCommand {
 
                                                                     plugin.getConfig().set(key, newValue);
                                                                     plugin.saveConfig();
-                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<green>Key <yellow>" + key + "</yellow> wurde auf <white>" + newValue + "</white> gesetzt."));
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Key <white>" + key + "</gray> was set to <white>" + newValue + "<gray>."));
 
                                                                 } catch (Exception e) {
-                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<red>Ungültiger Datentyp! Erwartet wird: " + oldValue.getClass().getSimpleName()));
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Wrong datatype! Should be: <white>" + oldValue.getClass().getSimpleName()));
                                                                     return 0;
                                                                 }
                                                                 return 1;
@@ -113,7 +113,7 @@ public class DebugCommand implements IManhuntCommand {
                                             )
                                     .then(Commands.literal("get")
                                             .executes(context -> {
-                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Value of <white>" + context.getArgument("configKey", String.class) + "<gray>: <white>" + String.valueOf(plugin.getConfig().get(context.getArgument("configKey", String.class)))));
+                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Value of <white>" + context.getArgument("configKey", String.class) + "<gray>: <white><click:copy_to_clipboard:" + String.valueOf(plugin.getConfig().get(context.getArgument("configKey", String.class)) + ">" + String.valueOf(plugin.getConfig().get(context.getArgument("configKey", String.class))))));
                                                 return Command.SINGLE_SUCCESS;
                                             })
                                     )
