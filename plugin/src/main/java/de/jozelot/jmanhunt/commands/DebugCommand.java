@@ -7,6 +7,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.game.ManhuntEndReason;
+import de.jozelot.jmanhunt.api.inventory.menu.InventoryType;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.commands.manager.IManhuntCommand;
@@ -44,6 +45,39 @@ public class DebugCommand implements IManhuntCommand {
             final Commands commands = event.registrar();
 
             var mainBuilder = Commands.literal(mainName)
+                    .then(Commands.literal("open")
+                            .then(Commands.argument("player", ArgumentTypes.player())
+                                    .then(Commands.argument("gui", StringArgumentType.word())
+                                            .suggests((context, builder) -> {
+                                                String input = builder.getRemaining().toLowerCase();
+                                                for (InventoryType type : InventoryType.values()) {
+                                                    if (type.name().toLowerCase().startsWith(input)) {
+                                                        builder.suggest(type.name());
+                                                    }
+                                                }
+                                                return builder.buildFuture();
+                                            })
+                                            .executes(context -> {
+                                                var playerResolver = context.getArgument("player", PlayerSelectorArgumentResolver.class);
+                                                Player target = playerResolver.resolve(context.getSource()).get(0);
+                                                String gui = StringArgumentType.getString(context, "gui").toUpperCase();
+
+                                                try {
+                                                    InventoryType team = InventoryType.valueOf(gui);
+                                                    ManhuntPlayer mPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(target.getUniqueId());
+
+                                                    mPlayer.openInventory(team);
+
+                                                    context.getSource().getSender().sendMessage(mm.deserialize(
+                                                            "<gray>Opened inventory for <white>" + target.getName() + " <gray>: <white>" + team.name()));
+                                                } catch (Exception e) {
+                                                    context.getSource().getSender().sendMessage(mm.deserialize("<red>Invalid inventory: " + gui));
+                                                }
+                                                return Command.SINGLE_SUCCESS;
+                                            })
+                                    )
+                            )
+                    )
                     .then(Commands.literal("team")
                             .then(Commands.argument("player", ArgumentTypes.player())
                                     .then(Commands.argument("team", StringArgumentType.word())
