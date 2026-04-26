@@ -45,6 +45,80 @@ public class DebugCommand implements IManhuntCommand {
             final Commands commands = event.registrar();
 
             var mainBuilder = Commands.literal(mainName)
+                    .then(Commands.literal("config")
+                            .then(Commands.argument("configKey", StringArgumentType.word())
+                                    .suggests((context, builder) -> {
+                                        plugin.getConfig().getKeys(true).forEach(builder::suggest);
+                                        return builder.buildFuture();
+                                    })
+                                    .then(Commands.literal("set")
+                                                    .then(Commands.argument("value", StringArgumentType.greedyString())
+                                                            .suggests((context, builder) -> {
+                                                                String key = context.getArgument("configKey", String.class);
+                                                                Object oldValue = plugin.getConfig().get(key);
+
+                                                                if (oldValue instanceof Boolean) {
+                                                                    builder.suggest("true");
+                                                                    builder.suggest("false");
+                                                                } else if (oldValue instanceof Integer || oldValue instanceof Long) {
+                                                                    builder.suggest(String.valueOf(oldValue));
+                                                                    builder.suggest("0");
+                                                                    builder.suggest("10");
+                                                                } else if (oldValue instanceof String) {
+                                                                    builder.suggest("\"" + oldValue + "\"");
+                                                                } else if (oldValue instanceof Double) {
+                                                                    builder.suggest(String.valueOf(oldValue));
+                                                                    builder.suggest("1.0");
+                                                                }
+
+                                                                return builder.buildFuture();
+                                                            })
+                                                            .executes(context -> {
+                                                                String key = context.getArgument("configKey", String.class);
+                                                                String valueRaw = context.getArgument("value", String.class);
+                                                                Object oldValue = plugin.getConfig().get(key);
+
+                                                                if (oldValue == null) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<red>Dieser Key existiert nicht!"));
+                                                                    return 0;
+                                                                }
+
+                                                                try {
+                                                                    Object newValue;
+                                                                    if (oldValue instanceof Integer) {
+                                                                        newValue = Integer.parseInt(valueRaw);
+                                                                    } else if (oldValue instanceof Boolean) {
+                                                                        if (!valueRaw.equalsIgnoreCase("true") && !valueRaw.equalsIgnoreCase("false"))
+                                                                            throw new Exception();
+                                                                        newValue = Boolean.parseBoolean(valueRaw);
+                                                                    } else if (oldValue instanceof Double) {
+                                                                        newValue = Double.parseDouble(valueRaw);
+                                                                    } else if (oldValue instanceof Long) {
+                                                                        newValue = Long.parseLong(valueRaw);
+                                                                    } else {
+                                                                        newValue = valueRaw;
+                                                                    }
+
+                                                                    plugin.getConfig().set(key, newValue);
+                                                                    plugin.saveConfig();
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<green>Key <yellow>" + key + "</yellow> wurde auf <white>" + newValue + "</white> gesetzt."));
+
+                                                                } catch (Exception e) {
+                                                                    context.getSource().getSender().sendMessage(mm.deserialize("<red>Ungültiger Datentyp! Erwartet wird: " + oldValue.getClass().getSimpleName()));
+                                                                    return 0;
+                                                                }
+                                                                return 1;
+                                                            })
+                                                    )
+                                            )
+                                    .then(Commands.literal("get")
+                                            .executes(context -> {
+                                                    context.getSource().getSender().sendMessage(mm.deserialize("<gray>Value of <white>" + context.getArgument("configKey", String.class) + "<gray>: <white>" + String.valueOf(plugin.getConfig().get(context.getArgument("configKey", String.class)))));
+                                                return Command.SINGLE_SUCCESS;
+                                            })
+                                    )
+                            )
+                    )
                     .then(Commands.literal("open")
                             .then(Commands.argument("player", ArgumentTypes.player())
                                     .then(Commands.argument("gui", StringArgumentType.word())
