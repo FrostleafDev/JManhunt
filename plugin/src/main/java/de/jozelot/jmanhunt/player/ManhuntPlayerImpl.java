@@ -220,6 +220,8 @@ public class ManhuntPlayerImpl implements ManhuntPlayer {
     @Override
     public void setTracking(ManhuntPlayer target) {
         tracking = target;
+        var compass = plugin.getBootstrap().getItemManager().getTrackingCompass();
+        compass.applyUpdate(compass.getItemStack(), getPlayer());
     }
 
     @Override
