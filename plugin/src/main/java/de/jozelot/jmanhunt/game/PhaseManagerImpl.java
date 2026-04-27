@@ -20,6 +20,7 @@ public class PhaseManagerImpl implements PhaseManager {
 
     private final JManhunt plugin;
     private BukkitTask pauseTask;
+    private long startProtectionEnd = 0;
 
     public PhaseManagerImpl(JManhunt plugin) {
         this.plugin = plugin;
@@ -109,7 +110,7 @@ public class PhaseManagerImpl implements PhaseManager {
             WorldUtils.changeTime(world, plugin.getBootstrap().getConfigManager().getDefaultTime());
             WorldUtils.changeWeather(world, plugin.getBootstrap().getConfigManager().getDefaultWeather().name().toLowerCase());
         }
-
+        startProtectionEnd = System.currentTimeMillis() + plugin.getBootstrap().getConfigManager().getStartProtection() * 1000L;
     }
 
     @Override
@@ -149,5 +150,9 @@ public class PhaseManagerImpl implements PhaseManager {
         GameState currentState = plugin.getBootstrap().getGameManager().getGameState();
         if (currentState == GameState.SETUP || currentState == GameState.PRE_GAME || currentState == GameState.PAUSE) return true;
         return false;
+    }
+
+    public long getStartProtectionEnd() {
+        return startProtectionEnd;
     }
 }

@@ -247,6 +247,12 @@ tracking-compass:
 ##                                                                              ##
 ##################################################################################
 
+# How long in seconds should the runner can't take damage after the manhunt start?
+# This duration starts when the start timer is elapsed.
+#
+# 0 to disable
+start-protection: 60
+
 # What is the goal for the runner/s to achieve?
 #
 # Available:

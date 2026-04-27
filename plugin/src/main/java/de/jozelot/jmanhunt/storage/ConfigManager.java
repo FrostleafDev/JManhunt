@@ -47,6 +47,7 @@ public class ConfigManager {
     private Weather defaultWeather;
     private String defaultTime;
     private int endManhuntAtPause;
+    private int startProtection;
 
     public boolean load() {
         plugin.saveDefaultConfig();
@@ -156,6 +157,8 @@ public class ConfigManager {
         }
         defaultTime = plugin.getConfig().getString("default-time", "DAY");
         endManhuntAtPause = plugin.getConfig().getInt("pause-timeout", 600);
+
+        startProtection = plugin.getConfig().getInt("start-protection", 60);
     }
 
     public class Sounds {
@@ -396,5 +399,9 @@ public class ConfigManager {
 
     public int getEndManhuntAtPause() {
         return endManhuntAtPause;
+    }
+
+    public int getStartProtection() {
+        return startProtection;
     }
 }
