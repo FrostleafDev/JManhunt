@@ -5,8 +5,10 @@ import de.jozelot.jmanhunt.api.minecraft.Weather;
 import de.jozelot.jmanhunt.inventory.item.CompassUpdate;
 import org.bukkit.Server;
 import org.bukkit.WeatherType;
+import org.checkerframework.checker.units.qual.N;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -18,6 +20,7 @@ public class ConfigManager {
     private final ServerList serverList;
     private final Timer timer;
     private final CustomChat customChat;
+    private final Team team;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
@@ -26,6 +29,7 @@ public class ConfigManager {
         this.serverList = new ServerList();
         this.timer = new Timer();
         this.customChat = new CustomChat();
+        this.team = new Team();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
@@ -138,6 +142,14 @@ public class ConfigManager {
         timer.formatHMS = plugin.getConfig().getString("timer-format-mhs", "<gradient:green:dark_green><b>{h}h {m}m {s}s");
         timer.formatPause = plugin.getConfig().getString("timer-format-paused", "<gradient:green:dark_green><b><i>Manhunt paused...");
         timer.formatNotRunning = plugin.getConfig().getString("timer-format-not-running", "<gradient:green:dark_green><b><i>Manhunt {state}");
+
+        // TEAM CONFIG
+
+        team.hunter.color = plugin.getConfig().getString("team-color.hunter");
+        team.runner.color = plugin.getConfig().getString("team-color.runner");
+        team.spectator.color = plugin.getConfig().getString("team-color.spectator");
+        team.none.color = plugin.getConfig().getString("team-color.none");
+
 
         // CUSTOM CHAT
         customChat.chatFormat = plugin.getConfig().getString("custom-chat-format", "{team} | {player_name} <dark_gray>» <gray>{message}");
@@ -315,8 +327,8 @@ public class ConfigManager {
     }
 
     public class CustomChat {
-        public String chatFormat;
-        public boolean enabled;
+        private String chatFormat;
+        private boolean enabled;
 
         public String getChatFormat() {
             return chatFormat;
@@ -324,6 +336,49 @@ public class ConfigManager {
 
         public boolean isEnabled() {
             return enabled;
+        }
+    }
+
+    public class Team {
+        public class TeamConfig {
+            protected String color;
+
+            public String getColor() {
+                return color;
+            }
+        }
+        public class Hunter extends TeamConfig {
+
+        }
+        public class Runner extends TeamConfig {
+
+        }
+        public class Spectator extends TeamConfig {
+
+        }
+        public class None extends TeamConfig{
+
+        }
+
+        private Hunter hunter = new Hunter();
+        private Runner runner = new Runner();
+        private Spectator spectator = new Spectator();
+        private None none = new None();
+
+        public Hunter getHunter() {
+            return hunter;
+        }
+
+        public Runner getRunner() {
+            return runner;
+        }
+
+        public Spectator getSpectator() {
+            return spectator;
+        }
+
+        public None getNone() {
+            return none;
         }
     }
 
@@ -345,6 +400,10 @@ public class ConfigManager {
 
     public CustomChat getCustomChat() {
         return customChat;
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     public boolean isDebugMode() {

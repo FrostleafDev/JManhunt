@@ -34,11 +34,13 @@ public class ChatListener implements Listener {
         ManhuntTeam team = mPlayer.getTeam();
         String teamColor = "<dark_gray>";
 
-        // TODO: Team colors to config
+        var teamConf = plugin.getBootstrap().getConfigManager().getTeam();
 
         switch (team) {
-            case ManhuntTeam.HUNTER -> teamColor = "<red>";
-            case ManhuntTeam.RUNNER -> teamColor = "<green>";
+            case ManhuntTeam.HUNTER -> teamConf.getHunter().getColor();
+            case ManhuntTeam.RUNNER -> teamConf.getRunner().getColor();
+            case ManhuntTeam.SPECTATOR -> teamConf.getSpectator().getColor();
+            case ManhuntTeam.NONE -> teamConf.getNone().getColor();
         }
 
         String teamName = teamColor + plugin.getBootstrap().getLangManager().format("teams." + team.name().toLowerCase(), null);

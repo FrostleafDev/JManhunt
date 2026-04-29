@@ -81,6 +81,12 @@ sounds:
 # This can also be configured in the Manhunt UI with '/jmanhunt'
 can-players-join-during-setup: false
 
+team-color:
+  hunter: '<red>'
+  runner: '<green>'
+  spectator: '<dark_gray>'
+  none: '<dark_gray>'
+
 # Should spectators be visible in the tab?
 #
 # Available:
