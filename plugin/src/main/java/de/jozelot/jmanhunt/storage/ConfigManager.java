@@ -17,6 +17,7 @@ public class ConfigManager {
     private final TrackingCompass trackingCompass;
     private final ServerList serverList;
     private final Timer timer;
+    private final CustomChat customChat;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
@@ -24,6 +25,7 @@ public class ConfigManager {
         this.trackingCompass = new TrackingCompass();
         this.serverList = new ServerList();
         this.timer = new Timer();
+        this.customChat = new CustomChat();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
@@ -136,6 +138,10 @@ public class ConfigManager {
         timer.formatHMS = plugin.getConfig().getString("timer-format-mhs", "<gradient:green:dark_green><b>{h}h {m}m {s}s");
         timer.formatPause = plugin.getConfig().getString("timer-format-paused", "<gradient:green:dark_green><b><i>Manhunt paused...");
         timer.formatNotRunning = plugin.getConfig().getString("timer-format-not-running", "<gradient:green:dark_green><b><i>Manhunt {state}");
+
+        // CUSTOM CHAT
+        customChat.chatFormat = plugin.getConfig().getString("custom-chat-format", "{team} | {player_name} <dark_gray>» <gray>{message}");
+        customChat.enabled = plugin.getConfig().getBoolean("custom-chat", true);
 
         // CUSTOM JOIN
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
@@ -308,6 +314,19 @@ public class ConfigManager {
         }
     }
 
+    public class CustomChat {
+        public String chatFormat;
+        public boolean enabled;
+
+        public String getChatFormat() {
+            return chatFormat;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+    }
+
     public Sounds getSounds() {
         return sounds;
     }
@@ -322,6 +341,10 @@ public class ConfigManager {
 
     public Timer getTimer() {
         return timer;
+    }
+
+    public CustomChat getCustomChat() {
+        return customChat;
     }
 
     public boolean isDebugMode() {
