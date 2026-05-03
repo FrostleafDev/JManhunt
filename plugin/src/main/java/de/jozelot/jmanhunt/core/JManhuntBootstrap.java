@@ -3,6 +3,7 @@ package de.jozelot.jmanhunt.core;
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.ApiManager;
 import de.jozelot.jmanhunt.api.game.GameState;
+import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
 import de.jozelot.jmanhunt.core.dependencies.PluginDependencies;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
@@ -136,6 +137,7 @@ public class JManhuntBootstrap {
         gameManager.loadFromStorage();
         manhuntPlayerManager.loadAllFromStorage();
         menuManager.handleReload();
+        manhuntPlayerManager.getPlayers().forEach(ManhuntPlayer::removeCompass);
 
         if (plugin.getBootstrap().getPhaseManager().isRunning()) timerManager.start();
         if (plugin.getBootstrap().getConfigManager().getTimer().isEnabled()) timerManager.startActionbar();

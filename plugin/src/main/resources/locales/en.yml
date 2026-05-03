@@ -214,12 +214,13 @@ admin-debug-join-info:
   - ""
 
 menu-compass-selector-title: 'Select a runner'
-menu-item-back-arrow: '<gray>Back'
+menu-item-back-arrow: '<!italic><gray>Back'
 menu-item-player-head:
   active: 'Active'
   lore:
     - ''
     - '<!italic><dark_gray>[Left-Click] Select'
+    - ''
 
 item-tracking-compass:
   # For the name and lore you can use {tracking_player_name} for the player
