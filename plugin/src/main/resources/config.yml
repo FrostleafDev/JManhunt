@@ -84,8 +84,8 @@ can-players-join-during-setup: false
 team-color:
   hunter: '<red>'
   runner: '<green>'
-  spectator: '<dark_gray>'
-  none: '<dark_gray>'
+  spectator: '<gray>'
+  none: '<gray>'
 
 # Should spectators be visible in the tab?
 #
@@ -200,7 +200,7 @@ tablist:
 # Should the timer (Either time left or elapsed) be visible in the actionbar?
 timer-in-actionbar: true
 
-# Available placeholders: {s} (seconds), {m} (minutes), {h} (hours).
+# Available placeholders: {s} (seconds), {m} (minutes), {h} (hours), {d} (days).
 # When writing these in uppercase the '0' will be added for values below 10
 # The plugin automatically switches between these formats based on the elapsed time.
 #
@@ -212,6 +212,9 @@ timer-format-ms: "<gradient:green:dark_green><b>{m}m {s}s"
 
 # This format is used when the timer is > 1h
 timer-format-hms: "<gradient:green:dark_green><b>{h}h {m}m {s}s"
+
+# This format is used when the timer is > 1d
+timer-format-dhms: "<gradient:green:dark_green><b>{d}d {h}h {m}m {s}s"
 
 # This format is used when the timer is not running
 timer-format-paused: "<gradient:green:dark_green><b><i>Manhunt paused"
@@ -367,10 +370,12 @@ debug-mode: false
 # %jmanhunt_goal_remaining_time_s%    -> Remaining time to win in seconds
 # %jmanhunt_goal_remaining_time_m%    -> Remaining time to win in minutes
 # %jmanhunt_goal_remaining_time_h%    -> Remaining time to win in hours
+# %jmanhunt_goal_remaining_time_d%    -> Remaining time to win in hours
 # %jmanhunt_goal_remaining_formatted% -> Remaining time to win (Formats as mm:ss or hh:mm:ss depending on duration)
 # %jmanhunt_timer_s%                  -> Total elapsed game time in seconds
 # %jmanhunt_timer_m%                  -> Total elapsed game time in minutes
 # %jmanhunt_timer_h%                  -> Total elapsed game time in hours
+# %jmanhunt_timer_d%                  -> Total elapsed game time in hours
 # %jmanhunt_timer_formatted%          -> Total elapsed game time (Formats as mm:ss or hh:mm:ss)
 # %jmanhunt_runner_distance%          -> Distance to the nearest runner (Shows last known position if in a different dimension)
 # %jmanhunt_status%                   -> The current game status: SETUP, PRE_GAME, RUNNING, PAUSE, ENDED

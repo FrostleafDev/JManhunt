@@ -139,7 +139,8 @@ public class ConfigManager {
         timer.enabled = plugin.getConfig().getBoolean("timer-in-actionbar", true);
         timer.formatS = plugin.getConfig().getString("timer-format-s", "<gradient:green:dark_green><b>{s}s");
         timer.formatMS = plugin.getConfig().getString("timer-format-ms", "<gradient:green:dark_green><b>{m}m {s}s");
-        timer.formatHMS = plugin.getConfig().getString("timer-format-mhs", "<gradient:green:dark_green><b>{h}h {m}m {s}s");
+        timer.formatHMS = plugin.getConfig().getString("timer-format-hms", "<gradient:green:dark_green><b>{h}h {m}m {s}s");
+        timer.formatDHMS = plugin.getConfig().getString("timer-format-dhms", "<gradient:green:dark_green><b>{d}d {h}h {m}m {s}s");
         timer.formatPause = plugin.getConfig().getString("timer-format-paused", "<gradient:green:dark_green><b><i>Manhunt paused...");
         timer.formatNotRunning = plugin.getConfig().getString("timer-format-not-running", "<gradient:green:dark_green><b><i>Manhunt {state}");
 
@@ -298,6 +299,7 @@ public class ConfigManager {
         private String formatS;
         private String formatMS;
         private String formatHMS;
+        private String formatDHMS;
         private String formatPause;
         private String formatNotRunning;
 
@@ -315,6 +317,10 @@ public class ConfigManager {
 
         public String getFormatHMS() {
             return formatHMS;
+        }
+
+        public String getFormatDHMS() {
+            return formatDHMS;
         }
 
         public String getFormatPause() {

@@ -37,19 +37,26 @@ public class ChatListener implements Listener {
         var teamConf = plugin.getBootstrap().getConfigManager().getTeam();
 
         switch (team) {
-            case ManhuntTeam.HUNTER -> teamConf.getHunter().getColor();
-            case ManhuntTeam.RUNNER -> teamConf.getRunner().getColor();
-            case ManhuntTeam.SPECTATOR -> teamConf.getSpectator().getColor();
-            case ManhuntTeam.NONE -> teamConf.getNone().getColor();
+            case ManhuntTeam.HUNTER -> teamColor = teamConf.getHunter().getColor();
+            case ManhuntTeam.RUNNER -> teamColor = teamConf.getRunner().getColor();
+            case ManhuntTeam.SPECTATOR -> teamColor = teamConf.getSpectator().getColor();
+            case ManhuntTeam.NONE -> teamColor = teamConf.getNone().getColor();
         }
 
         String teamName = teamColor + plugin.getBootstrap().getLangManager().format("teams." + team.name().toLowerCase(), null);
 
         event.renderer((source, sourceDisplayName, message, viewer) -> {
+            String rawMessage = PlainTextComponentSerializer.plainText().serialize(message);
+
+            // ONLY ALLOW MINIMESSAGE TAGS IF THE PLAYER HAS THE PERMISSION
+            String processedMessage = player.hasPermission("jmanhunt.chat.minimessage")
+                    ? rawMessage
+                    : mm.escapeTags(rawMessage);
+
             String finalMessage = chatFormat
-                    .replace("team", teamName)
-                    .replace("player_name", player.getName())
-                    .replace("message", PlainTextComponentSerializer.plainText().serialize(message));
+                    .replace("{team}", teamName)
+                    .replace("{player_name}", player.getName())
+                    .replace("{message}", processedMessage);
 
             return mm.deserialize(finalMessage);
         });

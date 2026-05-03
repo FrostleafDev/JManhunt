@@ -40,14 +40,17 @@ public class ManhuntTimerImpl implements ManhuntTimer {
 
     @Override
     public @NotNull String format(@NotNull String pattern) {
-        long h = seconds / 3600;
-        long m = (seconds % 3600) / 60;
-        long s = seconds % 60;
+            long d = seconds / 86400;
+            long h = (seconds % 86400) / 3600;
+            long m = (seconds % 3600) / 60;
+            long s = seconds % 60;
 
         return pattern
+                .replace("{d}", String.valueOf(d))
                 .replace("{h}", String.valueOf(h))
                 .replace("{m}", String.valueOf(m))
                 .replace("{s}", String.valueOf(s))
+                .replace("{D}", String.format("%02d", d))
                 .replace("{H}", String.format("%02d", h))
                 .replace("{M}", String.format("%02d", m))
                 .replace("{S}", String.format("%02d", s));

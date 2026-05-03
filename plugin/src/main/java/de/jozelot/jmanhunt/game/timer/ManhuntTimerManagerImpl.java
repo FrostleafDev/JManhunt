@@ -84,7 +84,8 @@ public class ManhuntTimerManagerImpl implements ManhuntTimerManager {
 
         if (timer.getElapsedSeconds() < 60) text = timer.format(conf.getFormatS());
         else if (timer.getElapsedSeconds() < 3600) text = timer.format(conf.getFormatMS());
-        else text = timer.format(conf.getFormatHMS());
+        else if (timer.getElapsedSeconds() < 86400) text = timer.format(conf.getFormatHMS());
+        else text = timer.format(conf.getFormatDHMS());
 
         if (plugin.getBootstrap().getPhaseManager().isPaused()) text = timer.format(conf.getFormatPause());
         if (plugin.getBootstrap().getPhaseManager().isSetup() || plugin.getBootstrap().getPhaseManager().isPreGame() || plugin.getBootstrap().getPhaseManager().isEnded()) {

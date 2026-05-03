@@ -2,6 +2,7 @@ package de.jozelot.jmanhunt.core;
 
 import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.ApiManager;
+import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.core.dependencies.PluginDependencies;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
@@ -94,6 +95,7 @@ public class JManhuntBootstrap {
         menuManager.registerMenus();
 
         WorldUtils.applyGamerules();
+        if (gameManager.getGameState() == GameState.RUNNING) gameManager.setGameState(GameState.PAUSE);
         canShutdownSafely = true;
         return true;
     }
@@ -124,6 +126,7 @@ public class JManhuntBootstrap {
         langManager.load(configManager.getLocale());
 
         timerManager.stop();
+        timerManager.save();
         timerManager.stopActionbar();
         manhuntPlayerManager.saveAllToStorage();
         gameManager.saveToStorage();

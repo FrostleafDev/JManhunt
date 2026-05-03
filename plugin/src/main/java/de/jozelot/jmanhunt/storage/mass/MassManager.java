@@ -62,14 +62,20 @@ public class MassManager {
     }
 
     public void saveState(GameState state) {
-        String sql = "REPLACE INTO `" + storage.getPrefix() + "game` (id, state) VALUES (1, ?)";
+        String sql = "UPDATE `" + storage.getPrefix() + "game` SET state = ? WHERE id = 1";
 
         try (Connection con = storage.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-
             ps.setString(1, state.name());
-            ps.executeUpdate();
+            int affected = ps.executeUpdate();
 
+            if (affected == 0) {
+                String insertSql = "INSERT INTO `" + storage.getPrefix() + "game` (id, state) VALUES (1, ?)";
+                try (PreparedStatement ips = con.prepareStatement(insertSql)) {
+                    ips.setString(1, state.name());
+                    ips.executeUpdate();
+                }
+            }
         } catch (SQLException e) {
             plugin.getLogger().severe("Couldn't save game state: " + e.getMessage());
         }
