@@ -217,9 +217,13 @@ menu-compass-selector-title: 'Select a runner'
 menu-item-back-arrow: '<!italic><gray>Back'
 menu-item-player-head:
   active: 'Active'
-  lore:
+  lore_unactive:
     - ''
     - '<!italic><dark_gray>[Left-Click] Select'
+    - ''
+  lore_active:
+    - ''
+    - '<!italic><dark_gray>[Left-Click] Deselect'
     - ''
 
 item-tracking-compass:
@@ -230,3 +234,4 @@ item-tracking-compass:
     - ''
     - '<!italic><dark_gray>[Left-Click] Update Position'
     - '<!italic><dark_gray>[Right-Click] Select Runner'
+    - ''

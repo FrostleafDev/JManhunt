@@ -30,17 +30,25 @@ public class TrackingCompass extends ManhuntItem {
         setMetaUpdater((meta, hunter) -> {
             ManhuntPlayer mp = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(hunter.getUniqueId());
 
-            String targetName = mp.getTracking()
+            Optional<ManhuntPlayer> targetOpt = mp.getTracking();
+
+            String targetName = targetOpt
                     .map(ManhuntPlayer::getPlayer)
                     .map(Player::getName)
-                    .orElse("None");
+                    .orElse(plugin.getBootstrap().getLangManager().format("none", null));
 
-            mp.getTracking().ifPresent(target -> {
+            if (targetOpt.isPresent()) {
+                ManhuntPlayer target = targetOpt.get();
                 if (target.getPlayer().getWorld().equals(hunter.getWorld()) && meta instanceof CompassMeta compassMeta) {
                     compassMeta.setLodestoneTracked(false);
                     compassMeta.setLodestone(target.getPlayer().getLocation());
                 }
-            });
+            } else {
+                if (meta instanceof CompassMeta compassMeta) {
+                    compassMeta.setLodestone(null);
+                    compassMeta.setLodestoneTracked(false);
+                }
+            }
 
             meta.displayName(mm.deserialize("<!italic>" + plugin.getBootstrap().getLangManager().format("item-tracking-compass.name", Map.of("tracking_player_name", targetName))));
 
@@ -100,11 +108,9 @@ public class TrackingCompass extends ManhuntItem {
             ItemStack item = event.getItem();
             if (item == null) return;
 
-            if (mPlayer.getTracking().isPresent()) {
-                applyUpdate(item, event.getPlayer());
-                player.setCooldown(material, plugin.getBootstrap().getConfigManager().getCompass().getCooldown() * 20);
-                PlaySoundUtils.playPling(player, plugin);
-            }
+            applyUpdate(item, event.getPlayer());
+            player.setCooldown(material, plugin.getBootstrap().getConfigManager().getCompass().getCooldown() * 20);
+            PlaySoundUtils.playPling(player, plugin);
         }
     }
 

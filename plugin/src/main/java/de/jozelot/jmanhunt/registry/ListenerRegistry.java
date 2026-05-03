@@ -8,7 +8,7 @@ import de.jozelot.jmanhunt.listener.connection.ServerPingListener;
 import de.jozelot.jmanhunt.listener.mechanic.ManhuntItemListener;
 import de.jozelot.jmanhunt.listener.mechanic.MenuClickListener;
 import de.jozelot.jmanhunt.listener.mechanic.PlayerRespawnListener;
-import de.jozelot.jmanhunt.listener.mechanic.StartProtection;
+import de.jozelot.jmanhunt.listener.protection.StartProtection;
 import de.jozelot.jmanhunt.listener.protection.PauseGameFreezeListener;
 import de.jozelot.jmanhunt.listener.protection.SetupPreGameProtection;
 

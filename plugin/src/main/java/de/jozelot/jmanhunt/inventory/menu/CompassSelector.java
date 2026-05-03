@@ -18,6 +18,7 @@ import java.util.UUID;
 public class CompassSelector extends Menu{
 
     private final JManhunt plugin;
+    private long lastClick = 0;
 
     public CompassSelector(JManhunt plugin) {
         super(plugin, calculateSize(plugin), plugin.getBootstrap().getLangManager().format("menu-compass-selector-title", null));
@@ -66,7 +67,7 @@ public class CompassSelector extends Menu{
                             isCurrentTarget ? "<green>" + runner.getPlayer().getName() + " (" + plugin.getBootstrap().getLangManager().format("menu-item-player-head.active", null) + ")"
                                     : "<gray>" + runner.getPlayer().getName())));
 
-            List<String> linesRaw = plugin.getBootstrap().getLangManager().formatList("menu-item-player-head.lore", null);
+            List<String> linesRaw = isCurrentTarget ? plugin.getBootstrap().getLangManager().formatList("menu-item-player-head.lore_active", null) : plugin.getBootstrap().getLangManager().formatList("menu-item-player-head.lore_unactive", null);
             List<Component> lines = new ArrayList<>();
             linesRaw.forEach(line -> lines.add(mm.deserialize(line)));
 
@@ -82,8 +83,13 @@ public class CompassSelector extends Menu{
         });
 
         setItem(slot, item, (user, event) -> {
+            if (lastClick > System.currentTimeMillis() - 200) return;
+            lastClick = System.currentTimeMillis();
+
             if (isCurrentTarget) {
-                PlaySoundUtils.playError(user.getPlayer(), plugin);
+                user.setTracking(null);
+                setupPlayers(user);
+                PlaySoundUtils.playPling(user.getPlayer(), plugin);
                 return;
             }
 
