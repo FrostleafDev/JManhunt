@@ -219,4 +219,13 @@ menu-item-player-head:
   active: 'Active'
   lore:
     - ''
-    - '<!italic><gray>[Left-Click] to select'
+    - '<!italic><gray>[Left-Click] Select'
+
+item-tracking-compass:
+  # For the name and lore you can use {tracking_player_name} for the player
+  # that is currently being tracked.
+  name: "<gray>Tracking: <aqua>{tracking_player_name}"
+  lore:
+    - ''
+    - '<!italic><gray>[Left-Click] Update Position'
+    - '<!italic><gray>[Right-Click] Select Runner'

@@ -42,12 +42,11 @@ public class TrackingCompass extends ManhuntItem {
                 }
             });
 
-            meta.displayName(mm.deserialize("<!italic>" + plugin.getBootstrap().getConfigManager().getCompass().getName()
-                    .replace("{tracking_player_name}", targetName)));
+            meta.displayName(mm.deserialize("<!italic>" + plugin.getBootstrap().getLangManager().format("item-tracking-compass.name", Map.of("tracking_player_name", targetName))));
 
             List<Component> lore = new ArrayList<>();
 
-            for (String line : plugin.getBootstrap().getConfigManager().getCompass().getLore()) {
+            for (String line : plugin.getBootstrap().getLangManager().formatList("item-tracking-compass.lore", null)) {
                 lore.add(mm.deserialize("<!italic>" + line.replace("{tracking_player_name}", targetName)));
             }
 
@@ -64,12 +63,11 @@ public class TrackingCompass extends ManhuntItem {
         applyItemId(item);
         System.out.println(item);
         item.editMeta(meta -> {
-            meta.displayName(mm.deserialize("<!italic>" + plugin.getBootstrap().getConfigManager().getCompass().getName()
-                    .replace("{tracking_player_name}", plugin.getBootstrap().getLangManager().format("none", null))));
+            meta.displayName(mm.deserialize("<!italic>" + plugin.getBootstrap().getLangManager().format("item-tracking-compass.name", Map.of("tracking_player_name", plugin.getBootstrap().getLangManager().format("none", null)))));
 
             List<Component> lore = new ArrayList<>();
 
-            for (String line : plugin.getBootstrap().getConfigManager().getCompass().getLore()) {
+            for (String line : plugin.getBootstrap().getLangManager().formatList("item-tracking-compass.lore", null)) {
                 lore.add(mm.deserialize("<!italic>" + line.replace("{tracking_player_name}", plugin.getBootstrap().getLangManager().format("none", null))));
             }
 

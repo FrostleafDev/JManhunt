@@ -64,7 +64,7 @@ public class CompassSelector extends Menu{
             meta.displayName(mm.deserialize(
                     "<!italic>" + (
                             isCurrentTarget ? "<green>" + runner.getPlayer().getName() + " (" + plugin.getBootstrap().getLangManager().format("menu-item-player-head.active", null) + ")"
-                                    : "<gray>" + runner.getPlayer().getName())));
+                                    : "<dark_gray>" + runner.getPlayer().getName())));
 
             List<String> linesRaw = plugin.getBootstrap().getLangManager().formatList("menu-item-player-head.lore", null);
             List<Component> lines = new ArrayList<>();

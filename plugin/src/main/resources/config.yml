@@ -231,12 +231,6 @@ timer-format-not-running: "<gradient:green:dark_green><b><i>Manhunt {state}"
 # You can change its behavior and disable it.
 tracking-compass:
   enabled: true
-  # For the name and lore you can use {tracking_player_name} for the player
-  # that is currently being tracked.
-  name: "<gray>Tracking: <aqua>{tracking_player_name}"
-  lore:
-    - ""
-    - "<gray>Tracking Compass"
   item: COMPASS
   # Here you can choose if the compass should update in a given interval or
   # when the hunter updates it via a click.
