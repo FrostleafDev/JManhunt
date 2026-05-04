@@ -17,12 +17,12 @@ public class ManhuntPlaceholders extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "jozelot_";
+        return "jmanhunt";
     }
 
     @Override
     public @NotNull String getAuthor() {
-        return "jmanhunt";
+        return "jozelot_";
     }
 
     @Override
