@@ -24,6 +24,11 @@ public class Heartbeat {
                         plugin.getBootstrap().getCustomTablist().applyTablist(p);
                     });
                 }
+                if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
+                    plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
+                        plugin.getBootstrap().getCustomTablist().updateTabName(p);
+                    });
+                }
             }
             // CLEAN UP
             if (ticks >= 72000) ticks = 0;

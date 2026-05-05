@@ -6,6 +6,7 @@ import de.jozelot.jmanhunt.api.player.ManhuntTeam;
 import de.jozelot.jmanhunt.utility.ReplaceUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.entity.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -55,6 +56,16 @@ public class CustomTablist {
                 Component.empty(),
                 Component.empty()
         );
+    }
+
+    public void updateTabName(ManhuntPlayer player) {
+        String teamName = plugin.getBootstrap().getLangManager().format("teams." + player.getTeam().name().toLowerCase(), null);
+        Component tabName = mm.deserialize(plugin.getBootstrap().getConfigManager().getTeamPrefix().getFormat().replace("{team}", teamName).replace("{player_name}", player.getPlayer().getName()));
+        player.getPlayer().playerListName(tabName);
+    }
+
+    public void clearTabName(ManhuntPlayer player) {
+        player.getPlayer().playerListName(mm.deserialize(player.getPlayer().getName()));
     }
 
     private Component buildComponent(List<String> lines, ManhuntPlayer player) {

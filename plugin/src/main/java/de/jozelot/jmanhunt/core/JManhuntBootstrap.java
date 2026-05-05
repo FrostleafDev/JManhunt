@@ -155,6 +155,12 @@ public class JManhuntBootstrap {
                     .filter(ManhuntPlayer::isOnline)
                     .forEach(p -> customTablist.clearTablist(p));
         };
+        if (!plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
+            manhuntPlayerManager.getPlayers()
+                    .stream()
+                    .filter(ManhuntPlayer::isOnline)
+                    .forEach(p -> customTablist.clearTabName(p));
+        }
         heartbeat.startHeartbeat();
     }
 

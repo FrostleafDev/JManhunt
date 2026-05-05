@@ -100,7 +100,6 @@ spectators-visible: HIDDEN
 team-prefix:
   tab: true
   nametags: true
-  chat: true
   # If the above is true this will be the format for the tablist and the player nametags.
   format: '{team} | {player_name}'
 
@@ -168,6 +167,8 @@ max-player-count:
 # {player_kills}
 tablist:
   enabled: true
+  # Team sorting will result in a sorted tablist by team
+  team-sorting: true
   runner:
     header:
       - ""

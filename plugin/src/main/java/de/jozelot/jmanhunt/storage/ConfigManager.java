@@ -22,6 +22,7 @@ public class ConfigManager {
     private final CustomChat customChat;
     private final Team team;
     private final Tablist tablist;
+    private final TeamPrefix teamPrefix;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
@@ -32,6 +33,7 @@ public class ConfigManager {
         this.customChat = new CustomChat();
         this.team = new Team();
         this.tablist = new Tablist();
+        this.teamPrefix = new TeamPrefix();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
@@ -157,12 +159,18 @@ public class ConfigManager {
 
         // TABLIST
         tablist.enabled = plugin.getConfig().getBoolean("tablist.enabled", true);
+        tablist.teamSorting = plugin.getConfig().getBoolean("tablist.team-sorting", true);
         tablist.runnerFooter = plugin.getConfig().getStringList("tablist.runner.footer");
         tablist.runnerHeader = plugin.getConfig().getStringList("tablist.runner.header");
         tablist.hunterFooter = plugin.getConfig().getStringList("tablist.hunter.footer");
         tablist.hunterHeader = plugin.getConfig().getStringList("tablist.hunter.header");
         tablist.spectatorFooter = plugin.getConfig().getStringList("tablist.spectator.footer");
         tablist.spectatorHeader = plugin.getConfig().getStringList("tablist.spectator.header");
+
+        // TEAM PREFIX
+        teamPrefix.tab = plugin.getConfig().getBoolean("team-prefix.tab", true);
+        teamPrefix.nametags = plugin.getConfig().getBoolean("team-prefix.nametags", true);
+        teamPrefix.format = plugin.getConfig().getString("team-prefix.format", "{team} | {player_name}");
 
         // CUSTOM JOIN
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
@@ -388,6 +396,7 @@ public class ConfigManager {
 
     public class Tablist {
         private boolean enabled;
+        private boolean teamSorting;
         private List<String> runnerHeader;
         private List<String> runnerFooter;
         private List<String> hunterHeader;
@@ -397,6 +406,10 @@ public class ConfigManager {
 
         public boolean isEnabled() {
             return enabled;
+        }
+
+        public boolean isTeamSortingEnabled() {
+            return teamSorting;
         }
 
         public List<String> getRunnerHeader() {
@@ -421,6 +434,24 @@ public class ConfigManager {
 
         public List<String> getSpectatorFooter() {
             return spectatorFooter;
+        }
+    }
+
+    public class TeamPrefix {
+        private boolean tab;
+        private boolean nametags;
+        private String format;
+
+        public boolean isTab() {
+            return tab;
+        }
+
+        public boolean isNametags() {
+            return nametags;
+        }
+
+        public String getFormat() {
+            return format;
         }
     }
 
@@ -450,6 +481,10 @@ public class ConfigManager {
 
     public Tablist getTablist() {
         return tablist;
+    }
+
+    public TeamPrefix getTeamPrefix() {
+        return teamPrefix;
     }
 
     public boolean isDebugMode() {
