@@ -95,14 +95,6 @@ team-color:
 # - 'NORMAL' -> The player names won't be italic
 spectators-visible: HIDDEN
 
-# Enable team prefixes in various places. Requires the format below.
-# Example: 'Runner | jozelot_'
-team-prefix:
-  tab: true
-  nametags: true
-  # If the above is true this will be the format for the tablist and the player nametags.
-  format: '{team} | {player_name}'
-
 # Should the custom chat be enabled?
 # Supports minimessage format.
 # With the 'jmanhunt.chat.minimessage' permission players can use the <> minimessage format in chat messages.
