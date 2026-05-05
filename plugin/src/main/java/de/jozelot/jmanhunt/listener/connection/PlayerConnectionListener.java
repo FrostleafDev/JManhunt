@@ -82,6 +82,12 @@ public class PlayerConnectionListener implements Listener {
         if (plugin.getBootstrap().getGameManager().getPhaseManager().isRunning()) {
             if (manhuntPlayer.getTeam() == ManhuntTeam.SPECTATOR || manhuntPlayer.isEliminated()) player.setGameMode(GameMode.SPECTATOR);
         }
+        if (plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
+            plugin.getBootstrap().getCustomTablist().applyTablist(manhuntPlayer);
+        }
+        if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
+            plugin.getBootstrap().getCustomTablist().updateTabName(manhuntPlayer);
+        }
     }
 
     @EventHandler
