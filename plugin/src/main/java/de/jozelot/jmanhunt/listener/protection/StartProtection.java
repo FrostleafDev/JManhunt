@@ -21,11 +21,9 @@ public class StartProtection implements Listener {
         if (!(event.getEntity() instanceof Player player)) return;
         ManhuntPlayer mPlayer = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(player);
         if (mPlayer.getTeam() != ManhuntTeam.RUNNER) return;
-        System.out.println(player.getName() + " hat Damage bekommen: " + event.getDamage());
 
         if (System.currentTimeMillis() < plugin.getBootstrap().getPhaseManager().getStartProtectionEnd()) {
             event.setCancelled(true);
-            System.out.println(player.getName() + " Damage wurde gecancelt");
-        } else System.out.println(player.getName() + " Damage wurde nicht gecancelt, weil Currenttime: " + System.currentTimeMillis() + "; ProtEnd: "+ plugin.getBootstrap().getPhaseManager().getStartProtectionEnd());
+        }
     }
 }
