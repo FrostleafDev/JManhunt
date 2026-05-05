@@ -59,7 +59,19 @@ public class CustomTablist {
     }
 
     public void updateTabName(ManhuntPlayer player) {
-        String teamName = plugin.getBootstrap().getLangManager().format("teams." + player.getTeam().name().toLowerCase(), null);
+        ManhuntTeam team = player.getTeam();
+        String teamColor = "<dark_gray>";
+
+        var teamConf = plugin.getBootstrap().getConfigManager().getTeam();
+
+        switch (team) {
+            case ManhuntTeam.HUNTER -> teamColor = teamConf.getHunter().getColor();
+            case ManhuntTeam.RUNNER -> teamColor = teamConf.getRunner().getColor();
+            case ManhuntTeam.SPECTATOR -> teamColor = teamConf.getSpectator().getColor();
+            case ManhuntTeam.NONE -> teamColor = teamConf.getNone().getColor();
+        }
+
+        String teamName = teamColor + plugin.getBootstrap().getLangManager().format("teams." + team.name().toLowerCase(), null);
         Component tabName = mm.deserialize(plugin.getBootstrap().getConfigManager().getTeamPrefix().getFormat().replace("{team}", teamName).replace("{player_name}", player.getPlayer().getName()));
         player.getPlayer().playerListName(tabName);
     }
