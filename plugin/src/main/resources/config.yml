@@ -185,7 +185,7 @@ tablist:
       - ""
     footer:
       - ""
-      - "<gray>Deaths: <green>{player_deaths} <gray>| <green>{current_team}"
+      - "<gray>Deaths: <red>{player_deaths} <gray>| <red>{current_team}"
       - "<gray>Goal: <green>{runner_goal}"
       - ""
   spectator:

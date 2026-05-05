@@ -40,7 +40,7 @@ public class TrackingCompass extends ManhuntItem {
                     .map(Player::getName)
                     .orElse(plugin.getBootstrap().getLangManager().format("none", null));
 
-            if (targetOpt.isPresent()) {
+            if (targetOpt.isPresent() && targetOpt.get().isOnline()) {
                 ManhuntPlayer target = targetOpt.get();
                 if (target.getPlayer().getWorld().equals(hunter.getWorld()) && meta instanceof CompassMeta compassMeta) {
                     compassMeta.setLodestoneTracked(false);
