@@ -101,7 +101,7 @@ team-prefix:
   tab: true
   nametags: true
   chat: true
-  # If the above is true this will be the format for the tablist and the player names in chat and nametags.
+  # If the above is true this will be the format for the tablist and the player nametags.
   format: '{team} | {player_name}'
 
 # Should the custom chat be enabled?
@@ -163,7 +163,9 @@ max-player-count:
   value: 1
 
 # Here you can enable the custom tablist
-# Placeholders: {player_count}, {lives_left}, {current_team}, {runner_count}, {hunter_count}, {runner_goal}, {runner_goal_progress}, {runner_goal_entity}, {team_deaths}, {player_deaths}
+# Placeholders: {player_count} (All players including spectators), {game_player_count} (Runner + Hunter),
+# {lives_left}, {current_team}, {runner_count}, {hunter_count}, {spectator_count}, {runner_goal}, {runner_goal_progress}, {runner_goal_entity}, {team_deaths}, {player_deaths},
+# {player_kills}
 tablist:
   enabled: true
   runner:

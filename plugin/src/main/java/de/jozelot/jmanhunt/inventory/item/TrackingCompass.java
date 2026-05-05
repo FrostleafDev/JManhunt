@@ -31,6 +31,9 @@ public class TrackingCompass extends ManhuntItem {
             ManhuntPlayer mp = plugin.getBootstrap().getManhuntPlayerManager().getPlayer(hunter.getUniqueId());
 
             Optional<ManhuntPlayer> targetOpt = mp.getTracking();
+            if (targetOpt.isPresent()) {
+                if (targetOpt.get().isEliminated()) targetOpt = Optional.empty();
+            }
 
             String targetName = targetOpt
                     .map(ManhuntPlayer::getPlayer)

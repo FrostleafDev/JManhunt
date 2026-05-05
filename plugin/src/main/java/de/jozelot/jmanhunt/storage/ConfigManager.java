@@ -21,6 +21,7 @@ public class ConfigManager {
     private final Timer timer;
     private final CustomChat customChat;
     private final Team team;
+    private final Tablist tablist;
 
     public ConfigManager(JManhunt plugin) {
         this.plugin = plugin;
@@ -30,6 +31,7 @@ public class ConfigManager {
         this.timer = new Timer();
         this.customChat = new CustomChat();
         this.team = new Team();
+        this.tablist = new Tablist();
     }
 
     private static final int CURRENT_CONFIG_VERSION = 1; // ME: IMPORTANT TO CHANGE
@@ -149,10 +151,18 @@ public class ConfigManager {
         team.spectator.color = plugin.getConfig().getString("team-color.spectator");
         team.none.color = plugin.getConfig().getString("team-color.none");
 
-
         // CUSTOM CHAT
         customChat.chatFormat = plugin.getConfig().getString("custom-chat-format", "{team} | {player_name} <dark_gray>» <gray>{message}");
         customChat.enabled = plugin.getConfig().getBoolean("custom-chat", true);
+
+        // TABLIST
+        tablist.enabled = plugin.getConfig().getBoolean("tablist.enabled", true);
+        tablist.runnerFooter = plugin.getConfig().getStringList("tablist.runner.footer");
+        tablist.runnerHeader = plugin.getConfig().getStringList("tablist.runner.header");
+        tablist.hunterFooter = plugin.getConfig().getStringList("tablist.hunter.footer");
+        tablist.hunterHeader = plugin.getConfig().getStringList("tablist.hunter.header");
+        tablist.spectatorFooter = plugin.getConfig().getStringList("tablist.spectator.footer");
+        tablist.spectatorHeader = plugin.getConfig().getStringList("tablist.spectator.header");
 
         // CUSTOM JOIN
         sendCustomJoinLeaveMessages = plugin.getConfig().getBoolean("custom-join-leave-messages", true);
@@ -376,6 +386,44 @@ public class ConfigManager {
         }
     }
 
+    public class Tablist {
+        private boolean enabled;
+        private List<String> runnerHeader;
+        private List<String> runnerFooter;
+        private List<String> hunterHeader;
+        private List<String> hunterFooter;
+        private List<String> spectatorHeader;
+        private List<String> spectatorFooter;
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public List<String> getRunnerHeader() {
+            return runnerHeader;
+        }
+
+        public List<String> getRunnerFooter() {
+            return runnerFooter;
+        }
+
+        public List<String> getHunterHeader() {
+            return hunterHeader;
+        }
+
+        public List<String> getHunterFooter() {
+            return hunterFooter;
+        }
+
+        public List<String> getSpectatorHeader() {
+            return spectatorHeader;
+        }
+
+        public List<String> getSpectatorFooter() {
+            return spectatorFooter;
+        }
+    }
+
     public Sounds getSounds() {
         return sounds;
     }
@@ -400,6 +448,10 @@ public class ConfigManager {
         return team;
     }
 
+    public Tablist getTablist() {
+        return tablist;
+    }
+
     public boolean isDebugMode() {
         return debugMode;
     }
@@ -419,7 +471,6 @@ public class ConfigManager {
     public String getStorageMethod() {
         return storageMethod;
     }
-
 
     public String getMysqlHost() {
         return mysqlHost;

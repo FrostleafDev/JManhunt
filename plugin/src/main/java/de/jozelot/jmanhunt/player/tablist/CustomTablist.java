@@ -1,0 +1,67 @@
+package de.jozelot.jmanhunt.player.tablist;
+
+import de.jozelot.jmanhunt.JManhunt;
+import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
+import de.jozelot.jmanhunt.api.player.ManhuntTeam;
+import de.jozelot.jmanhunt.utility.ReplaceUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class CustomTablist {
+
+    private final JManhunt plugin;
+    private final MiniMessage mm = MiniMessage.miniMessage();
+
+    public CustomTablist(JManhunt plugin) {
+        this.plugin = plugin;
+    }
+
+    public void applyTablist(ManhuntPlayer player) {
+        ManhuntTeam team = player.getTeam();
+
+        var config = plugin.getBootstrap().getConfigManager().getTablist();
+
+        List<String> rawHeader;
+        List<String> rawFooter;
+
+        switch (player.getTeam()) {
+            case HUNTER -> {
+                rawHeader = config.getHunterHeader();
+                rawFooter = config.getHunterFooter();
+            }
+            case RUNNER -> {
+                rawHeader = config.getRunnerHeader();
+                rawFooter = config.getRunnerFooter();
+            }
+            default -> {
+                rawHeader = config.getSpectatorHeader();
+                rawFooter = config.getSpectatorFooter();
+            }
+        }
+
+        Component finalHeader = buildComponent(rawHeader, player);
+        Component finalFooter = buildComponent(rawFooter, player);
+
+        player.getPlayer().sendPlayerListHeaderAndFooter(finalHeader, finalFooter);
+    }
+
+    public void clearTablist(ManhuntPlayer player) {
+        player.getPlayer().sendPlayerListHeaderAndFooter(
+                Component.empty(),
+                Component.empty()
+        );
+    }
+
+    private Component buildComponent(List<String> lines, ManhuntPlayer player) {
+        String joined = lines.stream()
+                .map(line -> ReplaceUtils.replacePlaceholders(line, plugin, player))
+                .collect(Collectors.joining("\n"));
+
+        return mm.deserialize(joined);
+    }
+}

@@ -13,6 +13,7 @@ import de.jozelot.jmanhunt.inventory.item.ItemUpdateService;
 import de.jozelot.jmanhunt.inventory.menu.MenuManager;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
+import de.jozelot.jmanhunt.player.tablist.CustomTablist;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
 import de.jozelot.jmanhunt.registry.ListenerRegistry;
 import de.jozelot.jmanhunt.storage.ConfigManager;
@@ -49,6 +50,8 @@ public class JManhuntBootstrap {
     private ItemUpdateService itemUpdateService;
     private ItemManager itemManager;
     private MenuManager menuManager;
+    private CustomTablist customTablist;
+    private Heartbeat heartbeat;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -74,6 +77,8 @@ public class JManhuntBootstrap {
         itemUpdateService = new ItemUpdateService();
         itemManager = new ItemManager(plugin);
         menuManager = new MenuManager(plugin);
+        customTablist = new CustomTablist(plugin);
+        heartbeat = new Heartbeat(plugin);
     }
 
     /**
@@ -97,6 +102,7 @@ public class JManhuntBootstrap {
 
         WorldUtils.applyGamerules();
         if (gameManager.getGameState() == GameState.RUNNING) gameManager.setGameState(GameState.PAUSE);
+        heartbeat.startHeartbeat();
         canShutdownSafely = true;
         return true;
     }
@@ -105,6 +111,7 @@ public class JManhuntBootstrap {
      * Shuts down every important part of the plugin
      */
     public void shutdown() {
+        heartbeat.stopHeartbeat();
         plugin.getLogger().log(Level.INFO, "Plugin shutting down...");
         timerManager.stopActionbar();
         if (!canShutdownSafely) return;
@@ -122,6 +129,7 @@ public class JManhuntBootstrap {
      * This is the method that gets run when the plugin reloads
      */
     public void reload() {
+        heartbeat.stopHeartbeat();
         plugin.getLogger().log(Level.INFO, "Plugin is reloading...");
         configManager.load();
         langManager.load(configManager.getLocale());
@@ -141,6 +149,13 @@ public class JManhuntBootstrap {
 
         if (plugin.getBootstrap().getPhaseManager().isRunning()) timerManager.start();
         if (plugin.getBootstrap().getConfigManager().getTimer().isEnabled()) timerManager.startActionbar();
+        if (!plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
+            manhuntPlayerManager.getPlayers()
+                    .stream()
+                    .filter(ManhuntPlayer::isOnline)
+                    .forEach(p -> customTablist.clearTablist(p));
+        };
+        heartbeat.startHeartbeat();
     }
 
     /**
@@ -216,5 +231,9 @@ public class JManhuntBootstrap {
 
     public MenuManager getMenuManager() {
         return menuManager;
+    }
+
+    public CustomTablist getCustomTablist() {
+        return customTablist;
     }
 }
