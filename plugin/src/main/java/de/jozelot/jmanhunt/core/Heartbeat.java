@@ -34,7 +34,7 @@ public class Heartbeat {
                         plugin.getBootstrap().getPlayerNameTags().updateNameTag(p);
                     });
                 }
-                if (plugin.getBootstrap().getConfigManager().getTablist().isTeamSortingEnabled()) {
+                if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
                     plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
                         plugin.getBootstrap().getCustomTablist().sortTablistByTeam(p);
                     });

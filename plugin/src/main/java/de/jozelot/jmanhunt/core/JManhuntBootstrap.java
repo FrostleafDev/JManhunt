@@ -170,7 +170,7 @@ public class JManhuntBootstrap {
         if (!configManager.getTeamPrefix().isNametags()) {
             playerNameTags.cleanupTeams();
         }
-        if (!configManager.getTablist().isTeamSortingEnabled()) {
+        if (!configManager.getTablist().getTeamSorting().isEnabled()) {
             manhuntPlayerManager.getPlayers()
                     .stream()
                     .filter(ManhuntPlayer::isOnline)

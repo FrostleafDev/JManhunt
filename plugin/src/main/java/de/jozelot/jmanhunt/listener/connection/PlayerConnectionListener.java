@@ -91,7 +91,7 @@ public class PlayerConnectionListener implements Listener {
         if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isNametags()) {
             plugin.getBootstrap().getPlayerNameTags().updateNameTag(manhuntPlayer);
         }
-        if (plugin.getBootstrap().getConfigManager().getTablist().isTeamSortingEnabled()) {
+        if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
             plugin.getBootstrap().getCustomTablist().sortTablistByTeam(manhuntPlayer);
         }
     }
