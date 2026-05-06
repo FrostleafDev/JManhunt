@@ -35,19 +35,16 @@ public class PlayerNameTags {
             case SPECTATOR -> teamConf.getSpectator().getColor();
             case NONE -> teamConf.getNone().getColor();
         };
+
         String teamDisplayName = plugin.getBootstrap().getLangManager().format("teams." + player.getTeam().name().toLowerCase(), null);
-
         String format = config.getTeamPrefix().getFormat();
+
         String fullFormat = format.replace("{team}", teamColor + teamDisplayName);
-
         Component fullComponent = MiniMessage.miniMessage().deserialize(fullFormat);
-
         TextColor extractedColor = fullComponent.color();
-
         if (!fullComponent.children().isEmpty()) {
             extractedColor = fullComponent.children().get(0).color();
         }
-
         if (extractedColor != null) {
             team.color(NamedTextColor.nearestTo(extractedColor));
         }
@@ -57,11 +54,15 @@ public class PlayerNameTags {
         if (parts.length > 0) {
             String prefixRaw = parts[0].replace("{team}", teamColor + teamDisplayName);
             team.prefix(MiniMessage.miniMessage().deserialize(prefixRaw));
+        } else {
+            team.prefix(Component.empty());
         }
 
         if (parts.length > 1) {
             String suffixRaw = parts[1].replace("{team}", teamColor + teamDisplayName);
             team.suffix(MiniMessage.miniMessage().deserialize(suffixRaw));
+        } else {
+            team.suffix(Component.empty());
         }
 
         if (!team.hasEntry(player.getPlayer().getName())) {
