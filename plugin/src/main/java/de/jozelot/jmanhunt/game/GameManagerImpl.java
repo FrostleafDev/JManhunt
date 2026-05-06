@@ -59,7 +59,9 @@ public class GameManagerImpl implements GameManager {
             state = plugin.getBootstrap().getMassManager().loadState();
             endReason = plugin.getBootstrap().getMassManager().loadEndReason();
 
-            plugin.getBootstrap().getPhaseManager().handleStateChange(state);
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                plugin.getBootstrap().getPhaseManager().handleStateChange(state);
+            });
         });
     }
 
