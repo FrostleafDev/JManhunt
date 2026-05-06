@@ -179,6 +179,7 @@ public class JManhuntBootstrap {
                     .filter(ManhuntPlayer::isOnline)
                     .forEach(p -> customTablist.sortTablistDefault(p));
         }
+        spectatorTab.updateSpectators();
         heartbeat.startHeartbeat();
     }
 

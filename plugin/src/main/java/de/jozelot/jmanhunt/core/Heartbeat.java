@@ -19,26 +19,20 @@ public class Heartbeat {
 
             // 1 Second Clock
             if (ticks % 20 == 0) {
-                if (plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
-                    plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
-                        plugin.getBootstrap().getCustomTablist().applyTablist(p);
-                    });
-                }
-                if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
-                    plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
-                        plugin.getBootstrap().getCustomTablist().updateTabName(p);
-                    });
-                }
-                if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isNametags()) {
-                    plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
-                        plugin.getBootstrap().getPlayerNameTags().updateNameTag(p);
-                    });
-                }
-                if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
-                    plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
-                        plugin.getBootstrap().getCustomTablist().sortTablistByTeam(p);
-                    });
-                }
+                plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
+                    if (plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
+                            plugin.getBootstrap().getCustomTablist().applyTablist(p);
+                    }
+                    if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
+                            plugin.getBootstrap().getCustomTablist().updateTabName(p);
+                    }
+                    if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isNametags()) {
+                            plugin.getBootstrap().getPlayerNameTags().updateNameTag(p);
+                    }
+                    if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
+                            plugin.getBootstrap().getCustomTablist().sortTablistByTeam(p);
+                    }
+                });
             }
             // CLEAN UP
             if (ticks >= 72000) ticks = 0;
