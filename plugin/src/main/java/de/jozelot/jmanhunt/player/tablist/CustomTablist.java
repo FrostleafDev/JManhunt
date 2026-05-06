@@ -101,7 +101,7 @@ public class CustomTablist {
 
         int index = order.indexOf(currentTeamName);
 
-        int priority = (index != -1) ? (index + 1) : 0;
+        int priority = (index != -1) ? (index + 1) : 999;
 
         player.getPlayer().setPlayerListOrder(priority);
     }
