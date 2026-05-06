@@ -42,7 +42,7 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
             plugin.getBootstrap().getMassManager().loadManhuntPlayer(player);
         });
 
-        plugin.getLogger().log(Level.INFO, "Created player object for " + Bukkit.getPlayer(uuid).getName());
+        if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().log(Level.INFO, "Created player object for " + Bukkit.getPlayer(uuid).getName());
         return player;
     }
 
@@ -77,9 +77,9 @@ public class ManhuntPlayerManagerImpl implements ManhuntPlayerManager {
 
             if (player.getTeam() == ManhuntTeam.NONE) {
                 players.remove(uuid);
-                plugin.getLogger().info("Saved and removed idle player: " + playerName);
+                if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] Saved and removed idle player: " + playerName);
             } else {
-                plugin.getLogger().info("Saved and kept team member in RAM (offline): " + playerName);
+                if (plugin.getBootstrap().isDebugMode()) plugin.getLogger().info("[Debug] Saved and kept team member in RAM (offline): " + playerName);
             }
         }
     }

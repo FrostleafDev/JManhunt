@@ -151,7 +151,7 @@ public class JManhuntBootstrap {
         gameManager.loadFromStorage();
         manhuntPlayerManager.loadAllFromStorage();
         menuManager.handleReload();
-        manhuntPlayerManager.getPlayers().forEach(ManhuntPlayer::removeCompass);
+        manhuntPlayerManager.getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(ManhuntPlayer::removeCompass);
 
         if (phaseManager.isRunning()) timerManager.start();
         if (configManager.getTimer().isEnabled()) timerManager.startActionbar();
