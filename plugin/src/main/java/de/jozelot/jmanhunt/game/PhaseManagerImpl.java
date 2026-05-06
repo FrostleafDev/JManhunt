@@ -39,11 +39,11 @@ public class PhaseManagerImpl implements PhaseManager {
                 plugin.getServer().getServerTickManager().setFrozen(false);
             }
             case RUNNING -> {
-                plugin.getBootstrap().getManhuntPlayerManager().getHunters().forEach(ManhuntPlayer::giveCompass);
+                plugin.getBootstrap().getManhuntPlayerManager().getHunters().stream().filter(ManhuntPlayer::isOnline).forEach(ManhuntPlayer::giveCompass);
                 plugin.getServer().getServerTickManager().setFrozen(false);
-                playerManager.getRunners().stream().filter(p -> !p.isOnline()).forEach(ManhuntPlayer::eliminate);
+                playerManager.getRunners().stream().filter(ManhuntPlayer::isOnline).forEach(ManhuntPlayer::eliminate);
                 playerManager.getPlayersWithoutTeam().forEach(p -> p.setTeam(ManhuntTeam.SPECTATOR));
-                playerManager.getSpectators().forEach(p -> p.getPlayer().setGameMode(GameMode.SPECTATOR));
+                playerManager.getSpectators().stream().filter(ManhuntPlayer::isOnline).forEach(p -> p.getPlayer().setGameMode(GameMode.SPECTATOR));
                 plugin.getBootstrap().getTimerManager().start();
             }
             case PAUSE -> {
