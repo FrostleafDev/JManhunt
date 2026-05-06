@@ -170,6 +170,12 @@ public class JManhuntBootstrap {
         if (!configManager.getTeamPrefix().isNametags()) {
             playerNameTags.cleanupTeams();
         }
+        if (!configManager.getTablist().isTeamSortingEnabled()) {
+            manhuntPlayerManager.getPlayers()
+                    .stream()
+                    .filter(ManhuntPlayer::isOnline)
+                    .forEach(p -> customTablist.sortTablistDefault(p));
+        }
         heartbeat.startHeartbeat();
     }
 

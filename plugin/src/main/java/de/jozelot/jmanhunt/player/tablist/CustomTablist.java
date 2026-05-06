@@ -87,4 +87,18 @@ public class CustomTablist {
 
         return mm.deserialize(joined);
     }
+
+    public void sortTablistByTeam(ManhuntPlayer player) {
+        int priority = switch (player.getTeam()) {
+            case RUNNER -> 10;
+            case HUNTER -> 20;
+            case SPECTATOR -> 30;
+            case NONE -> 40;
+        };
+        player.getPlayer().setPlayerListOrder(priority);
+    }
+
+    public void sortTablistDefault(ManhuntPlayer player) {
+        player.getPlayer().setPlayerListOrder(0);
+    }
 }
