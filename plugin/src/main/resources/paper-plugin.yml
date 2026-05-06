@@ -36,6 +36,7 @@ permissions:
       jmanhunt.setup.bypass: true
       jmanhunt.setup.teams: true
       jmanhunt.command.game: true
+      jmanhunt.see.spectators: true
 
       jmanhunt.ui: true
 
@@ -67,6 +68,9 @@ permissions:
     default: op
 
   jmanhunt.ui:
+    default: op
+
+  jmanhunt.see.spectators:
     default: op
 
   jmanhunt.setup.bypass:

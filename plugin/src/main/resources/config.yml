@@ -88,12 +88,7 @@ team-color:
   none: '<gray>'
 
 # Should spectators be visible in the tab?
-#
-# Available:
-# - 'HIDDEN' -> Spectators will not be shown in the tablist
-# - 'SHOWN'  -> This is the default vanilla style, if the spectators are in spectator mode they will be italic
-# - 'NORMAL' -> The player names won't be italic
-spectators-visible: HIDDEN
+spectators-visibility: false
 
 # Enable team prefixes in various places. Requires the format below.
 # Example: 'Runner | jozelot_'
@@ -359,6 +354,7 @@ debug-mode: false
 # jmanhunt.ui                         -> You can open the manhunt ui and change everything from above!
 # jmanhunt.setup.bypass               -> You can join the server in the setup phase if it is enabled
 # jmanhunt.chat.minimessage           -> You can use minimessage tags in chat
+# jmanhunt.see.spectators             -> You can see invisible spectators in tab
 
 ##################################################################################
 ##                                                                              ##

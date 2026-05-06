@@ -58,6 +58,7 @@ public class ConfigManager {
     private String defaultTime;
     private int endManhuntAtPause;
     private int startProtection;
+    private boolean spectatorVisibility;
 
     public boolean load() {
         plugin.saveDefaultConfig();
@@ -196,6 +197,8 @@ public class ConfigManager {
         endManhuntAtPause = plugin.getConfig().getInt("pause-timeout", 600);
 
         startProtection = plugin.getConfig().getInt("start-protection", 60);
+
+        spectatorVisibility = plugin.getConfig().getBoolean("spectator-visibility", false);
     }
 
     public class Sounds {
@@ -581,5 +584,9 @@ public class ConfigManager {
 
     public int getStartProtection() {
         return startProtection;
+    }
+
+    public boolean isSpectatorVisibility() {
+        return spectatorVisibility;
     }
 }

@@ -100,8 +100,13 @@ public class CustomTablist {
         String currentTeamName = player.getTeam().name();
 
         int index = order.indexOf(currentTeamName);
+        int priority;
 
-        int priority = (index != -1) ? (index + 1) : 999;
+        if (index != -1) {
+            priority = 100 + (order.size() - index);
+        } else {
+            priority = 999;
+        }
 
         player.getPlayer().setPlayerListOrder(priority);
     }

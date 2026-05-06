@@ -15,6 +15,7 @@ import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
 import de.jozelot.jmanhunt.player.tablist.CustomTablist;
 import de.jozelot.jmanhunt.player.tablist.PlayerNameTags;
+import de.jozelot.jmanhunt.player.tablist.SpectatorTab;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
 import de.jozelot.jmanhunt.registry.ListenerRegistry;
 import de.jozelot.jmanhunt.storage.ConfigManager;
@@ -55,6 +56,7 @@ public class JManhuntBootstrap {
 
     private CustomTablist customTablist;
     private PlayerNameTags playerNameTags;
+    private SpectatorTab spectatorTab;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -83,6 +85,7 @@ public class JManhuntBootstrap {
         heartbeat = new Heartbeat(plugin);
         customTablist = new CustomTablist(plugin);
         playerNameTags = new PlayerNameTags(plugin);
+        spectatorTab = new SpectatorTab(plugin);
     }
 
     /**
@@ -260,5 +263,9 @@ public class JManhuntBootstrap {
 
     public PlayerNameTags getPlayerNameTags() {
         return playerNameTags;
+    }
+
+    public SpectatorTab getSpectatorTab() {
+        return spectatorTab;
     }
 }

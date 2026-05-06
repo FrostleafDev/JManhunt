@@ -5,6 +5,7 @@ import de.jozelot.jmanhunt.listener.ChatListener;
 import de.jozelot.jmanhunt.listener.connection.AdminJoinListener;
 import de.jozelot.jmanhunt.listener.connection.PlayerConnectionListener;
 import de.jozelot.jmanhunt.listener.connection.ServerPingListener;
+import de.jozelot.jmanhunt.listener.custom.TeamUpdateListener;
 import de.jozelot.jmanhunt.listener.mechanic.ManhuntItemListener;
 import de.jozelot.jmanhunt.listener.mechanic.MenuClickListener;
 import de.jozelot.jmanhunt.listener.mechanic.PlayerRespawnListener;
@@ -36,5 +37,6 @@ public class ListenerRegistry {
         pm.registerEvents(new MenuClickListener(plugin), plugin);
         pm.registerEvents(new ChatListener(plugin), plugin);
         pm.registerEvents(new StartProtection(plugin), plugin);
+        pm.registerEvents(new TeamUpdateListener(plugin), plugin);
     }
 }

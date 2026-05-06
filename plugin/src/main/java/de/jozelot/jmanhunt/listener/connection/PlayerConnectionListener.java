@@ -94,6 +94,7 @@ public class PlayerConnectionListener implements Listener {
         if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
             plugin.getBootstrap().getCustomTablist().sortTablistByTeam(manhuntPlayer);
         }
+        plugin.getBootstrap().getSpectatorTab().updateSpectators();
     }
 
     @EventHandler
