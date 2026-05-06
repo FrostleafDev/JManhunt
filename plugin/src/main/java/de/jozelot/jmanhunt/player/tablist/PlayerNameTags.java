@@ -57,4 +57,22 @@ public class PlayerNameTags {
             team.addEntry(player.getPlayer().getName());
         }
     }
+
+    public void clearNameTag(ManhuntPlayer player) {
+        Scoreboard board = plugin.getServer().getScoreboardManager().getMainScoreboard();
+        String teamId = "tm_" + player.getPlayer().getName();
+        Team team = board.getTeam(teamId);
+
+        if (team != null) {
+            team.unregister();
+        }
+    }
+    public void cleanupTeams() {
+        Scoreboard board = plugin.getServer().getScoreboardManager().getMainScoreboard();
+        for (Team team : board.getTeams()) {
+            if (team.getName().startsWith("tm_")) {
+                team.unregister();
+            }
+        }
+    }
 }

@@ -14,6 +14,7 @@ import de.jozelot.jmanhunt.inventory.menu.MenuManager;
 import de.jozelot.jmanhunt.player.ManhuntPlayerManagerImpl;
 import de.jozelot.jmanhunt.player.ManhuntTeamManagerImpl;
 import de.jozelot.jmanhunt.player.tablist.CustomTablist;
+import de.jozelot.jmanhunt.player.tablist.PlayerNameTags;
 import de.jozelot.jmanhunt.registry.CommandRegistry;
 import de.jozelot.jmanhunt.registry.ListenerRegistry;
 import de.jozelot.jmanhunt.storage.ConfigManager;
@@ -50,8 +51,10 @@ public class JManhuntBootstrap {
     private ItemUpdateService itemUpdateService;
     private ItemManager itemManager;
     private MenuManager menuManager;
-    private CustomTablist customTablist;
     private Heartbeat heartbeat;
+
+    private CustomTablist customTablist;
+    private PlayerNameTags playerNameTags;
 
     private CommandRegistry commandRegistry;
     private ListenerRegistry listenerRegistry;
@@ -77,8 +80,9 @@ public class JManhuntBootstrap {
         itemUpdateService = new ItemUpdateService();
         itemManager = new ItemManager(plugin);
         menuManager = new MenuManager(plugin);
-        customTablist = new CustomTablist(plugin);
         heartbeat = new Heartbeat(plugin);
+        customTablist = new CustomTablist(plugin);
+        playerNameTags = new PlayerNameTags(plugin);
     }
 
     /**
@@ -102,6 +106,7 @@ public class JManhuntBootstrap {
 
         WorldUtils.applyGamerules();
         if (gameManager.getGameState() == GameState.RUNNING) gameManager.setGameState(GameState.PAUSE);
+        playerNameTags.cleanupTeams();
         heartbeat.startHeartbeat();
         canShutdownSafely = true;
         return true;
@@ -123,6 +128,7 @@ public class JManhuntBootstrap {
             manhuntPlayerManager.saveAllToStorage();
         }
         massManager.getStorage().close();
+        playerNameTags.cleanupTeams();
     }
 
     /**
@@ -147,19 +153,22 @@ public class JManhuntBootstrap {
         menuManager.handleReload();
         manhuntPlayerManager.getPlayers().forEach(ManhuntPlayer::removeCompass);
 
-        if (plugin.getBootstrap().getPhaseManager().isRunning()) timerManager.start();
-        if (plugin.getBootstrap().getConfigManager().getTimer().isEnabled()) timerManager.startActionbar();
-        if (!plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
+        if (phaseManager.isRunning()) timerManager.start();
+        if (configManager.getTimer().isEnabled()) timerManager.startActionbar();
+        if (!configManager.getTablist().isEnabled()) {
             manhuntPlayerManager.getPlayers()
                     .stream()
                     .filter(ManhuntPlayer::isOnline)
                     .forEach(p -> customTablist.clearTablist(p));
         };
-        if (!plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
+        if (!configManager.getTeamPrefix().isTab()) {
             manhuntPlayerManager.getPlayers()
                     .stream()
                     .filter(ManhuntPlayer::isOnline)
                     .forEach(p -> customTablist.clearTabName(p));
+        }
+        if (!configManager.getTeamPrefix().isNametags()) {
+            playerNameTags.cleanupTeams();
         }
         heartbeat.startHeartbeat();
     }
@@ -241,5 +250,9 @@ public class JManhuntBootstrap {
 
     public CustomTablist getCustomTablist() {
         return customTablist;
+    }
+
+    public PlayerNameTags getPlayerNameTags() {
+        return playerNameTags;
     }
 }
