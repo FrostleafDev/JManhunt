@@ -89,12 +89,20 @@ public class CustomTablist {
     }
 
     public void sortTablistByTeam(ManhuntPlayer player) {
-        int priority = switch (player.getTeam()) {
-            case RUNNER -> 10;
-            case HUNTER -> 20;
-            case SPECTATOR -> 30;
-            case NONE -> 40;
-        };
+        var config = plugin.getBootstrap().getConfigManager().getTablist();
+
+        if (!config.getTeamSorting().isEnabled()) {
+            player.getPlayer().setPlayerListOrder(0);
+            return;
+        }
+
+        List<String> order = config.getTeamSorting().getOrder();
+        String currentTeamName = player.getTeam().name();
+
+        int index = order.indexOf(currentTeamName);
+
+        int priority = (index != -1) ? (index + 1) : 0;
+
         player.getPlayer().setPlayerListOrder(priority);
     }
 

@@ -169,7 +169,13 @@ max-player-count:
 tablist:
   enabled: true
   # Team sorting will result in a sorted tablist by team
-  team-sorting: true
+  team-sorting:
+    enabled: true
+    order:
+      - RUNNER
+      - HUNTER
+      - SPECTATOR
+      - NONE
   runner:
     header:
       - ""

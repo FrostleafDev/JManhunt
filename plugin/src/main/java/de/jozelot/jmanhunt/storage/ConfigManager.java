@@ -159,13 +159,15 @@ public class ConfigManager {
 
         // TABLIST
         tablist.enabled = plugin.getConfig().getBoolean("tablist.enabled", true);
-        tablist.teamSorting = plugin.getConfig().getBoolean("tablist.team-sorting", true);
         tablist.runnerFooter = plugin.getConfig().getStringList("tablist.runner.footer");
         tablist.runnerHeader = plugin.getConfig().getStringList("tablist.runner.header");
         tablist.hunterFooter = plugin.getConfig().getStringList("tablist.hunter.footer");
         tablist.hunterHeader = plugin.getConfig().getStringList("tablist.hunter.header");
         tablist.spectatorFooter = plugin.getConfig().getStringList("tablist.spectator.footer");
         tablist.spectatorHeader = plugin.getConfig().getStringList("tablist.spectator.header");
+
+        tablist.teamSorting.enabled = plugin.getConfig().getBoolean("tablist.team-sorting.enabled", true);
+        tablist.teamSorting.order = plugin.getConfig().getStringList("tablist.team-sorting.order");
 
         // TEAM PREFIX
         teamPrefix.tab = plugin.getConfig().getBoolean("team-prefix.tab", true);
@@ -396,7 +398,6 @@ public class ConfigManager {
 
     public class Tablist {
         private boolean enabled;
-        private boolean teamSorting;
         private List<String> runnerHeader;
         private List<String> runnerFooter;
         private List<String> hunterHeader;
@@ -404,11 +405,26 @@ public class ConfigManager {
         private List<String> spectatorHeader;
         private List<String> spectatorFooter;
 
+        private TeamSorting teamSorting = new TeamSorting();
+
+        public class TeamSorting {
+            private boolean enabled;
+            private List<String> order;
+
+            public boolean isEnabled() {
+                return enabled;
+            }
+
+            public List<String> getOrder() {
+                return order;
+            }
+        }
+
         public boolean isEnabled() {
             return enabled;
         }
 
-        public boolean isTeamSortingEnabled() {
+        public TeamSorting getTeamSorting() {
             return teamSorting;
         }
 
