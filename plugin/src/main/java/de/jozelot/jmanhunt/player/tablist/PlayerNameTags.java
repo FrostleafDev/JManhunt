@@ -17,7 +17,17 @@ public class PlayerNameTags {
         this.plugin = plugin;
     }
 
-    public void updateNameTag(ManhuntPlayer player) {
+    public void updateNameTags() {
+        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
+            if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isNametags()) {
+                updateNameTag(p);
+            } else {
+                clearNameTag(p);
+            }
+        });
+    }
+
+    private void updateNameTag(ManhuntPlayer player) {
         Scoreboard board = plugin.getServer().getScoreboardManager().getMainScoreboard();
         String teamId = "tm_" + player.getPlayer().getName();
         Team team = board.getTeam(teamId);
@@ -70,7 +80,7 @@ public class PlayerNameTags {
         }
     }
 
-    public void clearNameTag(ManhuntPlayer player) {
+    private void clearNameTag(ManhuntPlayer player) {
         Scoreboard board = plugin.getServer().getScoreboardManager().getMainScoreboard();
         String teamId = "tm_" + player.getPlayer().getName();
         Team team = board.getTeam(teamId);
@@ -79,6 +89,7 @@ public class PlayerNameTags {
             team.unregister();
         }
     }
+
     public void cleanupTeams() {
         Scoreboard board = plugin.getServer().getScoreboardManager().getMainScoreboard();
         for (Team team : board.getTeams()) {

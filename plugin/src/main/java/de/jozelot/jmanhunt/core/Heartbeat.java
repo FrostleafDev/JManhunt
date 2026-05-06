@@ -23,15 +23,6 @@ public class Heartbeat {
                     if (plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
                             plugin.getBootstrap().getCustomTablist().applyTablist(p);
                     }
-                    if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
-                            plugin.getBootstrap().getCustomTablist().updateTabName(p);
-                    }
-                    if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isNametags()) {
-                            plugin.getBootstrap().getPlayerNameTags().updateNameTag(p);
-                    }
-                    if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
-                            plugin.getBootstrap().getCustomTablist().sortTablistByTeam(p);
-                    }
                 });
             }
             // CLEAN UP

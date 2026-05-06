@@ -164,21 +164,12 @@ public class JManhuntBootstrap {
                     .filter(ManhuntPlayer::isOnline)
                     .forEach(p -> customTablist.clearTablist(p));
         };
-        if (!configManager.getTeamPrefix().isTab()) {
-            manhuntPlayerManager.getPlayers()
-                    .stream()
-                    .filter(ManhuntPlayer::isOnline)
-                    .forEach(p -> customTablist.clearTabName(p));
-        }
         if (!configManager.getTeamPrefix().isNametags()) {
             playerNameTags.cleanupTeams();
         }
-        if (!configManager.getTablist().getTeamSorting().isEnabled()) {
-            manhuntPlayerManager.getPlayers()
-                    .stream()
-                    .filter(ManhuntPlayer::isOnline)
-                    .forEach(p -> customTablist.sortTablistDefault(p));
-        }
+        customTablist.applyTablistSort();
+        customTablist.updateTabNames();
+        playerNameTags.updateNameTags();
         spectatorTab.updateSpectators();
         heartbeat.startHeartbeat();
     }

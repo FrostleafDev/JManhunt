@@ -58,7 +58,17 @@ public class CustomTablist {
         );
     }
 
-    public void updateTabName(ManhuntPlayer player) {
+    public void updateTabNames() {
+        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
+            if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
+                updateTabName(p);
+            } else {
+                clearTabName(p);
+            }
+        });
+    }
+
+    private void updateTabName(ManhuntPlayer player) {
         ManhuntTeam team = player.getTeam();
         String teamColor = "<dark_gray>";
 
@@ -76,7 +86,7 @@ public class CustomTablist {
         player.getPlayer().playerListName(tabName);
     }
 
-    public void clearTabName(ManhuntPlayer player) {
+    private void clearTabName(ManhuntPlayer player) {
         player.getPlayer().playerListName(mm.deserialize(player.getPlayer().getName()));
     }
 
@@ -88,7 +98,17 @@ public class CustomTablist {
         return mm.deserialize(joined);
     }
 
-    public void sortTablistByTeam(ManhuntPlayer player) {
+    public void applyTablistSort() {
+        plugin.getBootstrap().getManhuntPlayerManager().getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(p -> {
+            if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
+                sortTablistByTeam(p);
+            } else {
+                sortTablistDefault(p);
+            }
+        });
+    }
+
+    private void sortTablistByTeam(ManhuntPlayer player) {
         var config = plugin.getBootstrap().getConfigManager().getTablist();
 
         if (!config.getTeamSorting().isEnabled()) {
@@ -111,7 +131,7 @@ public class CustomTablist {
         player.getPlayer().setPlayerListOrder(priority);
     }
 
-    public void sortTablistDefault(ManhuntPlayer player) {
+    private void sortTablistDefault(ManhuntPlayer player) {
         player.getPlayer().setPlayerListOrder(0);
     }
 }

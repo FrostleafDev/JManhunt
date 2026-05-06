@@ -85,16 +85,10 @@ public class PlayerConnectionListener implements Listener {
         if (plugin.getBootstrap().getConfigManager().getTablist().isEnabled()) {
             plugin.getBootstrap().getCustomTablist().applyTablist(manhuntPlayer);
         }
-        if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isTab()) {
-            plugin.getBootstrap().getCustomTablist().updateTabName(manhuntPlayer);
-        }
-        if (plugin.getBootstrap().getConfigManager().getTeamPrefix().isNametags()) {
-            plugin.getBootstrap().getPlayerNameTags().updateNameTag(manhuntPlayer);
-        }
-        if (plugin.getBootstrap().getConfigManager().getTablist().getTeamSorting().isEnabled()) {
-            plugin.getBootstrap().getCustomTablist().sortTablistByTeam(manhuntPlayer);
-        }
         plugin.getBootstrap().getSpectatorTab().updateSpectators();
+        plugin.getBootstrap().getCustomTablist().applyTablistSort();
+        plugin.getBootstrap().getCustomTablist().updateTabNames();
+        plugin.getBootstrap().getPlayerNameTags().updateNameTags();
     }
 
     @EventHandler

@@ -16,5 +16,8 @@ public class TeamUpdateListener implements Listener {
     @EventHandler
     public void onTeamUpdate(ManhuntTeamAssignEvent event) {
         plugin.getBootstrap().getSpectatorTab().updateSpectators();
+        plugin.getBootstrap().getCustomTablist().applyTablistSort();
+        plugin.getBootstrap().getCustomTablist().updateTabNames();
+        plugin.getBootstrap().getPlayerNameTags().updateNameTags();
     }
 }
