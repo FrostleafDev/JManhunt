@@ -242,7 +242,6 @@ tracking-compass:
   # Note: If you choose anything but CLICK the click functionality will be disabled
   # Options:
   # - CLICK -> When the hunter clicks
-  # - TICK -> Every tick
   # - SECOND -> Every Second (20 Ticks)
   # - MINUTE -> Every minute
   update-interval: CLICK

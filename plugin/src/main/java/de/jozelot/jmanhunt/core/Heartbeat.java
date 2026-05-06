@@ -15,6 +15,11 @@ public class Heartbeat {
     }
 
     public void startHeartbeat() {
+        int interval = switch (plugin.getBootstrap().getConfigManager().getCompass().getUpdateInterval()) {
+            case MINUTE -> 1200;
+            case SECOND -> 20;
+            case CLICK -> 72000;
+        };
         task = plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
 
             // 1 Second Clock
@@ -27,6 +32,11 @@ public class Heartbeat {
             }
             // CLEAN UP
             if (ticks >= 72000) ticks = 0;
+
+            // COMPASS CLOCK
+            if (ticks % interval == 0) {
+                plugin.getBootstrap().getItemUpdateService().updateItems();
+            }
 
             ticks++;
         },0L, 1L);

@@ -79,7 +79,7 @@ public class JManhuntBootstrap {
         manhuntPlayerManager = new ManhuntPlayerManagerImpl(plugin);
         massManager = new MassManager(plugin);
         timerManager = new ManhuntTimerManagerImpl(plugin);
-        itemUpdateService = new ItemUpdateService();
+        itemUpdateService = new ItemUpdateService(plugin);
         itemManager = new ItemManager(plugin);
         menuManager = new MenuManager(plugin);
         heartbeat = new Heartbeat(plugin);

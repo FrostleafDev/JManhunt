@@ -111,6 +111,9 @@ public class TrackingCompass extends ManhuntItem {
             ItemStack item = event.getItem();
             if (item == null) return;
 
+            // DISABLE CLICK FUNCTINOALY IF ANYOTHER OPTION THAN CLICK IS ENABLED
+            if (plugin.getBootstrap().getConfigManager().getCompass().getUpdateInterval() != CompassUpdate.CLICK) return;
+
             applyUpdate(item, event.getPlayer());
             player.setCooldown(material, plugin.getBootstrap().getConfigManager().getCompass().getCooldown() * 20);
             PlaySoundUtils.playPling(player, plugin);
