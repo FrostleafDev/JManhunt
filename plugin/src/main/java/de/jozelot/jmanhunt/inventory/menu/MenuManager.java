@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 
 public class MenuManager {
 
-    private JManhunt plugin;
+    private final JManhunt plugin;
 
     // Key: InventoryType (Type für das Inventar), Player: Der, der es öffnet, Object: Übergabe Objekt fürs Menu, Menu: Die InventoryHolder Klasse
     private Map<InventoryType, BiFunction<Player, Object, Menu>> menuFactory  = new HashMap<>();

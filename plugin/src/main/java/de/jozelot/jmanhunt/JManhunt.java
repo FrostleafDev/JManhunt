@@ -21,7 +21,7 @@ public final class JManhunt extends JavaPlugin {
 
         if (!bootstrap.enable()) {
             Bukkit.getPluginManager().disablePlugin(this);
-            getLogger().log(Level.SEVERE, "Plugin start failed. For more information look above");
+            getLogger().log(Level.SEVERE, "Plugin start failed. For further information look above");
             return;
         }
 
