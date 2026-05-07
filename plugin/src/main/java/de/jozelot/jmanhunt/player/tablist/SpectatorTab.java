@@ -24,36 +24,25 @@ public class SpectatorTab {
                 .map(ManhuntPlayer::getPlayer)
                 .toList();
 
-        List<Player> spectators = playerManager.getSpectators().stream()
-                .filter(ManhuntPlayer::isOnline)
-                .map(ManhuntPlayer::getPlayer)
-                .toList();
-
         for (Player viewer : allPlayers) {
-            if (visibility) {
-                for (Player target : spectators) {
-                    if (!viewer.equals(target)) viewer.showPlayer(plugin, target);
-                }
-                continue;
-            }
-
-            if (viewer.hasPermission("jmanhunt.see.spectators")) {
-                for (Player target : spectators) {
-                    if (!viewer.equals(target)) viewer.showPlayer(plugin, target);
-                }
-                continue;
-            }
-
             ManhuntPlayer viewerMP = playerManager.getPlayer(viewer.getUniqueId());
-            if (viewerMP != null && viewerMP.getTeam() == ManhuntTeam.SPECTATOR) {
-                for (Player target : spectators) {
-                    if (!viewer.equals(target)) viewer.showPlayer(plugin, target);
-                }
-                continue;
-            }
 
-            for (Player target : spectators) {
-                viewer.hidePlayer(plugin, target);
+            for (Player target : allPlayers) {
+                if (viewer.equals(target)) continue;
+
+                ManhuntPlayer targetMP = playerManager.getPlayer(target.getUniqueId());
+                if (targetMP == null) continue;
+
+                if (targetMP.getTeam() == ManhuntTeam.SPECTATOR) {
+                    if (visibility || viewer.hasPermission("jmanhunt.see.spectators") ||
+                            (viewerMP != null && viewerMP.getTeam() == ManhuntTeam.SPECTATOR)) {
+                        viewer.showPlayer(plugin, target);
+                    } else {
+                        viewer.hidePlayer(plugin, target);
+                    }
+                } else {
+                    viewer.showPlayer(plugin, target);
+                }
             }
         }
     }
