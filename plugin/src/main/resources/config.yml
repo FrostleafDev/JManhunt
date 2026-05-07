@@ -363,18 +363,22 @@ debug-mode: false
 
 # %jmanhunt_team%                     -> The current team of the player
 # %jmanhunt_lives%                    -> Current lives (Shows the individual's lives or the shared team pool)
-# %jmanhunt_goal%                     -> TIME or KILLS
-# %jmanhunt_goal_progress%            -> When KILLS is selected here it shows the amount of times the entity was killed
-# %jmanhunt_goal_entity%              -> The target mob to kill (Only active when goal is set to KILLS)
-# %jmanhunt_goal_remaining_time_s%    -> Remaining time to win in seconds
-# %jmanhunt_goal_remaining_time_m%    -> Remaining time to win in minutes
-# %jmanhunt_goal_remaining_time_h%    -> Remaining time to win in hours
-# %jmanhunt_goal_remaining_time_d%    -> Remaining time to win in hours
-# %jmanhunt_goal_remaining_formatted% -> Remaining time to win (Formats as mm:ss or hh:mm:ss depending on duration)
+# # %jmanhunt_goal%                     -> TIME or KILLS
+# # %jmanhunt_goal_progress%            -> When KILLS is selected here it shows the amount of times the entity was killed
+# # %jmanhunt_goal_entity%              -> The target mob to kill (Only active when goal is set to KILLS)
+# # %jmanhunt_goal_remaining_time_s%    -> Remaining time to win in seconds
+# # %jmanhunt_goal_remaining_time_m%    -> Remaining time to win in minutes
+# # %jmanhunt_goal_remaining_time_h%    -> Remaining time to win in hours
+# # %jmanhunt_goal_remaining_time_d%    -> Remaining time to win in hours
+# # %jmanhunt_goal_remaining_formatted% -> Remaining time to win (Formats as mm:ss or hh:mm:ss depending on duration)
 # %jmanhunt_timer_s%                  -> Total elapsed game time in seconds
+# %jmanhunt_timer_S%                  -> Total elapsed game time in seconds with a zero in front if below 10
 # %jmanhunt_timer_m%                  -> Total elapsed game time in minutes
+# %jmanhunt_timer_M%                  -> Total elapsed game time in minutes with a zero in front if below 10
 # %jmanhunt_timer_h%                  -> Total elapsed game time in hours
-# %jmanhunt_timer_d%                  -> Total elapsed game time in hours
+# %jmanhunt_timer_H%                  -> Total elapsed game time in hours with a zero in front if below 10
+# %jmanhunt_timer_d%                  -> Total elapsed game time in days
+# %jmanhunt_timer_D%                  -> Total elapsed game time in days with a zero in front if below 10
 # %jmanhunt_timer_formatted%          -> Total elapsed game time (Formats as mm:ss or hh:mm:ss)
 # %jmanhunt_runner_distance%          -> Distance to the nearest runner (Shows last known position if in a different dimension)
 # %jmanhunt_status%                   -> The current game status: SETUP, PRE_GAME, RUNNING, PAUSE, ENDED
