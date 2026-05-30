@@ -10,6 +10,9 @@ public class PluginDependencies {
     private final JManhunt plugin;
     private boolean isPlaceholderAPIAvailable = false;
 
+    private ManhuntPlaceholders placeholders;
+    private bStats bStats;
+
     public PluginDependencies(JManhunt plugin) {
         this.plugin = plugin;
     }
@@ -22,7 +25,12 @@ public class PluginDependencies {
     }
 
     public void register() {
-        if (isPlaceholderAPIAvailable) new ManhuntPlaceholders(plugin).register();
+        if (isPlaceholderAPIAvailable) {
+            placeholders = new ManhuntPlaceholders(plugin);
+            placeholders.register();
+        }
+        bStats = new bStats(plugin);
+        bStats.register();
     }
 
     public boolean isPlaceholderAPI() {
