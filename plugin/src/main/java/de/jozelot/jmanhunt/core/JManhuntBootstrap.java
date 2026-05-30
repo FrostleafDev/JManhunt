@@ -4,7 +4,7 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.ApiManager;
 import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
-import de.jozelot.jmanhunt.core.dependencies.PluginDependenyLoader;
+import de.jozelot.jmanhunt.core.dependencies.PluginDependencyLoader;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
 import de.jozelot.jmanhunt.game.timer.ManhuntTimerManagerImpl;
@@ -30,7 +30,7 @@ import java.util.logging.Level;
 public class JManhuntBootstrap {
 
     private final JManhunt plugin;
-    private PluginDependenyLoader pluginDependencies;
+    private PluginDependencyLoader pluginDependencies;
     public static final int BSTATS_ID = 31691;
     private boolean canShutdownSafely = false;
     private boolean debugMode = false;
@@ -65,7 +65,7 @@ public class JManhuntBootstrap {
      * Creates all the needed Object Classes for the project
      */
     public void initialize() {
-        pluginDependencies = new PluginDependenyLoader(plugin);
+        pluginDependencies = new PluginDependencyLoader(plugin);
         pluginDependencies.checkDependencies();
         configManager = new ConfigManager(plugin);
         langManager = new LangManager(plugin);
@@ -195,7 +195,7 @@ public class JManhuntBootstrap {
         return debugMode;
     }
 
-    public PluginDependenyLoader getDependencies() {
+    public PluginDependencyLoader getDependencies() {
         return pluginDependencies;
     }
 

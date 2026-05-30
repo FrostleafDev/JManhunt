@@ -18,20 +18,28 @@ public class ItemUpdateService {
     }
 
     public void updateItemsForPlayer(ManhuntPlayer mPlayer) {
+        if (!mPlayer.isOnline()) return;
         Player player = mPlayer.getPlayer();
+
         for (ItemStack item : player.getInventory().getContents()) {
-            if (item == null || item.getType() == Material.AIR) continue;
-            if (!item.hasItemMeta()) continue;
+            updateSingleItem(player, item);
+        }
 
-            String id = item.getItemMeta().getPersistentDataContainer()
-                    .get(ManhuntItem.ITEM_ID, PersistentDataType.STRING);
+        updateSingleItem(player, player.getItemOnCursor());
+    }
 
-            if (id == null) continue;
+    private void updateSingleItem(Player player, ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) return;
+        if (!item.hasItemMeta()) return;
 
-            ManhuntItem manhuntItem = ManhuntItem.fromId(id);
-            if (manhuntItem != null) {
-                manhuntItem.applyUpdate(item, player);
-            }
+        String id = item.getItemMeta().getPersistentDataContainer()
+                .get(ManhuntItem.ITEM_ID, PersistentDataType.STRING);
+
+        if (id == null) return;
+
+        ManhuntItem manhuntItem = ManhuntItem.fromId(id);
+        if (manhuntItem != null) {
+            manhuntItem.applyUpdate(item, player);
         }
     }
 

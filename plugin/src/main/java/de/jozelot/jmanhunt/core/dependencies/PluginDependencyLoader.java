@@ -3,17 +3,18 @@ package de.jozelot.jmanhunt.core.dependencies;
 import de.jozelot.jmanhunt.JManhunt;
 import org.bukkit.Bukkit;
 
+import java.util.Collection;
 import java.util.logging.Level;
 
-public class PluginDependenyLoader {
+public class PluginDependencyLoader {
 
     private final JManhunt plugin;
     private boolean isPlaceholderAPIAvailable = false;
 
     private ManhuntPlaceholders placeholders;
-    private PluginDependency bStats;
+    private Collection<PluginDependency> dependencies;
 
-    public PluginDependenyLoader(JManhunt plugin) {
+    public PluginDependencyLoader(JManhunt plugin) {
         this.plugin = plugin;
     }
 
@@ -29,8 +30,8 @@ public class PluginDependenyLoader {
             placeholders = new ManhuntPlaceholders(plugin);
             placeholders.register();
         }
-        bStats = new bStats(plugin);
-        bStats.register();
+        dependencies.add(new bStats(plugin));
+        dependencies.forEach(PluginDependency::register);
     }
 
     public boolean isPlaceholderAPI() {
