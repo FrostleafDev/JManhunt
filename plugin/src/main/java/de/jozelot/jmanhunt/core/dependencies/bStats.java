@@ -20,7 +20,7 @@ public class bStats implements PluginDependency {
         createCharts();
     }
 
-    public void createCharts() {
+    private void createCharts() {
 
     }
 }
