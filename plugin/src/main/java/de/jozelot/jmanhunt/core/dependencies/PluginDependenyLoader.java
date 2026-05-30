@@ -5,15 +5,15 @@ import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
 
-public class PluginDependencies {
+public class PluginDependenyLoader {
 
     private final JManhunt plugin;
     private boolean isPlaceholderAPIAvailable = false;
 
     private ManhuntPlaceholders placeholders;
-    private bStats bStats;
+    private PluginDependency bStats;
 
-    public PluginDependencies(JManhunt plugin) {
+    public PluginDependenyLoader(JManhunt plugin) {
         this.plugin = plugin;
     }
 

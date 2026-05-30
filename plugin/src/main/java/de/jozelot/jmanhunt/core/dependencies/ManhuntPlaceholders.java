@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.plaf.SeparatorUI;
 import java.util.Optional;
 
 public class ManhuntPlaceholders extends PlaceholderExpansion {
@@ -32,7 +33,7 @@ public class ManhuntPlaceholders extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.0.0";
+        return plugin.getBootstrap().getUpdateManager().getCurrentVersion();
     }
 
     @Override

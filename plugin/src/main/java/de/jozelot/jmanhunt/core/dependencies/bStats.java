@@ -5,7 +5,7 @@ import de.jozelot.jmanhunt.core.JManhuntBootstrap;
 import org.bstats.bukkit.Metrics;
 
 
-public class bStats {
+public class bStats implements PluginDependency {
 
     private final JManhunt plugin;
 

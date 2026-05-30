@@ -4,7 +4,7 @@ import de.jozelot.jmanhunt.JManhunt;
 import de.jozelot.jmanhunt.api.ApiManager;
 import de.jozelot.jmanhunt.api.game.GameState;
 import de.jozelot.jmanhunt.api.player.ManhuntPlayer;
-import de.jozelot.jmanhunt.core.dependencies.PluginDependencies;
+import de.jozelot.jmanhunt.core.dependencies.PluginDependenyLoader;
 import de.jozelot.jmanhunt.game.GameManagerImpl;
 import de.jozelot.jmanhunt.game.PhaseManagerImpl;
 import de.jozelot.jmanhunt.game.timer.ManhuntTimerManagerImpl;
@@ -25,13 +25,13 @@ import de.jozelot.jmanhunt.utility.PluginMessages;
 import de.jozelot.jmanhunt.utility.WorldUtils;
 
 import java.io.File;
-import java.util.Timer;
 import java.util.logging.Level;
 
 public class JManhuntBootstrap {
 
     private final JManhunt plugin;
-    private PluginDependencies pluginDependencies;
+    private PluginDependenyLoader pluginDependencies;
+    public static final int BSTATS_ID = 31691;
     private boolean canShutdownSafely = false;
     private boolean debugMode = false;
 
@@ -65,7 +65,7 @@ public class JManhuntBootstrap {
      * Creates all the needed Object Classes for the project
      */
     public void initialize() {
-        pluginDependencies = new PluginDependencies(plugin);
+        pluginDependencies = new PluginDependenyLoader(plugin);
         pluginDependencies.checkDependencies();
         configManager = new ConfigManager(plugin);
         langManager = new LangManager(plugin);
@@ -142,6 +142,7 @@ public class JManhuntBootstrap {
         plugin.getLogger().log(Level.INFO, "Plugin is reloading...");
         configManager.load();
         langManager.load(configManager.getLocale());
+        manhuntPlayerManager.getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(ManhuntPlayer::removeCompass);
 
         timerManager.stop();
         timerManager.save();
@@ -152,6 +153,7 @@ public class JManhuntBootstrap {
 
         massManager.getStorage().init();
         gameManager.loadFromStorage();
+        itemManager.init();
         manhuntPlayerManager.loadAllFromStorage();
         menuManager.handleReload();
         manhuntPlayerManager.getPlayers().stream().filter(ManhuntPlayer::isOnline).forEach(ManhuntPlayer::removeCompass);
@@ -193,7 +195,7 @@ public class JManhuntBootstrap {
         return debugMode;
     }
 
-    public PluginDependencies getDependencies() {
+    public PluginDependenyLoader getDependencies() {
         return pluginDependencies;
     }
 
